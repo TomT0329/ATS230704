@@ -1,0 +1,2304 @@
+{
+  "algorithm": "FOC",
+  "description": "foc",
+  "checkList": {},
+  "hardwares": {
+    "type": "CUSTOM",
+    "control": {
+      "mcu": {
+        "id": "STM32G474RETx"
+      },
+      "clockSource": "24_crystal",
+      "clockFrequency": 170,
+      "connectors": [
+        {
+          "name": "Morpho CN7/CN10",
+          "type": "morpho",
+          "terminals": {
+            "ML1": [
+              {
+                "name": "PC10",
+                "help": "CN7.1",
+                "cost": 0
+              }
+            ],
+            "ML2": [
+              {
+                "name": "PC11",
+                "help": "CN7.2",
+                "cost": 0
+              }
+            ],
+            "ML3": [
+              {
+                "name": "PC12",
+                "help": "CN7.3",
+                "cost": 0
+              }
+            ],
+            "ML4": [
+              {
+                "name": "PD2",
+                "help": "CN7.4",
+                "cost": 0
+              }
+            ],
+            "ML5": [
+              {
+                "name": "VDD",
+                "help": "CN7.5",
+                "cost": 0
+              }
+            ],
+            "ML6": [
+              {
+                "name": "E5V",
+                "help": "CN7.6",
+                "cost": 0
+              }
+            ],
+            "ML7": [
+              {
+                "name": "BOOT0",
+                "help": "CN7.7 BOOT0 is not connected by default. The BOOT0 function is done by SW:\n Option byte nSWBOOT0 must be set to 0 (in that case, BOOT0 is taken from the Option byte nBOOT0)\n Option byte nBOOT0 must be set to 1 (in that case BOOT0 is active low. \n If nSWBOOT0 is set to 0, the BOOT0 is taken from pin PB8 / BOOT0.",
+                "cost": 0
+              }
+            ],
+            "ML8": [
+              {
+                "name": "GND",
+                "help": "CN7.8",
+                "cost": 0
+              }
+            ],
+            "ML9": [
+              {
+                "name": "NC",
+                "help": "CN7.9",
+                "cost": 0
+              }
+            ],
+            "ML10": [
+              {
+                "name": "NC",
+                "help": "CN7.10",
+                "cost": 0
+              }
+            ],
+            "ML11": [
+              {
+                "name": "NC",
+                "help": "CN7.11",
+                "cost": 0
+              }
+            ],
+            "ML12": [
+              {
+                "name": "IOREF",
+                "help": "CN7.12",
+                "cost": 0
+              }
+            ],
+            "ML13": [
+              {
+                "name": "PA13",
+                "help": "CN7.13 PA13 and PA14 are shared with SWD signals connected to STLINK-V3E. It is not recommended to use them as I/O pins.",
+                "cost": 0
+              }
+            ],
+            "ML14": [
+              {
+                "name": "NRST",
+                "help": "CN7.14",
+                "cost": 0
+              }
+            ],
+            "ML15": [
+              {
+                "name": "PA14",
+                "help": "CN7.15 PA13 and PA14 are shared with SWD signals connected to STLINK-V3E. It is not recommended to use them as I/O pins.",
+                "cost": 0
+              }
+            ],
+            "ML16": [
+              {
+                "name": "3V3",
+                "help": "CN7.16",
+                "cost": 0
+              }
+            ],
+            "ML17": [
+              {
+                "name": "PA15",
+                "help": "CN7.17. DA RIVEDERE??? Close SB7 solder bridge (factory default)",
+                "cost": 0
+              }
+            ],
+            "ML18": [
+              {
+                "name": "5V",
+                "help": "CN7.18",
+                "cost": 0
+              }
+            ],
+            "ML19": [
+              {
+                "name": "GND",
+                "help": "CN7.19",
+                "cost": 0
+              }
+            ],
+            "ML20": [
+              {
+                "name": "GND",
+                "help": "CN7.20",
+                "cost": 0
+              }
+            ],
+            "ML21": [
+              {
+                "name": "PB7",
+                "help": "CN7.21",
+                "cost": 0
+              }
+            ],
+            "ML22": [
+              {
+                "name": "GND",
+                "help": "CN7.22",
+                "cost": 0
+              }
+            ],
+            "ML23": [
+              {
+                "name": "PC13",
+                "help": "CN7.23",
+                "cost": 0
+              }
+            ],
+            "ML24": [
+              {
+                "name": "VIN",
+                "help": "CN7.24",
+                "cost": 0
+              }
+            ],
+            "ML25": [
+              {
+                "name": "PC14",
+                "help": "CN7.25",
+                "cost": 0
+              }
+            ],
+            "ML26": [
+              {
+                "name": "NC",
+                "help": "CN7.26",
+                "cost": 0
+              }
+            ],
+            "ML27": [
+              {
+                "name": "PC15",
+                "help": "CN7.27",
+                "cost": 0
+              }
+            ],
+            "ML28": [
+              {
+                "name": "PA0",
+                "help": "CN7.28",
+                "cost": 0
+              }
+            ],
+            "ML29": [
+              {
+                "name": "PF0",
+                "help": "CN7.29",
+                "cost": 0
+              }
+            ],
+            "ML30": [
+              {
+                "name": "PA1",
+                "help": "CN7.30",
+                "cost": 0
+              }
+            ],
+            "ML31": [
+              {
+                "name": "PF1",
+                "help": "CN7.31",
+                "cost": 0
+              }
+            ],
+            "ML32": [
+              {
+                "name": "PA4",
+                "help": "CN7.32",
+                "cost": 0
+              }
+            ],
+            "ML33": [
+              {
+                "name": "VBAT",
+                "help": "CN7.33",
+                "cost": 0
+              }
+            ],
+            "ML34": [
+              {
+                "name": "PB0",
+                "help": "CN7.34",
+                "cost": 0
+              }
+            ],
+            "ML35": [
+              {
+                "name": "PC2",
+                "help": "CN7.35",
+                "cost": 0
+              }
+            ],
+            "ML36": [
+              {
+                "name": "PC1",
+                "help": "CN7.36. Close SB35 solder bridge and leave SB37 open (factory default)",
+                "cost": 0
+              },
+              {
+                "name": "PB9",
+                "help": "CN7.36. Open SB35 solder bridge and close SB37",
+                "cost": 10
+              }
+            ],
+            "ML37": [
+              {
+                "name": "PC3",
+                "help": "CN7.37",
+                "cost": 0
+              }
+            ],
+            "ML38": [
+              {
+                "name": "PC0",
+                "help": "CN7.38. Close SB36 solder bridge and leave SB34 open (factory default)",
+                "cost": 0
+              },
+              {
+                "name": "PA15",
+                "help": "CN7.38. Open SB37 solder bridge and close SB34",
+                "cost": 10
+              }
+            ],
+            "MR1": [
+              {
+                "name": "PC9",
+                "help": "CN10.1",
+                "cost": 0
+              }
+            ],
+            "MR2": [
+              {
+                "name": "PC8",
+                "help": "CN10.2",
+                "cost": 0
+              }
+            ],
+            "MR3": [
+              {
+                "name": "PB8",
+                "help": "CN10.3. Close SB2 solder bridge (factory default)",
+                "cost": 0
+              }
+            ],
+            "MR4": [
+              {
+                "name": "PC6",
+                "help": "CN10.4",
+                "cost": 0
+              }
+            ],
+            "MR5": [
+              {
+                "name": "PB9",
+                "help": "CN10.5",
+                "cost": 0
+              }
+            ],
+            "MR6": [
+              {
+                "name": "PC5",
+                "help": "CN10.6. Close SB3 solder bridge (factory default)",
+                "cost": 0
+              }
+            ],
+            "MR7": [
+              {
+                "name": "VREFP",
+                "help": "CN10.7 AVDD connected to VREF+",
+                "cost": 0
+              }
+            ],
+            "MR8": [
+              {
+                "name": "5V_USB_CHGR",
+                "help": "CN10.8 5V_USB_CHGR is the 5 V power from the STLINK-V3E USB connector that rises first.\n It rises before the 5 V rising on the board",
+                "cost": 0
+              }
+            ],
+            "MR9": [
+              {
+                "name": "GND",
+                "help": "CN10.9",
+                "cost": 0
+              }
+            ],
+            "MR10": [
+              {
+                "name": "NC",
+                "help": "CN10.10",
+                "cost": 0
+              }
+            ],
+            "MR11": [
+              {
+                "name": "PA5",
+                "help": "CN10.11",
+                "cost": 0
+              }
+            ],
+            "MR12": [
+              {
+                "name": "PA12",
+                "help": "CN10.12",
+                "cost": 0
+              }
+            ],
+            "MR13": [
+              {
+                "name": "PA6",
+                "help": "CN10.13",
+                "cost": 0
+              }
+            ],
+            "MR14": [
+              {
+                "name": "PA11",
+                "help": "CN10.14",
+                "cost": 0
+              }
+            ],
+            "MR15": [
+              {
+                "name": "PA7",
+                "help": "CN10.15",
+                "cost": 0
+              }
+            ],
+            "MR16": [
+              {
+                "name": "PB12",
+                "help": "CN10.16",
+                "cost": 0
+              }
+            ],
+            "MR17": [
+              {
+                "name": "PB6",
+                "help": "CN10.17",
+                "cost": 0
+              }
+            ],
+            "MR18": [
+              {
+                "name": "PB11",
+                "help": "CN10.18",
+                "cost": 0
+              }
+            ],
+            "MR19": [
+              {
+                "name": "PC7",
+                "help": "CN10.19",
+                "cost": 0
+              }
+            ],
+            "MR20": [
+              {
+                "name": "GND",
+                "help": "CN10.20",
+                "cost": 0
+              }
+            ],
+            "MR21": [
+              {
+                "name": "PA9",
+                "help": "CN10.21",
+                "cost": 0
+              }
+            ],
+            "MR22": [
+              {
+                "name": "PB2",
+                "help": "CN10.22",
+                "cost": 0
+              }
+            ],
+            "MR23": [
+              {
+                "name": "PA8",
+                "help": "CN10.23",
+                "cost": 0
+              }
+            ],
+            "MR24": [
+              {
+                "name": "PB1",
+                "help": "CN10.24",
+                "cost": 0
+              }
+            ],
+            "MR25": [
+              {
+                "name": "PB10",
+                "help": "CN10.25",
+                "cost": 0
+              }
+            ],
+            "MR26": [
+              {
+                "name": "PB15",
+                "help": "CN10.26",
+                "cost": 0
+              }
+            ],
+            "MR27": [
+              {
+                "name": "PB4",
+                "help": "CN10.27",
+                "cost": 0
+              }
+            ],
+            "MR28": [
+              {
+                "name": "PB14",
+                "help": "CN10.28",
+                "cost": 0
+              }
+            ],
+            "MR29": [
+              {
+                "name": "PB5",
+                "help": "CN10.29",
+                "cost": 0
+              }
+            ],
+            "MR30": [
+              {
+                "name": "PB13",
+                "help": "CN10.30",
+                "cost": 0
+              }
+            ],
+            "MR31": [
+              {
+                "name": "PB3",
+                "help": "CN10.31",
+                "cost": 0
+              }
+            ],
+            "MR32": [
+              {
+                "name": "AGND",
+                "help": "CN10.32",
+                "cost": 0
+              }
+            ],
+            "MR33": [
+              {
+                "name": "PA10",
+                "help": "CN10.33",
+                "cost": 0
+              }
+            ],
+            "MR34": [
+              {
+                "name": "PC4",
+                "help": "CN10.34. Close SB33 solder bridge (factory default)",
+                "cost": 0
+              }
+            ],
+            "MR35": [
+              {
+                "name": "PA2",
+                "help": "CN10.35  Close SB33 solder bridge (factory default)",
+                "cost": 0
+              },
+              {
+                "name": "PC4",
+                "help": "CN10.35. Close SB33 solder bridge (factory default)",
+                "cost": 10
+              }
+            ],
+            "MR36": [
+              {
+                "name": "NC",
+                "help": "CN10.36",
+                "cost": 0
+              }
+            ],
+            "MR37": [
+              {
+                "name": "PA3",
+                "help": "CN10.37  Close SB33 solder bridge (factory default)",
+                "cost": 0
+              },
+              {
+                "name": "PC5",
+                "help": "CN10.37. Close SB33 solder bridge (factory default)",
+                "cost": 10
+              }
+            ],
+            "MR38": [
+              {
+                "name": "NC",
+                "help": "CN10.38",
+                "cost": 0
+              }
+            ]
+          },
+          "features": []
+        }
+      ],
+      "features": [
+        {
+          "name": "StartStopButton",
+          "type": "Button",
+          "hwVariants": [
+            {
+              "type": "PushButton",
+              "help": "",
+              "signals": {
+                "BUTTON_TRIGGER": [
+                  {
+                    "name": "PC13",
+                    "help": "",
+                    "cost": 0
+                  }
+                ]
+              },
+              "buttonTriggerEdge": "Falling Edge",
+              "buttonGpioConfig": "No Pull up - No Pull down"
+            }
+          ]
+        },
+        {
+          "name": "SerialPortCommunication",
+          "type": "SerialPortCommunication",
+          "hwVariants": [
+            {
+              "type": "Uart2WiresCommunication",
+              "help": "",
+              "signals": {
+                "UART_TX": [
+                  {
+                    "name": "PB6",
+                    "help": "CN10.35",
+                    "cost": 10
+                  },
+                  {
+                    "name": "PA2",
+                    "help": "CN10.35",
+                    "cost": 0
+                  }
+                ],
+                "UART_RX": [
+                  {
+                    "name": "PB7",
+                    "help": "CN10.37",
+                    "cost": 10
+                  },
+                  {
+                    "name": "PA3",
+                    "help": "CN10.37",
+                    "cost": 0
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      "hardwareFamily": "CONTROL",
+      "id": "NUCLEO-G474RE",
+      "label": "NUCLEO-G474RE",
+      "description": "STM32 Nucleo-64 development board with STM32G474RE MCU, supports Arduino and ST morpho connectivity",
+      "descVersion": 4,
+      "contentVersion": "1.0",
+      "compatibility": [
+        "FOC",
+        "sixStep"
+      ],
+      "status": "success"
+    },
+    "power": [
+      {
+        "motorDrives": [
+          {
+            "name": "M1",
+            "minRatedVoltage": 18,
+            "maxRatedVoltage": 400,
+            "maxRatedCurrent": 13.3,
+            "maxRatedPower": 1000,
+            "resistorOffset": 0.67,
+            "connectorType": "MotorControlConnector",
+            "features": [
+              {
+                "name": "CurrentSensing",
+                "type": "CurrentSensing",
+                "tRise": 5750,
+                "hwVariants": [
+                  {
+                    "type": "ThreeShunt_AmplifiedCurrents",
+                    "help": "Set jumpers W09 and W13 to position Three-shunt, setup jumper W10, set jumper W11 to dash position",
+                    "signals": {
+                      "CURRENT_AMPL_U": [
+                        {
+                          "name": "MC15",
+                          "help": "Jumper W09 to Three-shunt",
+                          "cost": 0
+                        }
+                      ],
+                      "CURRENT_AMPL_V": [
+                        {
+                          "name": "MC17",
+                          "help": "",
+                          "cost": 0
+                        }
+                      ],
+                      "CURRENT_AMPL_W": [
+                        {
+                          "name": "MC19",
+                          "help": "Jumper W13 to Three-shunt",
+                          "cost": 0
+                        }
+                      ]
+                    },
+                    "shuntResistor": 0.1,
+                    "amplifyingNetworkImax": 5,
+                    "amplifyingNetworkVm": 3.3,
+                    "amplifyingNetworkPrating": 2,
+                    "offsetNetworkAttenuation": 0.396,
+                    "opAmpGain": 4.3,
+                    "polarizationOffset": 1.705
+                  },
+                  {
+                    "type": "SingleShunt_AmplifiedCurrents",
+                    "help": "Set jumpers W09 and W13 to position Single-shunt, setup jumper W10, set jumper W11 to dash position",
+                    "cost": 10,
+                    "signals": {
+                      "CURRENT_AMPL": [
+                        {
+                          "name": "MC17",
+                          "help": "Set jumpers W09 and W13 to position Single-shunt, setup jumper W10, set jumper W11 to dash position",
+                          "cost": 10
+                        }
+                      ]
+                    },
+                    "shuntResistor": 0.01175,
+                    "amplifyingNetworkImax": 21,
+                    "amplifyingNetworkVm": 3.3,
+                    "amplifyingNetworkPrating": 2,
+                    "offsetNetworkAttenuation": 0.87,
+                    "opAmpGain": 7.667,
+                    "polarizationOffset": 1.65
+                  }
+                ]
+              },
+              {
+                "name": "PhaseVoltageGeneration",
+                "type": "PhaseVoltageGeneration",
+                "driverName": "L6390D",
+                "driverPN": "L6390D",
+                "minDeadTime": 700,
+                "maxSwitchingFreq": 100,
+                "tNoise": 5000,
+                "hwVariants": [
+                  {
+                    "type": "DrivingHighAndLowSides",
+                    "help": "",
+                    "signals": {
+                      "PWM_CHU_H": [
+                        {
+                          "name": "MC3",
+                          "help": "",
+                          "cost": 0
+                        }
+                      ],
+                      "PWM_CHU_L": [
+                        {
+                          "name": "MC5",
+                          "help": "",
+                          "cost": 0
+                        }
+                      ],
+                      "PWM_CHV_H": [
+                        {
+                          "name": "MC7",
+                          "help": "",
+                          "cost": 0
+                        }
+                      ],
+                      "PWM_CHV_L": [
+                        {
+                          "name": "MC9",
+                          "help": "",
+                          "cost": 0
+                        }
+                      ],
+                      "PWM_CHW_H": [
+                        {
+                          "name": "MC11",
+                          "help": "",
+                          "cost": 0
+                        }
+                      ],
+                      "PWM_CHW_L": [
+                        {
+                          "name": "MC13",
+                          "help": "",
+                          "cost": 0
+                        }
+                      ]
+                    },
+                    "highSideSwitchesDrivingPolarity": "Active high",
+                    "lowSideSwitchesDrivingPolarity": "Active high",
+                    "deadTime": 800
+                  }
+                ]
+              },
+              {
+                "name": "SpeedAndPositionSensing",
+                "type": "SpeedAndPositionSensing",
+                "hwVariants": [
+                  {
+                    "type": "HallEffectSensor",
+                    "help": "Jumper W4 to be populated. Jumper W7 to be cleared. W16 position to be adjusted according to sensor supply",
+                    "signals": {
+                      "HALLSENSOR_H1": [
+                        {
+                          "name": "MC31",
+                          "help": " ",
+                          "cost": 0
+                        }
+                      ],
+                      "HALLSENSOR_H2": [
+                        {
+                          "name": "MC33",
+                          "help": " ",
+                          "cost": 0
+                        }
+                      ],
+                      "HALLSENSOR_H3": [
+                        {
+                          "name": "MC34",
+                          "help": " ",
+                          "cost": 0
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "type": "QuadratureEncoderRelative",
+                    "help": "Jumper W4 to be populated. Jumper W7 to be cleared. W16 position to be adjusted according to sensor supply",
+                    "signals": {
+                      "QENC_A": [
+                        {
+                          "name": "MC31",
+                          "help": "",
+                          "cost": 0
+                        }
+                      ],
+                      "QENC_B": [
+                        {
+                          "name": "MC33",
+                          "help": "",
+                          "cost": 0
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "type": "QuadratureEncoderAbsolute",
+                    "help": "Jumper W4 to be populated. Jumper W7 to be cleared. W16 position to be adjusted according to sensor supply",
+                    "signals": {
+                      "QENC_A": [
+                        {
+                          "name": "MC31",
+                          "help": "",
+                          "cost": 0
+                        }
+                      ],
+                      "QENC_B": [
+                        {
+                          "name": "MC33",
+                          "help": "",
+                          "cost": 0
+                        }
+                      ],
+                      "QENC_Z": [
+                        {
+                          "name": "MC34",
+                          "help": "",
+                          "cost": 0
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "name": "VBusSensing",
+                "type": "VBusSensing",
+                "busVoltageDivider": 154,
+                "hwVariants": [
+                  {
+                    "type": "VBusSensing",
+                    "help": "",
+                    "signals": {
+                      "VBUS": [
+                        {
+                          "name": "MC14",
+                          "help": "",
+                          "cost": 0
+                        }
+                      ]
+                    },
+                    "busVoltageDivider": 154,
+                    "busVoltageDividerR1": 1540,
+                    "busVoltageDividerR2": 10
+                  }
+                ]
+              },
+              {
+                "name": "TemperatureSensing",
+                "type": "TemperatureSensing",
+                "hwVariants": [
+                  {
+                    "type": "NTCThermistor",
+                    "help": "",
+                    "signals": {
+                      "TEMPERATURE_NTC": [
+                        {
+                          "name": "MC26",
+                          "help": "",
+                          "cost": 0
+                        }
+                      ]
+                    },
+                    "v0": 2200,
+                    "t0": 25,
+                    "gain": 28,
+                    "maxSensorTemperature": 100
+                  }
+                ]
+              },
+              {
+                "name": "OverCurrentProtection",
+                "type": "OverCurrentProtection",
+                "hwVariants": [
+                  {
+                    "type": "OnPowerStageOCP",
+                    "help": "Set W5 in R_BRAKE position",
+                    "signals": {
+                      "OC_TRIGGER": [
+                        {
+                          "name": "MC1",
+                          "help": "",
+                          "cost": 0
+                        }
+                      ]
+                    },
+                    "OCComparatorThreshold": 0.53,
+                    "OCNetworkOffset": 0,
+                    "OCNetworkGain": 0.08,
+                    "OCThreshold": 24,
+                    "OCSignalPolarity": "Active low"
+                  }
+                ]
+              },
+              {
+                "name": "Brake",
+                "type": "Brake",
+                "hwVariants": [
+                  {
+                    "type": "DissipativeBreak",
+                    "help": "Set W5 in R_BRAKE position",
+                    "signals": {
+                      "RBRAKE_ENABLE": [
+                        {
+                          "name": "MC23",
+                          "help": "Set W5 in R_BRAKE position",
+                          "cost": 0
+                        }
+                      ]
+                    },
+                    "rBrakeEnableSignalPolarity": "Active high"
+                  }
+                ]
+              },
+              {
+                "name": "ICL",
+                "type": "ICL",
+                "hwVariants": [
+                  {
+                    "type": "InrushCurrentLimiter",
+                    "help": "",
+                    "signals": {
+                      "ICL_ENABLE": [
+                        {
+                          "name": "MC21",
+                          "help": "",
+                          "cost": 0
+                        }
+                      ]
+                    },
+                    "switchPolarity": "Active low",
+                    "capsDelayCharging": 100
+                  }
+                ]
+              }
+            ],
+            "compatibility": [
+              "FOC",
+              "sixStep"
+            ]
+          }
+        ],
+        "connectorTypes": [
+          "MotorControlConnector"
+        ],
+        "hardwareFamily": "POWER",
+        "id": "STEVAL-IHM023V3",
+        "label": "STEVAL-IHM023V3",
+        "description": "1 kW 3-phase motor control evaluation board featuring L6390 drivers and STGP10H60DF IGBTs, for STM32 boards with Motor Control connector",
+        "descVersion": 4,
+        "contentVersion": "1.0",
+        "compatibility": [
+          "FOC",
+          "sixStep"
+        ],
+        "status": "success"
+      }
+    ],
+    "motor": [
+      {
+        "label": "BTH420SDPC9EQA",
+        "hardwareFamily": "MOTOR",
+        "description": "Motor high voltage",
+        "compatibility": [
+          "FOC",
+          "sixStep"
+        ],
+        "polePairs": 2,
+        "nominalCurrent": 20,
+        "nominalDCVoltage": 400,
+        "rs": 0.25,
+        "ls": 3.5,
+        "magneticStructure": {
+          "type": "I-PMSM",
+          "ld_lq_ratio": 0.7
+        },
+        "BEmfConstant": 43.1,
+        "inertia": 666,
+        "friction": 66,
+        "maxRatedSpeed": 5000,
+        "id": "userMotor.BTH420SDPC9EQA.json"
+      }
+    ],
+    "connections": [
+      {
+        "motor": 0,
+        "power": 0,
+        "drive": 0,
+        "ctrlConn": 0
+      }
+    ],
+    "constrains": {
+      "connectAlgoVersion": 1,
+      "MCUParamVersion": 1,
+      "motors": [
+        {
+          "motor": "M1",
+          "features": [
+            {
+              "name": "CurrentSensing",
+              "type": "CurrentSensing",
+              "hwVariants": [
+                {
+                  "name": "ThreeShunt_AmplifiedCurrents",
+                  "swVariants": [
+                    {
+                      "name": "SingleADC",
+                      "solutions": [
+                        {
+                          "ip": [
+                            "ADC1"
+                          ],
+                          "signals": [
+                            {
+                              "name": "CURRENT_AMPL_U",
+                              "pin": "PA0",
+                              "peripheral": "ADC1_IN1",
+                              "help": ""
+                            },
+                            {
+                              "name": "CURRENT_AMPL_V",
+                              "pin": "PC1",
+                              "peripheral": "ADC1_IN7",
+                              "help": ""
+                            },
+                            {
+                              "name": "CURRENT_AMPL_W",
+                              "pin": "PC0",
+                              "peripheral": "ADC1_IN6",
+                              "help": ""
+                            }
+                          ],
+                          "cost": 0
+                        },
+                        {
+                          "ip": [
+                            "ADC2"
+                          ],
+                          "signals": [
+                            {
+                              "name": "CURRENT_AMPL_U",
+                              "pin": "PA0",
+                              "peripheral": "ADC2_IN1",
+                              "help": ""
+                            },
+                            {
+                              "name": "CURRENT_AMPL_V",
+                              "pin": "PC1",
+                              "peripheral": "ADC2_IN7",
+                              "help": ""
+                            },
+                            {
+                              "name": "CURRENT_AMPL_W",
+                              "pin": "PC0",
+                              "peripheral": "ADC2_IN6",
+                              "help": ""
+                            }
+                          ],
+                          "cost": 0
+                        }
+                      ]
+                    },
+                    {
+                      "name": "DualADCs",
+                      "solutions": [
+                        {
+                          "ip": [
+                            "ADC1",
+                            "ADC2"
+                          ],
+                          "sharedSignal": "CURRENT_AMPL_V",
+                          "signals": [
+                            {
+                              "name": "CURRENT_AMPL_U",
+                              "pin": "PA0",
+                              "peripheral": "ADC1_IN1",
+                              "help": ""
+                            },
+                            {
+                              "name": "CURRENT_AMPL_W",
+                              "pin": "PC0",
+                              "peripheral": "ADC2_IN6",
+                              "help": ""
+                            },
+                            {
+                              "name": "CURRENT_AMPL_V",
+                              "pin": "PC1",
+                              "peripheral": "ADC2_IN7",
+                              "help": ""
+                            },
+                            {
+                              "name": "CURRENT_AMPL_V",
+                              "pin": "PC1",
+                              "peripheral": "ADC1_IN7",
+                              "help": ""
+                            }
+                          ],
+                          "cost": 0
+                        }
+                      ]
+                    },
+                    {
+                      "name": "DualADCsNoSharedPhase",
+                      "solutions": [
+                        {
+                          "ip": [
+                            "ADC2",
+                            "ADC1"
+                          ],
+                          "signals": [
+                            {
+                              "name": "CURRENT_AMPL_U",
+                              "pin": "PA0",
+                              "peripheral": "ADC1_IN1",
+                              "help": ""
+                            },
+                            {
+                              "name": "CURRENT_AMPL_V",
+                              "pin": "PC1",
+                              "peripheral": "ADC1_IN7",
+                              "help": ""
+                            },
+                            {
+                              "name": "CURRENT_AMPL_W",
+                              "pin": "PC0",
+                              "peripheral": "ADC2_IN6",
+                              "help": ""
+                            }
+                          ],
+                          "cost": 0
+                        },
+                        {
+                          "ip": [
+                            "ADC2",
+                            "ADC1"
+                          ],
+                          "signals": [
+                            {
+                              "name": "CURRENT_AMPL_U",
+                              "pin": "PA0",
+                              "peripheral": "ADC1_IN1",
+                              "help": ""
+                            },
+                            {
+                              "name": "CURRENT_AMPL_V",
+                              "pin": "PC1",
+                              "peripheral": "ADC2_IN7",
+                              "help": ""
+                            },
+                            {
+                              "name": "CURRENT_AMPL_W",
+                              "pin": "PC0",
+                              "peripheral": "ADC1_IN6",
+                              "help": ""
+                            }
+                          ],
+                          "cost": 0
+                        },
+                        {
+                          "ip": [
+                            "ADC2",
+                            "ADC1"
+                          ],
+                          "signals": [
+                            {
+                              "name": "CURRENT_AMPL_U",
+                              "pin": "PA0",
+                              "peripheral": "ADC1_IN1",
+                              "help": ""
+                            },
+                            {
+                              "name": "CURRENT_AMPL_V",
+                              "pin": "PC1",
+                              "peripheral": "ADC2_IN7",
+                              "help": ""
+                            },
+                            {
+                              "name": "CURRENT_AMPL_W",
+                              "pin": "PC0",
+                              "peripheral": "ADC2_IN6",
+                              "help": ""
+                            }
+                          ],
+                          "cost": 0
+                        },
+                        {
+                          "ip": [
+                            "ADC1",
+                            "ADC2"
+                          ],
+                          "signals": [
+                            {
+                              "name": "CURRENT_AMPL_U",
+                              "pin": "PA0",
+                              "peripheral": "ADC2_IN1",
+                              "help": ""
+                            },
+                            {
+                              "name": "CURRENT_AMPL_V",
+                              "pin": "PC1",
+                              "peripheral": "ADC1_IN7",
+                              "help": ""
+                            },
+                            {
+                              "name": "CURRENT_AMPL_W",
+                              "pin": "PC0",
+                              "peripheral": "ADC1_IN6",
+                              "help": ""
+                            }
+                          ],
+                          "cost": 0
+                        },
+                        {
+                          "ip": [
+                            "ADC1",
+                            "ADC2"
+                          ],
+                          "signals": [
+                            {
+                              "name": "CURRENT_AMPL_U",
+                              "pin": "PA0",
+                              "peripheral": "ADC2_IN1",
+                              "help": ""
+                            },
+                            {
+                              "name": "CURRENT_AMPL_V",
+                              "pin": "PC1",
+                              "peripheral": "ADC1_IN7",
+                              "help": ""
+                            },
+                            {
+                              "name": "CURRENT_AMPL_W",
+                              "pin": "PC0",
+                              "peripheral": "ADC2_IN6",
+                              "help": ""
+                            }
+                          ],
+                          "cost": 0
+                        },
+                        {
+                          "ip": [
+                            "ADC1",
+                            "ADC2"
+                          ],
+                          "signals": [
+                            {
+                              "name": "CURRENT_AMPL_U",
+                              "pin": "PA0",
+                              "peripheral": "ADC2_IN1",
+                              "help": ""
+                            },
+                            {
+                              "name": "CURRENT_AMPL_V",
+                              "pin": "PC1",
+                              "peripheral": "ADC2_IN7",
+                              "help": ""
+                            },
+                            {
+                              "name": "CURRENT_AMPL_W",
+                              "pin": "PC0",
+                              "peripheral": "ADC1_IN6",
+                              "help": ""
+                            }
+                          ],
+                          "cost": 0
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "SingleShunt_AmplifiedCurrents",
+                  "swVariants": [
+                    {
+                      "name": "SingleWire",
+                      "solutions": [
+                        {
+                          "ip": [
+                            "ADC1"
+                          ],
+                          "signals": [
+                            {
+                              "name": "CURRENT_AMPL",
+                              "pin": "PB0",
+                              "peripheral": "ADC1_IN15",
+                              "help": {
+                                "en": [
+                                  "Set jumpers W09 and W13 to position Single-shunt, setup jumper W10, set jumper W11 to dash position"
+                                ]
+                              }
+                            }
+                          ],
+                          "cost": 10
+                        },
+                        {
+                          "ip": [
+                            "ADC2"
+                          ],
+                          "signals": [
+                            {
+                              "name": "CURRENT_AMPL",
+                              "pin": "PC1",
+                              "peripheral": "ADC2_IN7",
+                              "help": {
+                                "en": [
+                                  "Set jumpers W09 and W13 to position Single-shunt, setup jumper W10, set jumper W11 to dash position"
+                                ]
+                              }
+                            }
+                          ],
+                          "cost": 10
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "PhaseVoltageGeneration",
+              "type": "PhaseVoltageGeneration",
+              "hwVariants": [
+                {
+                  "name": "DrivingHighAndLowSides",
+                  "swVariants": [
+                    {
+                      "name": "SingleTimer",
+                      "solutions": [
+                        {
+                          "ip": [
+                            "TIM1"
+                          ],
+                          "signals": [
+                            {
+                              "name": "PWM_CHU_H",
+                              "pin": "PA8",
+                              "peripheral": "TIM1_CH1",
+                              "help": ""
+                            },
+                            {
+                              "name": "PWM_CHV_H",
+                              "pin": "PA9",
+                              "peripheral": "TIM1_CH2",
+                              "help": ""
+                            },
+                            {
+                              "name": "PWM_CHW_H",
+                              "pin": "PA10",
+                              "peripheral": "TIM1_CH3",
+                              "help": ""
+                            },
+                            {
+                              "name": "PWM_CHU_L",
+                              "pin": "PB13",
+                              "peripheral": "TIM1_CH1N",
+                              "help": ""
+                            },
+                            {
+                              "name": "PWM_CHV_L",
+                              "pin": "PB14",
+                              "peripheral": "TIM1_CH2N",
+                              "help": ""
+                            },
+                            {
+                              "name": "PWM_CHW_L",
+                              "pin": "PB15",
+                              "peripheral": "TIM1_CH3N",
+                              "help": ""
+                            }
+                          ],
+                          "cost": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "SpeedAndPositionSensing",
+              "type": "SpeedAndPositionSensing",
+              "hwVariants": [
+                {
+                  "name": "HallEffectSensor",
+                  "swVariants": [
+                    {
+                      "name": "SingleTimer",
+                      "solutions": [
+                        {
+                          "ip": [
+                            "TIM2"
+                          ],
+                          "signals": [
+                            {
+                              "name": "HALLSENSOR_H1",
+                              "pin": "PA15",
+                              "peripheral": "TIM2_CH1",
+                              "help": ""
+                            },
+                            {
+                              "name": "HALLSENSOR_H2",
+                              "pin": "PB3",
+                              "peripheral": "TIM2_CH2",
+                              "help": ""
+                            },
+                            {
+                              "name": "HALLSENSOR_H3",
+                              "pin": "PB10",
+                              "peripheral": "TIM2_CH3",
+                              "help": ""
+                            }
+                          ],
+                          "cost": 0
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "QuadratureEncoderRelative",
+                  "swVariants": [
+                    {
+                      "name": "SingleTimer",
+                      "solutions": [
+                        {
+                          "ip": [
+                            "TIM2"
+                          ],
+                          "signals": [
+                            {
+                              "name": "QENC_A",
+                              "pin": "PA15",
+                              "peripheral": "TIM2_CH1",
+                              "help": ""
+                            },
+                            {
+                              "name": "QENC_B",
+                              "pin": "PB3",
+                              "peripheral": "TIM2_CH2",
+                              "help": ""
+                            }
+                          ],
+                          "cost": 0
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "swVariants": [
+                    {
+                      "solutions": [
+                        {
+                          "ip": [
+                            "TIM2"
+                          ],
+                          "signals": [
+                            {
+                              "name": "QENC_A",
+                              "pin": "PA15",
+                              "peripheral": "TIM2_CH1",
+                              "help": ""
+                            },
+                            {
+                              "name": "QENC_B",
+                              "pin": "PB3",
+                              "peripheral": "TIM2_CH2",
+                              "help": ""
+                            }
+                          ],
+                          "cost": 0
+                        }
+                      ],
+                      "independentWires": {
+                        "QENC_Z": [
+                          {
+                            "ip": "GPIO",
+                            "pin": "PB10",
+                            "peripheral": "GPIO_Output",
+                            "help": "",
+                            "cost": 0
+                          }
+                        ]
+                      },
+                      "name": "SingleTimerAndGPIOs"
+                    }
+                  ],
+                  "name": "QuadratureEncoderAbsolute"
+                }
+              ]
+            },
+            {
+              "name": "VBusSensing",
+              "type": "VBusSensing",
+              "hwVariants": [
+                {
+                  "name": "VBusSensing",
+                  "swVariants": [
+                    {
+                      "name": "SingleWire",
+                      "solutions": [
+                        {
+                          "ip": [
+                            "ADC1"
+                          ],
+                          "signals": [
+                            {
+                              "name": "VBUS",
+                              "pin": "PA2",
+                              "peripheral": "ADC1_IN3",
+                              "help": ""
+                            }
+                          ],
+                          "cost": 0
+                        },
+                        {
+                          "ip": [
+                            "ADC2"
+                          ],
+                          "signals": [
+                            {
+                              "name": "VBUS",
+                              "pin": "PA1",
+                              "peripheral": "ADC2_IN2",
+                              "help": ""
+                            }
+                          ],
+                          "cost": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "TemperatureSensing",
+              "type": "TemperatureSensing",
+              "hwVariants": [
+                {
+                  "name": "NTCThermistor",
+                  "swVariants": [
+                    {
+                      "name": "SingleWire",
+                      "solutions": [
+                        {
+                          "ip": [
+                            "ADC1"
+                          ],
+                          "signals": [
+                            {
+                              "name": "TEMPERATURE_NTC",
+                              "pin": "PC2",
+                              "peripheral": "ADC1_IN8",
+                              "help": ""
+                            }
+                          ],
+                          "cost": 0
+                        },
+                        {
+                          "ip": [
+                            "ADC2"
+                          ],
+                          "signals": [
+                            {
+                              "name": "TEMPERATURE_NTC",
+                              "pin": "PC2",
+                              "peripheral": "ADC2_IN8",
+                              "help": ""
+                            }
+                          ],
+                          "cost": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "OverCurrentProtection",
+              "type": "OverCurrentProtection",
+              "hwVariants": [
+                {
+                  "name": "OnPowerStageOCP",
+                  "swVariants": [
+                    {
+                      "name": "SingleWire",
+                      "solutions": [
+                        {
+                          "ip": [
+                            "TIM1"
+                          ],
+                          "signals": [
+                            {
+                              "name": "OC_TRIGGER",
+                              "pin": "PC13",
+                              "peripheral": "TIM1_BKIN",
+                              "help": ""
+                            }
+                          ],
+                          "cost": 0
+                        },
+                        {
+                          "ip": [
+                            "TIM1"
+                          ],
+                          "signals": [
+                            {
+                              "name": "OC_TRIGGER",
+                              "pin": "PA6",
+                              "peripheral": "TIM1_BKIN",
+                              "help": ""
+                            }
+                          ],
+                          "cost": 0
+                        },
+                        {
+                          "ip": [
+                            "TIM8"
+                          ],
+                          "signals": [
+                            {
+                              "name": "OC_TRIGGER",
+                              "pin": "PA6",
+                              "peripheral": "TIM8_BKIN",
+                              "help": ""
+                            }
+                          ],
+                          "cost": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Brake",
+              "type": "Brake",
+              "hwVariants": [
+                {
+                  "name": "DissipativeBreak",
+                  "swVariants": [
+                    {
+                      "name": "SingleWire",
+                      "solutions": [
+                        {
+                          "ip": [
+                            "GPIO"
+                          ],
+                          "signals": [
+                            {
+                              "name": "RBRAKE_ENABLE",
+                              "pin": "PC11",
+                              "peripheral": "GPIO_Output",
+                              "help": ""
+                            }
+                          ],
+                          "cost": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "ICL",
+              "type": "ICL",
+              "hwVariants": [
+                {
+                  "name": "InrushCurrentLimiter",
+                  "swVariants": [
+                    {
+                      "name": "SingleWire",
+                      "solutions": [
+                        {
+                          "ip": [
+                            "GPIO"
+                          ],
+                          "signals": [
+                            {
+                              "name": "ICL_ENABLE",
+                              "pin": "PC10",
+                              "peripheral": "GPIO_Output",
+                              "help": ""
+                            }
+                          ],
+                          "cost": 0
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "features": []
+    },
+    "bridges": [
+      {
+        "powerSideConnectors": [
+          {
+            "name": "MotorControlConnector",
+            "type": "MotorControlConnector",
+            "controlSideConnectors": [
+              {
+                "name": "morphoN",
+                "type": "morpho",
+                "powerTerminals": {
+                  "MC1": [
+                    {
+                      "name": "MR14",
+                      "help": "CN10.14",
+                      "cost": 0
+                    },
+                    {
+                      "name": "MR28",
+                      "help": "CN10.28",
+                      "cost": 0
+                    },
+                    {
+                      "name": "MR13",
+                      "help": "CN10.13",
+                      "cost": 0
+                    }
+                  ],
+                  "MC3": [
+                    {
+                      "name": "MR23",
+                      "help": "CN10.23",
+                      "cost": 0
+                    }
+                  ],
+                  "MC7": [
+                    {
+                      "name": "MR21",
+                      "help": "CN10.21",
+                      "cost": 0
+                    }
+                  ],
+                  "MC11": [
+                    {
+                      "name": "MR33",
+                      "help": "CN10.33",
+                      "cost": 0
+                    }
+                  ],
+                  "MC5": [
+                    {
+                      "name": "MR15",
+                      "help": "CN10.15",
+                      "cost": 0
+                    },
+                    {
+                      "name": "MR26",
+                      "help": "CN10.26",
+                      "cost": 0
+                    }
+                  ],
+                  "MC9": [
+                    {
+                      "name": "ML34",
+                      "help": "CN7.34",
+                      "cost": 0
+                    }
+                  ],
+                  "MC13": [
+                    {
+                      "name": "MR24",
+                      "help": "CN10.24",
+                      "cost": 0
+                    }
+                  ],
+                  "MC15": [
+                    {
+                      "name": "ML28",
+                      "help": "CN7.28",
+                      "cost": 0
+                    }
+                  ],
+                  "MC17": [
+                    {
+                      "name": "ML36",
+                      "help": "CN7.36",
+                      "cost": 0
+                    }
+                  ],
+                  "MC19": [
+                    {
+                      "name": "ML38",
+                      "help": "CN7.38",
+                      "cost": 0
+                    }
+                  ],
+                  "MC14": [
+                    {
+                      "name": "ML30",
+                      "help": "CN7.30",
+                      "cost": 0
+                    }
+                  ],
+                  "MC26": [
+                    {
+                      "name": "ML35",
+                      "help": "CN7.35",
+                      "cost": 0
+                    }
+                  ],
+                  "MC21": [
+                    {
+                      "name": "ML1",
+                      "help": "CN7.1",
+                      "cost": 0
+                    }
+                  ],
+                  "MC23": [
+                    {
+                      "name": "ML2",
+                      "help": "CN7.2",
+                      "cost": 0
+                    }
+                  ],
+                  "MC31": [
+                    {
+                      "name": "ML17",
+                      "help": "CN7.17",
+                      "cost": 0
+                    }
+                  ],
+                  "MC33": [
+                    {
+                      "name": "MR31",
+                      "help": "CN10.31",
+                      "cost": 0
+                    }
+                  ],
+                  "MC34": [
+                    {
+                      "name": "MR25",
+                      "help": "CN10.25",
+                      "cost": 0
+                    }
+                  ],
+                  "MC25": [
+                    {
+                      "name": "ML6",
+                      "help": "CN7.6",
+                      "cost": 0
+                    }
+                  ],
+                  "MC28": [
+                    {
+                      "name": "ML12",
+                      "help": "CN7.12. +3.3V Rework green wire",
+                      "cost": 0
+                    },
+                    {
+                      "name": "ML16",
+                      "help": "CN7.16. +3.3V Rework green wire",
+                      "cost": 0
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "hardwareFamily": "ADAPTER",
+        "id": "X-NUCLEO-IHM09M1",
+        "label": "X-NUCLEO-IHM09M1",
+        "description": "Motor control connector expansion board for STM32 Nucleo",
+        "descVersion": 3,
+        "contentVersion": "1.0",
+        "compatibility": [
+          "FOC",
+          "sixStep"
+        ],
+        "status": "success"
+      }
+    ]
+  },
+  "version": 10,
+  "workBenchVersion": "6.2.0",
+  "workBenchVersionFileCreation": "6.2.0",
+  "details": {
+    "steps": {
+      "powerSupply_0": {
+        "nominalDcBusVoltage": "Number.NaN",
+        "nominalCurrent": 13.3,
+        "maxCurrent_pk": "Number.NaN",
+        "icl": {
+          "enable": false,
+          "polarity": "",
+          "changeStateAfter": "Number.NaN",
+          "capChargingDelay": "Number.NaN",
+          "voltageThreshold": "Number.NaN"
+        }
+      },
+      "currentSensing_0": {
+        "executionRate": "Number.NaN",
+        "topology": "1sh",
+        "topologyData": {
+          "_tag": "1sh",
+          "ampMode": "",
+          "sensing": {
+            "amplification": "external",
+            "shuntResistor": "Number.NaN",
+            "gain": "Number.NaN",
+            "tNoise": "Number.NaN",
+            "tRise": "Number.NaN",
+            "maxModulation": "Number.NaN",
+            "samplingTime": "Number.NaN"
+          }
+        },
+        "ocpData": {
+          "enable": true,
+          "ocpMode": "",
+          "ocp": {
+            "mode": "external",
+            "digitalFilter": "Number.NaN",
+            "threshold": "Number.NaN",
+            "signalPolarity": "",
+            "disablingEnable": false,
+            "disablingSignalPolarity": ""
+          }
+        }
+      },
+      "busVoltageSensing_0": {
+        "ovp": {
+          "enable": false,
+          "threshold": "Number.NaN",
+          "onOverVoltage": "",
+          "brake": {
+            "polarity": "",
+            "thresholdLow": "Number.NaN"
+          },
+          "ov_Disable_oc": {
+            "enableFeature": false,
+            "polarity": ""
+          }
+        },
+        "uvp": {
+          "enable": false,
+          "threshold": "Number.NaN"
+        },
+        "circuitSensing": {
+          "r1": "Number.NaN",
+          "r2": "Number.NaN",
+          "enableR3": false,
+          "r3": "Number.NaN",
+          "busVoltDiv": "Number.NaN"
+        },
+        "samplingTime": 640.5,
+        "adc_freq": "Number.NaN",
+        "enableSensing": true
+      },
+      "temperatureSensing_0": {
+        "hw": {
+          "v0": "Number.NaN",
+          "t0": "Number.NaN",
+          "gain": "Number.NaN",
+          "maxSensorTemperature": "Number.NaN"
+        },
+        "protection": {
+          "enable": false,
+          "hysteresis": "Number.NaN",
+          "overTemperatureThreshold": "Number.NaN"
+        },
+        "samplingTime": 640.5,
+        "adc_freq": "Number.NaN",
+        "enable": true
+      },
+      "driveManagement_0": {
+        "currentReg": {
+          "controlMode": "",
+          "autoPI": true,
+          "KpKi": {
+            "P": "Number.NaN",
+            "I": "Number.NaN"
+          },
+          "cutOffFrequency": 1000,
+          "useMTPA": true,
+          "feedForward": false,
+          "MTPATarget": "Number.NaN"
+        },
+        "speedReg": {
+          "executionRate": 2.5,
+          "targetSpeed": 900,
+          "KpKi": {
+            "P": {
+              "num": "Number.NaN",
+              "den": "Number.NaN"
+            },
+            "I": {
+              "num": "Number.NaN",
+              "den": "Number.NaN"
+            }
+          },
+          "autoPI": true
+        },
+        "torqueReg": {
+          "target": "Number.NaN",
+          "KpKi": {
+            "P": {
+              "num": "Number.NaN",
+              "den": "Number.NaN"
+            },
+            "I": {
+              "num": "Number.NaN",
+              "den": "Number.NaN"
+            }
+          }
+        },
+        "fluxReg": {
+          "target": "Number.NaN",
+          "KpKi": {
+            "P": {
+              "num": "Number.NaN",
+              "den": "Number.NaN"
+            },
+            "I": {
+              "num": "Number.NaN",
+              "den": "Number.NaN"
+            }
+          }
+        },
+        "fluxWeak": {
+          "enabled": true,
+          "voltageLimit": "Number.NaN",
+          "KpKi": {
+            "P": {
+              "num": 3000,
+              "den": 32768
+            },
+            "I": {
+              "num": 5000,
+              "den": 32768
+            }
+          }
+        },
+        "posReg": {
+          "executionRate": "Number.NaN",
+          "KpKiKd": {
+            "P": {
+              "num": 10000,
+              "den": 1024
+            },
+            "D": {
+              "num": 1000,
+              "den": 16
+            },
+            "I": {
+              "num": 1000,
+              "den": 32768
+            }
+          }
+        },
+        "modulationFlags": {
+          "overModulation": false,
+          "discontinuousPWM": false
+        }
+      },
+      "stageConfig_0": {
+        "debugSettings": {
+          "openLoop": {
+            "enabled": true
+          }
+        },
+        "potentiometer": {
+          "enable": false,
+          "samplingTime": "Number.NaN"
+        },
+        "esc": {
+          "enabled": false
+        }
+      },
+      "userInterface": {
+        "startStop": {
+          "enabled": false
+        },
+        "mcpv2": {
+          "bufferSize": "Number.NaN",
+          "stlink": {
+            "enabled": false,
+            "dataLog": {
+              "enabled": false,
+              "numberOfSignal": "Number.NaN",
+              "bufferSize": "Number.NaN"
+            }
+          },
+          "usartA": {
+            "enabled": true,
+            "baudrate": 115200,
+            "channel": "USART1",
+            "tx": "",
+            "rx": "",
+            "UsartIRQn": "",
+            "dataLog": {
+              "enabled": false,
+              "numberOfSignal": "Number.NaN",
+              "bufferSize": "Number.NaN"
+            }
+          },
+          "usartB": {
+            "enabled": false
+          }
+        }
+      },
+      "applicationConfig": {
+        "freeRTOS": {
+          "enabled": false
+        },
+        "dacDebug": {
+          "enabled": false
+        },
+        "lowMemoryFootprintReg": false,
+        "motorProfiler": false,
+        "dbgMcuLoadMeasure": true
+      },
+      "speedSensing_0": {
+        "mainSensorParams": {
+          "speedSensorMode": "",
+          "maxAllowedErrors": 75,
+          "sensorParams": {
+            "_tag": "pll",
+            "sensorlessSpeedFeedback": true,
+            "varianceThreshold": 85,
+            "loopAverageSpeedDepth": "Number.NaN",
+            "observerAverageSpeedDepth": "Number.NaN",
+            "autoCalculate": true,
+            "g1Observer": "Number.NaN",
+            "g2Observer": "Number.NaN",
+            "bemfTolerance": "Number.NaN",
+            "bemfGain": "Number.NaN",
+            "F1": "Number.NaN",
+            "F2": "Number.NaN",
+            "pll": {
+              "KpKi": {
+                "P": {
+                  "num": "Number.NaN",
+                  "den": "Number.NaN"
+                },
+                "I": {
+                  "num": "Number.NaN",
+                  "den": "Number.NaN"
+                }
+              }
+            }
+          }
+        },
+        "auxSensorParams": {
+          "enableAuxSensing": false,
+          "speedSensorMode": "",
+          "maxAllowedErrors": "Number.NaN",
+          "sensorParams": {
+            "_tag": "cordic",
+            "sensorlessSpeedFeedback": true,
+            "varianceThreshold": "Number.NaN",
+            "loopAverageSpeedFIFO": "Number.NaN",
+            "observerAverageSpeedFIFO": "Number.NaN",
+            "autoCalculate": true,
+            "g1Observer": "Number.NaN",
+            "g2Observer": "Number.NaN",
+            "bemfTolerance": "Number.NaN",
+            "bemfGain": "Number.NaN",
+            "bemfQualityFactor": "Number.NaN",
+            "maxApplicationAcc": "Number.NaN",
+            "F1": "Number.NaN",
+            "F2": "Number.NaN"
+          }
+        },
+        "startupParams": {
+          "startupProfile": {
+            "initialElectricalAngle": "Number.NaN",
+            "pts": [
+              {
+                "duration": "Number.NaN",
+                "speedTarget": "Number.NaN",
+                "currVoltTarget": "Number.NaN"
+              },
+              {
+                "duration": "Number.NaN",
+                "speedTarget": "Number.NaN",
+                "currVoltTarget": "Number.NaN"
+              },
+              {
+                "duration": "Number.NaN",
+                "speedTarget": "Number.NaN",
+                "currVoltTarget": 1
+              },
+              {
+                "duration": 300,
+                "speedTarget": 0,
+                "currVoltTarget": 1
+              },
+              {
+                "duration": "Number.NaN",
+                "speedTarget": 500,
+                "currVoltTarget": 1
+              },
+              {
+                "duration": 5000,
+                "speedTarget": 700,
+                "currVoltTarget": 1
+              },
+              {
+                "duration": 48000,
+                "speedTarget": 900,
+                "currVoltTarget": 1
+              }
+            ],
+            "sensorlessStartingPhase": 4,
+            "onTheFlyStartupEnabled": false
+          },
+          "startupExitCond": {
+            "startUpSpeedThresh": 800,
+            "consecutiveCorrectMeasures": 3,
+            "speedBandToleranceLowerLimit": "Number.NaN",
+            "speedBandToleranceUpperLimit": 150
+          },
+          "FOCSwitchOver": {
+            "revupToFocSwitchOverEnabled": false,
+            "focSwitchOverDuration": "Number.NaN"
+          }
+        }
+      },
+      "motor_0": {
+        "label": "",
+        "description": "",
+        "polePairs": "Number.NaN",
+        "mmsType": "",
+        "rs": "Number.NaN",
+        "ls": "Number.NaN",
+        "mmsLd_lq_ratio": "Number.NaN",
+        "maxCurrent": 13.3,
+        "maxDCVoltage": 80,
+        "BEmfConstant": "Number.NaN",
+        "inertia": "Number.NaN",
+        "friction": "Number.NaN",
+        "maxRatedSpeed": 1000,
+        "hasHallSensor": false,
+        "hallSensor": {
+          "sensorsDisplacement": "Number.NaN",
+          "placementElectricalAngle": "Number.NaN"
+        },
+        "hasQuadratureEncoder": false,
+        "quadratureEncoder": {
+          "pulsesPerMechanicalRevolution": "Number.NaN",
+          "hasIndexPin": false
+        },
+        "nominalCurrent": "Number.NaN",
+        "nominalDCVoltage": "Number.NaN"
+      },
+      "powerSwitches_0": {
+        "setting": {
+          "PWMFrequency": 8000,
+          "chargeBootCapDuty": "Number.NaN",
+          "chargeBootCapMs": "Number.NaN",
+          "drivingTopology": ""
+        }
+      }
+    }
+  }
+}
