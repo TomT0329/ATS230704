@@ -83,8 +83,10 @@ STM32CubeIDE/.vscode
 *.wb
 *.wbdef
 *.settings
-
+.mxproject
+.osx.project
 
 *.cyclo
 *.mk
 makefile
+.gitignore
