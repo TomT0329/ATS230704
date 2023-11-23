@@ -69,6 +69,9 @@ STM32CubeIDE/.settings
 STM32CubeIDE/.vs
 STM32CubeIDE/.vscode
 
+# Makefile
+build
+
 # VSCODE
 .vscode/
 
