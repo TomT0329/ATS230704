@@ -145,6 +145,37 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
 
   /* USER CODE END ADC1_MspInit 1 */
   }
+  else if(hadc->Instance==ADC3)
+  {
+  /* USER CODE BEGIN ADC3_MspInit 0 */
+
+  /* USER CODE END ADC3_MspInit 0 */
+
+  /** Initializes the peripherals clocks
+  */
+    PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_ADC345;
+    PeriphClkInit.Adc345ClockSelection = RCC_ADC345CLKSOURCE_PLL;
+    if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
+    {
+      Error_Handler();
+    }
+
+    /* Peripheral clock enable */
+    __HAL_RCC_ADC345_CLK_ENABLE();
+
+    __HAL_RCC_GPIOB_CLK_ENABLE();
+    /**ADC3 GPIO Configuration
+    PB0     ------> ADC3_IN12
+    */
+    GPIO_InitStruct.Pin = M1_CURR_AMPL_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init(M1_CURR_AMPL_GPIO_Port, &GPIO_InitStruct);
+
+  /* USER CODE BEGIN ADC3_MspInit 1 */
+
+  /* USER CODE END ADC3_MspInit 1 */
+  }
 
 }
 
@@ -180,6 +211,23 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
   /* USER CODE BEGIN ADC1_MspDeInit 1 */
 
   /* USER CODE END ADC1_MspDeInit 1 */
+  }
+  else if(hadc->Instance==ADC3)
+  {
+  /* USER CODE BEGIN ADC3_MspDeInit 0 */
+
+  /* USER CODE END ADC3_MspDeInit 0 */
+    /* Peripheral clock disable */
+    __HAL_RCC_ADC345_CLK_DISABLE();
+
+    /**ADC3 GPIO Configuration
+    PB0     ------> ADC3_IN12
+    */
+    HAL_GPIO_DeInit(M1_CURR_AMPL_GPIO_Port, M1_CURR_AMPL_Pin);
+
+  /* USER CODE BEGIN ADC3_MspDeInit 1 */
+
+  /* USER CODE END ADC3_MspDeInit 1 */
   }
 
 }
