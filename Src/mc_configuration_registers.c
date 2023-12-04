@@ -43,10 +43,10 @@ const GlobalConfig_reg_t globalConfig_reg =
 
 static const ApplicationConfig_reg_t M1_ApplicationConfig_reg =
 {
-  .maxMechanicalSpeed = 1000,
+  .maxMechanicalSpeed = 6000,
   .maxReadableCurrent = M1_MAX_READABLE_CURRENT,
   .nominalCurrent     = 13.3,
-  .nominalVoltage     = 80,
+  .nominalVoltage     = 400,
   .driveType          = DRIVE_TYPE_M1,
 };
 

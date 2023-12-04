@@ -41,7 +41,7 @@
                                    *Amplifying network gain)/(MCU supply voltage/2)
 */
 
-#define MOTOR_MAX_SPEED_RPM     1000 /*!< Maximum rated speed  */
+#define MOTOR_MAX_SPEED_RPM     6000 /*!< Maximum rated speed  */
 #define MOTOR_VOLTAGE_CONSTANT  43.1 /*!< Volts RMS ph-ph /kRPM */
 #define NOMINAL_CURRENT_A       13.3
 

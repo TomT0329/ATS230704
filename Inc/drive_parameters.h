@@ -31,7 +31,7 @@
 /******** MAIN AND AUXILIARY SPEED/POSITION SENSOR(S) SETTINGS SECTION ********/
 
 /*** Speed measurement settings ***/
-#define MAX_APPLICATION_SPEED_RPM       1000 /*!< rpm, mechanical */
+#define MAX_APPLICATION_SPEED_RPM       6000 /*!< rpm, mechanical */
 #define MIN_APPLICATION_SPEED_RPM       0 /*!< rpm, mechanical,
                                                            absolute value */
 #define M1_SS_MEAS_ERRORS_BEFORE_FAULTS 75 /*!< Number of speed
@@ -43,16 +43,16 @@
                                                             estimates (percentage) */
 /* State observer scaling factors F1 */
 #define F1                               16384
-#define F2                               2048
+#define F2                               4096
 #define F1_LOG                           LOG2((16384))
-#define F2_LOG                           LOG2((2048))
+#define F2_LOG                           LOG2((4096))
 
 /* State observer constants */
 #define GAIN1                            -24498
-#define GAIN2                            23146
+#define GAIN2                            17052
 /*Only in case PLL is used, PLL gains */
-#define PLL_KP_GAIN                      133
-#define PLL_KI_GAIN                      12
+#define PLL_KP_GAIN                      798
+#define PLL_KI_GAIN                      71
 #define PLL_KPDIV     16384
 #define PLL_KPDIV_LOG LOG2((PLL_KPDIV))
 #define PLL_KIDIV     65535
@@ -83,7 +83,7 @@
 #define PWM_FREQ_SCALING 1
 
 #define LOW_SIDE_SIGNALS_ENABLING        LS_PWM_TIMER
-#define SW_DEADTIME_NS                   750 /*!< Dead-time to be inserted
+#define SW_DEADTIME_NS                   4350 /*!< Dead-time to be inserted
                                                            by FW, only if low side
                                                            signals are enabled */
 
@@ -94,18 +94,18 @@
 #define ISR_FREQUENCY_HZ (PWM_FREQUENCY/REGULATION_EXECUTION_RATE) /*!< @brief FOC execution rate in
                                                            Hz */
 /* Gains values for torque and flux control loops */
-#define PID_TORQUE_KP_DEFAULT         2695
-#define PID_TORQUE_KI_DEFAULT         269
+#define PID_TORQUE_KP_DEFAULT         2392
+#define PID_TORQUE_KI_DEFAULT         120
 #define PID_TORQUE_KD_DEFAULT         100
-#define PID_FLUX_KP_DEFAULT           1886
-#define PID_FLUX_KI_DEFAULT           269
+#define PID_FLUX_KP_DEFAULT           1674
+#define PID_FLUX_KI_DEFAULT           120
 #define PID_FLUX_KD_DEFAULT           100
 
 /* Torque/Flux control loop gains dividers*/
-#define TF_KPDIV                      1024
+#define TF_KPDIV                      2048
 #define TF_KIDIV                      16384
 #define TF_KDDIV                      8192
-#define TF_KPDIV_LOG                  LOG2((1024))
+#define TF_KPDIV_LOG                  LOG2((2048))
 #define TF_KIDIV_LOG                  LOG2((16384))
 #define TF_KDDIV_LOG                  LOG2((8192))
 #define TFDIFFERENTIAL_TERM_ENABLING  DISABLE
@@ -114,14 +114,14 @@
 #define SPEED_LOOP_FREQUENCY_HZ       ( uint16_t )400 /*!<Execution rate of speed
                                                       regulation loop (Hz) */
 
-#define PID_SPEED_KP_DEFAULT          3934/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
-#define PID_SPEED_KI_DEFAULT          16/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
+#define PID_SPEED_KP_DEFAULT          3545/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
+#define PID_SPEED_KI_DEFAULT          7/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
 #define PID_SPEED_KD_DEFAULT          0/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
 /* Speed PID parameter dividers */
-#define SP_KPDIV                      1024
+#define SP_KPDIV                      2048
 #define SP_KIDIV                      16384
 #define SP_KDDIV                      16
-#define SP_KPDIV_LOG                  LOG2((1024))
+#define SP_KPDIV_LOG                  LOG2((2048))
 #define SP_KIDIV_LOG                  LOG2((16384))
 #define SP_KDDIV_LOG                  LOG2((16))
 /* USER CODE BEGIN PID_SPEED_INTEGRAL_INIT_DIV */
@@ -190,22 +190,22 @@
 #define PHASE2_FINAL_CURRENT_A           1
 /* Phase 3 */
 #define PHASE3_DURATION                0 /*milliseconds */
-#define PHASE3_FINAL_SPEED_UNIT         (500*SPEED_UNIT/U_RPM)
+#define PHASE3_FINAL_SPEED_UNIT         (1000*SPEED_UNIT/U_RPM)
 #define PHASE3_FINAL_CURRENT_A           1
 /* Phase 4 */
-#define PHASE4_DURATION                5000 /*milliseconds */
-#define PHASE4_FINAL_SPEED_UNIT         (700*SPEED_UNIT/U_RPM)
+#define PHASE4_DURATION                6666 /*milliseconds */
+#define PHASE4_FINAL_SPEED_UNIT         (2000*SPEED_UNIT/U_RPM)
 #define PHASE4_FINAL_CURRENT_A           1
 /* Phase 5 */
 #define PHASE5_DURATION                48000 /* milliseconds */
-#define PHASE5_FINAL_SPEED_UNIT         (900*SPEED_UNIT/U_RPM)
+#define PHASE5_FINAL_SPEED_UNIT         (3000*SPEED_UNIT/U_RPM)
 #define PHASE5_FINAL_CURRENT_A           1
 
 #define ENABLE_SL_ALGO_FROM_PHASE      4
 /* Sensor-less rev-up sequence */
 #define STARTING_ANGLE_DEG             0  /*!< degrees [0...359] */
 /* Observer start-up output conditions  */
-#define OBS_MINIMUM_SPEED_RPM          800
+#define OBS_MINIMUM_SPEED_RPM          1500
 
 #define NB_CONSECUTIVE_TESTS           3 /* corresponding to
                                                          former NB_CONSECUTIVE_TESTS/
@@ -216,7 +216,7 @@
                                                             forced stator electrical
                                                             without being considered wrong.
                                                             In 1/16 of forced speed */
-#define SPEED_BAND_LOWER_LIMIT         15  /*!< It expresses how much
+#define SPEED_BAND_LOWER_LIMIT         8  /*!< It expresses how much
                                                              estimated speed can be below
                                                              forced stator electrical
                                                              without being considered wrong.
@@ -254,9 +254,9 @@
 /*  Maximum Torque Per Ampere strategy parameters */
 
 #define MTPA_ENABLING
-#define SEGDIV                         2570
-#define M1_ANGC                        {-471,-1453,-2409,-3364,-4309,-5240,-6171,-7073}
-#define OFST                           {0,77,227,451,748,1113,1551,2046}
+#define SEGDIV                         1158
+#define M1_ANGC                        {-481,-1443,-2405,-3364,-4301,-5234,-6163,-7102}
+#define OFST                           {0,33,102,203,336,501,698,930}
 
 /*** On the fly start-up ***/
 

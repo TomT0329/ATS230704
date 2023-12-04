@@ -29,7 +29,7 @@
  ************************/
 
 /************* PWM Driving signals section **************/
-#define HW_DEAD_TIME_NS               800 /*!< Dead-time inserted
+#define HW_DEAD_TIME_NS               8000 /*!< Dead-time inserted
                                                          by HW if low side signals
                                                          are not used */
 /*********** Bus voltage sensing section ****************/
@@ -37,7 +37,7 @@
                                                        much the Vbus is attenuated
                                                        before being converted into
                                                        digital value */
-#define NOMINAL_BUS_VOLTAGE_V         80
+#define NOMINAL_BUS_VOLTAGE_V         400
 /******** Current reading parameters section ******/
 /*** Topology ***/
 #define SINGLE_SHUNT_PHASE_SHIFT
@@ -46,7 +46,7 @@
 
 /*  ICSs gains in case of isolated current sensors,
         amplification gain for shunts based sensing */
-#define AMPLIFICATION_GAIN            6.67
+#define AMPLIFICATION_GAIN            3.01
 
 /*** Noise parameters ***/
 #define TNOISE_NS                     5000
