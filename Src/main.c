@@ -121,8 +121,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* USER CODE END WHILE */
-    if (HAL_ADC_Start(&hadc3) != HAL_OK)
+        if (HAL_ADC_Start(&hadc3) != HAL_OK)
     {
     	// Handle ADC start error
     	Error_Handler();
@@ -134,6 +133,8 @@ int main(void)
       // Handle ADC conversion error
       adcValue = HAL_ADC_GetValue(&hadc3);
     }
+    /* USER CODE END WHILE */
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -507,7 +508,7 @@ static void MX_TIM1_Init(void)
   sBreakDeadTimeConfig.OffStateRunMode = TIM_OSSR_ENABLE;
   sBreakDeadTimeConfig.OffStateIDLEMode = TIM_OSSI_ENABLE;
   sBreakDeadTimeConfig.LockLevel = TIM_LOCKLEVEL_OFF;
-  sBreakDeadTimeConfig.DeadTime = ((DEAD_TIME_COUNTS) * 20);
+  sBreakDeadTimeConfig.DeadTime = ((DEAD_TIME_COUNTS) / 2);
   sBreakDeadTimeConfig.BreakState = TIM_BREAK_ENABLE;
   sBreakDeadTimeConfig.BreakPolarity = TIM_BREAKPOLARITY_HIGH;
   sBreakDeadTimeConfig.BreakFilter = 3;
