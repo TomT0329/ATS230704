@@ -83,7 +83,7 @@
 #define PWM_FREQ_SCALING 1
 
 #define LOW_SIDE_SIGNALS_ENABLING        LS_PWM_TIMER
-#define SW_DEADTIME_NS                   4350 /*!< Dead-time to be inserted
+#define SW_DEADTIME_NS                   6350 /*!< Dead-time to be inserted
                                                            by FW, only if low side
                                                            signals are enabled */
 
