@@ -91,5 +91,4 @@ build
 
 *.cyclo
 *.mk
-makefile
 .gitignore
