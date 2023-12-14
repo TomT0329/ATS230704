@@ -46,11 +46,11 @@
 
 /*  ICSs gains in case of isolated current sensors,
         amplification gain for shunts based sensing */
-#define AMPLIFICATION_GAIN            3.01
+#define AMPLIFICATION_GAIN            6.666
 
 /*** Noise parameters ***/
-#define TNOISE_NS                     8000
-#define TRISE_NS                      8000
+#define TNOISE_NS                     2100
+#define TRISE_NS                      2100
 #define MAX_TNTR_NS TRISE_NS
 
 /************ Temperature sensing section ***************/
