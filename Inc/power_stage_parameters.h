@@ -49,8 +49,8 @@
 #define AMPLIFICATION_GAIN            6.666
 
 /*** Noise parameters ***/
-#define TNOISE_NS                     2100
-#define TRISE_NS                      2100
+#define TNOISE_NS                     2300
+#define TRISE_NS                      2300
 #define MAX_TNTR_NS TRISE_NS
 
 /************ Temperature sensing section ***************/

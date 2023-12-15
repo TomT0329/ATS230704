@@ -79,11 +79,11 @@
 /**************************    DRIVE SETTINGS SECTION   **********************/
 /* PWM generation and current reading */
 
-#define PWM_FREQUENCY   10000
+#define PWM_FREQUENCY   20000
 #define PWM_FREQ_SCALING 1
 
 #define LOW_SIDE_SIGNALS_ENABLING        LS_PWM_TIMER
-#define SW_DEADTIME_NS                   5000 /*!< Dead-time to be inserted
+#define SW_DEADTIME_NS                   1000 /*!< Dead-time to be inserted
                                                            by FW, only if low side
                                                            signals are enabled */
 
@@ -181,7 +181,7 @@
 /* USER CODE END OPENLOOP M1 */
 
 /* Phase 1 */
-#define PHASE1_DURATION                2000 /*milliseconds */
+#define PHASE1_DURATION                20000 /*milliseconds */
 #define PHASE1_FINAL_SPEED_UNIT         (0*SPEED_UNIT/U_RPM)
 #define PHASE1_FINAL_CURRENT_A           5
 /* Phase 2 */
@@ -201,11 +201,11 @@
 #define PHASE5_FINAL_SPEED_UNIT         (2500*SPEED_UNIT/U_RPM)
 #define PHASE5_FINAL_CURRENT_A           5
 
-#define ENABLE_SL_ALGO_FROM_PHASE      4
+#define ENABLE_SL_ALGO_FROM_PHASE      3
 /* Sensor-less rev-up sequence */
 #define STARTING_ANGLE_DEG             0  /*!< degrees [0...359] */
 /* Observer start-up output conditions  */
-#define OBS_MINIMUM_SPEED_RPM          2300
+#define OBS_MINIMUM_SPEED_RPM          800
 
 #define NB_CONSECUTIVE_TESTS           2 /* corresponding to
                                                          former NB_CONSECUTIVE_TESTS/
