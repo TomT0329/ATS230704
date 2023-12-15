@@ -47,7 +47,7 @@ const R1_Params_t R1_ParamsM1 =
 
 /* Current reading A/D Conversions initialization -----------------------------*/
   .ADCx                  = ADC1,
-  .IChannel              = 15,
+  .IChannel              = 12,
 
 /* PWM generation parameters --------------------------------------------------*/
   .RepetitionCounter     = 1,
