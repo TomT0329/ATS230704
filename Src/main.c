@@ -118,18 +118,18 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-        if (HAL_ADC_Start(&hadc3) != HAL_OK)
-    {
-    	// Handle ADC start error
-    	Error_Handler();
-    }
+    //     if (HAL_ADC_Start(&hadc3) != HAL_OK)
+    // {
+    // 	// Handle ADC start error
+    // 	Error_Handler();
+    // }
 
-    // Poll for ADC conversion to be completed
-    if (HAL_ADC_PollForConversion(&hadc3, HAL_MAX_DELAY) == HAL_OK)
-    {
-      // Handle ADC conversion error
-      adcValue = HAL_ADC_GetValue(&hadc3);
-    }
+    // // Poll for ADC conversion to be completed
+    // if (HAL_ADC_PollForConversion(&hadc3, HAL_MAX_DELAY) == HAL_OK)
+    // {
+    //   // Handle ADC conversion error
+    //   adcValue = HAL_ADC_GetValue(&hadc3);
+    // }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
