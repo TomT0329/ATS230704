@@ -79,7 +79,7 @@
 /**************************    DRIVE SETTINGS SECTION   **********************/
 /* PWM generation and current reading */
 
-#define PWM_FREQUENCY   7000
+#define PWM_FREQUENCY   13000
 #define PWM_FREQ_SCALING 1
 
 #define LOW_SIDE_SIGNALS_ENABLING        LS_PWM_TIMER
@@ -183,23 +183,23 @@
 /* Phase 1 */
 #define PHASE1_DURATION                200 /*milliseconds */
 #define PHASE1_FINAL_SPEED_UNIT         (0*SPEED_UNIT/U_RPM)
-#define PHASE1_FINAL_CURRENT_A           4.5
+#define PHASE1_FINAL_CURRENT_A           3
 /* Phase 2 */
-#define PHASE2_DURATION                200 /*milliseconds */
+#define PHASE2_DURATION                20000 /*milliseconds */
 #define PHASE2_FINAL_SPEED_UNIT         (0*SPEED_UNIT/U_RPM)
-#define PHASE2_FINAL_CURRENT_A           4.5
+#define PHASE2_FINAL_CURRENT_A           3
 /* Phase 3 */
 #define PHASE3_DURATION                0 /*milliseconds */
 #define PHASE3_FINAL_SPEED_UNIT         (400*SPEED_UNIT/U_RPM)
-#define PHASE3_FINAL_CURRENT_A           4.5
+#define PHASE3_FINAL_CURRENT_A           3
 /* Phase 4 */
 #define PHASE4_DURATION                5000 /*milliseconds */
 #define PHASE4_FINAL_SPEED_UNIT         (800*SPEED_UNIT/U_RPM)
-#define PHASE4_FINAL_CURRENT_A           4.5
+#define PHASE4_FINAL_CURRENT_A           3
 /* Phase 5 */
 #define PHASE5_DURATION                6000 /* milliseconds */
 #define PHASE5_FINAL_SPEED_UNIT         (1100*SPEED_UNIT/U_RPM)
-#define PHASE5_FINAL_CURRENT_A           4.5
+#define PHASE5_FINAL_CURRENT_A           3
 
 #define ENABLE_SL_ALGO_FROM_PHASE      4
 /* Sensor-less rev-up sequence */
