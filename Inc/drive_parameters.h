@@ -79,7 +79,7 @@
 /**************************    DRIVE SETTINGS SECTION   **********************/
 /* PWM generation and current reading */
 
-#define PWM_FREQUENCY   13000
+#define PWM_FREQUENCY   16000
 #define PWM_FREQ_SCALING 1
 
 #define LOW_SIDE_SIGNALS_ENABLING        LS_PWM_TIMER
@@ -201,13 +201,13 @@
 #define PHASE5_FINAL_SPEED_UNIT         (1100*SPEED_UNIT/U_RPM)
 #define PHASE5_FINAL_CURRENT_A           3
 
-#define ENABLE_SL_ALGO_FROM_PHASE      4
+#define ENABLE_SL_ALGO_FROM_PHASE      3
 /* Sensor-less rev-up sequence */
 #define STARTING_ANGLE_DEG             240  /*!< degrees [0...359] */
 /* Observer start-up output conditions  */
-#define OBS_MINIMUM_SPEED_RPM          800
+#define OBS_MINIMUM_SPEED_RPM          400
 
-#define NB_CONSECUTIVE_TESTS           4 /* corresponding to
+#define NB_CONSECUTIVE_TESTS           3 /* corresponding to
                                                          former NB_CONSECUTIVE_TESTS/
                                                          (TF_REGULATION_RATE/
                                                          MEDIUM_FREQUENCY_TASK_RATE) */
