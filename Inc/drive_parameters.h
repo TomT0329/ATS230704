@@ -49,7 +49,7 @@
 
 /* State observer constants */
 #define GAIN1                            -24498
-#define GAIN2                            17052/8
+#define GAIN2                            17052
 /*Only in case PLL is used, PLL gains */
 #define PLL_KP_GAIN                      798
 #define PLL_KI_GAIN                      71
@@ -79,11 +79,11 @@
 /**************************    DRIVE SETTINGS SECTION   **********************/
 /* PWM generation and current reading */
 
-#define PWM_FREQUENCY   16000
+#define PWM_FREQUENCY   10000
 #define PWM_FREQ_SCALING 1
 
 #define LOW_SIDE_SIGNALS_ENABLING        LS_PWM_TIMER
-#define SW_DEADTIME_NS                   1000 /*!< Dead-time to be inserted
+#define SW_DEADTIME_NS                   900 /*!< Dead-time to be inserted
                                                            by FW, only if low side
                                                            signals are enabled */
 
@@ -105,7 +105,7 @@
 #define TF_KPDIV                      16384
 #define TF_KIDIV                      16384
 #define TF_KDDIV                      8192
-#define TF_KPDIV_LOG                  LOG2((2048))
+#define TF_KPDIV_LOG                  LOG2((16384))
 #define TF_KIDIV_LOG                  LOG2((16384))
 #define TF_KDDIV_LOG                  LOG2((8192))
 #define TFDIFFERENTIAL_TERM_ENABLING  DISABLE
@@ -183,27 +183,27 @@
 /* Phase 1 */
 #define PHASE1_DURATION                200 /*milliseconds */
 #define PHASE1_FINAL_SPEED_UNIT         (0*SPEED_UNIT/U_RPM)
-#define PHASE1_FINAL_CURRENT_A           3
+#define PHASE1_FINAL_CURRENT_A           5
 /* Phase 2 */
-#define PHASE2_DURATION                20000 /*milliseconds */
+#define PHASE2_DURATION                200 /*milliseconds */
 #define PHASE2_FINAL_SPEED_UNIT         (0*SPEED_UNIT/U_RPM)
-#define PHASE2_FINAL_CURRENT_A           3
+#define PHASE2_FINAL_CURRENT_A           5
 /* Phase 3 */
 #define PHASE3_DURATION                0 /*milliseconds */
 #define PHASE3_FINAL_SPEED_UNIT         (400*SPEED_UNIT/U_RPM)
-#define PHASE3_FINAL_CURRENT_A           3
+#define PHASE3_FINAL_CURRENT_A           5
 /* Phase 4 */
 #define PHASE4_DURATION                5000 /*milliseconds */
 #define PHASE4_FINAL_SPEED_UNIT         (800*SPEED_UNIT/U_RPM)
-#define PHASE4_FINAL_CURRENT_A           3
+#define PHASE4_FINAL_CURRENT_A           5
 /* Phase 5 */
-#define PHASE5_DURATION                6000 /* milliseconds */
+#define PHASE5_DURATION                20000 /* milliseconds */
 #define PHASE5_FINAL_SPEED_UNIT         (1100*SPEED_UNIT/U_RPM)
-#define PHASE5_FINAL_CURRENT_A           3
+#define PHASE5_FINAL_CURRENT_A           5
 
 #define ENABLE_SL_ALGO_FROM_PHASE      3
 /* Sensor-less rev-up sequence */
-#define STARTING_ANGLE_DEG             240  /*!< degrees [0...359] */
+#define STARTING_ANGLE_DEG             0  /*!< degrees [0...359] */
 /* Observer start-up output conditions  */
 #define OBS_MINIMUM_SPEED_RPM          400
 
