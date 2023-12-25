@@ -334,14 +334,6 @@ STO_Handle_t STO_M1 =
   .pFctSTO_SpeedReliabilityCheck = &STO_PLL_IsVarianceTight
 };
 
-OpenLoop_Handle_t OpenLoop_ParamsM1 =
-{
-  .hDefaultVoltage = OPEN_LOOP_VOLTAGE_d,
-  .VFMode          = OPEN_LOOP_VF,
-  .hVFOffset       = OPEN_LOOP_OFF,
-  .hVFSlope        = OPEN_LOOP_K
-};
-
 /**
   * Virtual temperature sensor parameters Motor 1.
   */

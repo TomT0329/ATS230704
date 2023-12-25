@@ -29,7 +29,7 @@
  ************************/
 
 /************* PWM Driving signals section **************/
-#define HW_DEAD_TIME_NS               30000 /*!< Dead-time inserted
+#define HW_DEAD_TIME_NS               8000 /*!< Dead-time inserted
                                                          by HW if low side signals
                                                          are not used */
 /*********** Bus voltage sensing section ****************/
@@ -46,10 +46,10 @@
 
 /*  ICSs gains in case of isolated current sensors,
         amplification gain for shunts based sensing */
-#define AMPLIFICATION_GAIN            6.6666
+#define AMPLIFICATION_GAIN            6.67
 
 /*** Noise parameters ***/
-#define TNOISE_NS                     2100
+#define TNOISE_NS                     5000
 #define TRISE_NS                      4650
 #define MAX_TNTR_NS TRISE_NS
 

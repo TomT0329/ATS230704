@@ -194,30 +194,13 @@ uint8_t RI_SetRegisterMotor1(uint16_t regID, uint8_t typeID, uint8_t *data, uint
 
           if ((uint8_t)MCM_SPEED_MODE == regdata8)
           {
-            MCI_SetSpeedMode(pMCIN);
+            MCI_ExecSpeedRamp(pMCIN, MCI_GetMecSpeedRefUnit(pMCIN), 0);
           }
           else
           {
             /* Nothing to do */
           }
 
-          if ((uint8_t)regdata8 == MCM_OPEN_LOOP_CURRENT_MODE)
-          {
-            MCI_SetOpenLoopCurrent(pMCIN);
-          }
-          else
-          {
-            /* Nothing to do */
-          }
-
-          if ((uint8_t)regdata8 == MCM_OPEN_LOOP_VOLTAGE_MODE)
-          {
-            MCI_SetOpenLoopVoltage(pMCIN);
-          }
-          else
-          {
-            /* Nothing to do */
-          }
           break;
         }
 
@@ -469,12 +452,6 @@ uint8_t RI_SetRegisterMotor1(uint16_t regID, uint8_t typeID, uint8_t *data, uint
         case MC_REG_STOPLL_KP_DIV:
         {
           PID_SetKPDivisorPOW2 (&(&STO_PLL_M1)->PIRegulator,regdata16);
-          break;
-        }
-
-        case MC_REG_FOC_VQREF:
-        {
-          OL_UpdateVoltage(&OpenLoop_ParamsM1, ((regdata16 * 32767) / 100));
           break;
         }
 
@@ -1184,12 +1161,6 @@ uint8_t RI_GetRegisterGlobal(uint16_t regID,uint8_t typeID,uint8_t * data,uint16
             case MC_REG_STOPLL_KP_DIV:
             {
               *regdataU16 = PID_GetKPDivisorPOW2(&(&STO_PLL_M1)->PIRegulator);
-              break;
-            }
-
-            case MC_REG_FOC_VQREF:
-            {
-            *regdata16 = ((OL_GetVoltage(&OpenLoop_ParamsM1)*100)/32767);
               break;
             }
 

@@ -39,7 +39,6 @@
 #include "r1_ps_pwm_curr_fdbk.h"
 
 #include "max_torque_per_ampere.h"
-#include "open_loop.h"
 
 #include "ramp_ext_mngr.h"
 #include "circle_limitation.h"
@@ -72,7 +71,6 @@ extern RDivider_Handle_t BusVoltageSensor_M1;
 extern CircleLimitation_Handle_t CircleLimitationM1;
 extern RampExtMngr_Handle_t RampExtMngrHFParamsM1;
 extern MTPA_Handle_t MTPARegM1;
-extern OpenLoop_Handle_t OpenLoop_ParamsM1;
 
 extern MCI_Handle_t Mci[NBR_OF_MOTORS];
 extern SpeednTorqCtrl_Handle_t *pSTC[NBR_OF_MOTORS];

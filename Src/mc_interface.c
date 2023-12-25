@@ -130,6 +130,7 @@ __weak void MCI_ExecSpeedRamp(MCI_Handle_t *pHandle, int16_t hFinalSpeed, uint16
     pHandle->hFinalSpeed = hFinalSpeed;
     pHandle->hDurationms = hDurationms;
     pHandle->CommandState = MCI_COMMAND_NOT_ALREADY_EXECUTED;
+    pHandle->LastModalitySetByUser = MCM_SPEED_MODE;
 
 #ifdef NULL_PTR_CHECK_MC_INT
   }
@@ -280,24 +281,11 @@ __weak void MCI_SetCurrentReferences(MCI_Handle_t *pHandle, qd_t Iqdref)
   {
 #endif
 
-    MC_ControlMode_t mode;
-    mode = MCI_GetControlMode( pHandle );
-    if (mode == MCM_OPEN_LOOP_CURRENT_MODE)
-    {
-      pHandle->Iqdref.q = Iqdref.q;
-      pHandle->Iqdref.d = Iqdref.d;
-      pHandle->pFOCVars->Iqdref.q = Iqdref.q;
-      pHandle->pFOCVars->Iqdref.d = Iqdref.d;
-      pHandle->LastModalitySetByUser = mode;
-    }
-    else
-    {
-      pHandle->lastCommand = MCI_CMD_SETCURRENTREFERENCES;
-      pHandle->Iqdref.q = Iqdref.q;
-      pHandle->Iqdref.d = Iqdref.d;
-      pHandle->CommandState = MCI_COMMAND_NOT_ALREADY_EXECUTED;
-      pHandle->LastModalitySetByUser = MCM_TORQUE_MODE;
-    }
+    pHandle->lastCommand = MCI_CMD_SETCURRENTREFERENCES;
+    pHandle->Iqdref.q = Iqdref.q;
+    pHandle->Iqdref.d = Iqdref.d;
+    pHandle->CommandState = MCI_COMMAND_NOT_ALREADY_EXECUTED;
+    pHandle->LastModalitySetByUser = MCM_TORQUE_MODE;
 #ifdef NULL_PTR_CHECK_MC_INT
   }
 #endif
@@ -335,58 +323,6 @@ __weak void MCI_SetCurrentReferences_F(MCI_Handle_t *pHandle, qd_f_t IqdRef)
 #ifdef NULL_PTR_CHECK_MC_INT
   }
 #endif
-}
-/**
-  * @brief  Sets the target motor's control mode to Speed mode.
-  * @param  pHandle Pointer on the component instance to work on.
-  *
-  * @note This function is only available when the Open loop Debug feature is
-  * enabled at firmware generation time.
-  */
-__weak void MCI_SetSpeedMode(MCI_Handle_t *pHandle)
-{
-#ifdef NULL_PTR_CHECK_MC_INT
-  if (MC_NULL == pHandle)
-  {
-    /* Nothing to do */
-  }
-  else
-  {
-#endif
-    pHandle->pFOCVars->bDriveInput = INTERNAL;
-    STC_SetControlMode(pHandle->pSTC, MCM_SPEED_MODE);
-    pHandle->LastModalitySetByUser = MCM_SPEED_MODE;
-#ifdef NULL_PTR_CHECK_MC_INT
-  }
-#endif
-}
-
-/**
-  * @brief  Sets the target motor's control mode to Open loop Current mode.
-  * @param  pHandle Pointer on the component instance to work on.
-  *
-  * @note This function is only available when the Open loop Debug feature is
-  * enabled at firmware generation time.
-  */
-__weak void MCI_SetOpenLoopCurrent(MCI_Handle_t *pHandle)
-{
-  pHandle->pFOCVars->bDriveInput = EXTERNAL;
-  STC_SetControlMode(pHandle->pSTC, MCM_OPEN_LOOP_CURRENT_MODE);
-  pHandle->LastModalitySetByUser = MCM_OPEN_LOOP_CURRENT_MODE;
-}
-
-/**
-  * @brief  Sets the target motor's control mode to Open loop Voltage mode.
-  * @param  pHandle Pointer on the component instance to work on.
-  *
-  * @note This function is only available when the Open loop Debug feature is
-  * enabled at firm
-  */
-__weak void MCI_SetOpenLoopVoltage(MCI_Handle_t *pHandle)
-{
-  pHandle->pFOCVars->bDriveInput = EXTERNAL;
-  STC_SetControlMode(pHandle->pSTC, MCM_OPEN_LOOP_VOLTAGE_MODE);
-  pHandle->LastModalitySetByUser = MCM_OPEN_LOOP_VOLTAGE_MODE;
 }
 
 /**
@@ -796,7 +732,6 @@ __weak void MCI_ExecBufferedCommands(MCI_Handle_t *pHandle)
         {
           pHandle->pFOCVars->bDriveInput = INTERNAL;
           STC_SetControlMode(pHandle->pSTC, MCM_SPEED_MODE);
-          VSS_SetMecAcceleration( pHandle->pVSS, pHandle->hFinalSpeed, pHandle->hDurationms);
           commandHasBeenExecuted = STC_ExecRamp(pHandle->pSTC, pHandle->hFinalSpeed, pHandle->hDurationms);
           break;
         }
@@ -813,22 +748,6 @@ __weak void MCI_ExecBufferedCommands(MCI_Handle_t *pHandle)
         {
           pHandle->pFOCVars->bDriveInput = EXTERNAL;
           pHandle->pFOCVars->Iqdref = pHandle->Iqdref;
-          commandHasBeenExecuted = true;
-          break;
-        }
-
-        case MCI_CMD_SETOPENLOOPCURRENT:
-        {
-          pHandle->pFOCVars->bDriveInput = EXTERNAL;
-          VSS_SetMecAcceleration( pHandle->pVSS, pHandle->hFinalSpeed, pHandle->hDurationms);
-          commandHasBeenExecuted = true;
-          break;
-        }
-
-        case MCI_CMD_SETOPENLOOPVOLTAGE:
-        {
-          pHandle->pFOCVars->bDriveInput = EXTERNAL;
-          VSS_SetMecAcceleration( pHandle->pVSS, pHandle->hFinalSpeed, pHandle->hDurationms);
           commandHasBeenExecuted = true;
           break;
         }
