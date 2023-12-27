@@ -94,11 +94,11 @@
 #define ISR_FREQUENCY_HZ (PWM_FREQUENCY/REGULATION_EXECUTION_RATE) /*!< @brief FOC execution rate in
                                                            Hz */
 /* Gains values for torque and flux control loops */
-#define PID_TORQUE_KP_DEFAULT         2156
-#define PID_TORQUE_KI_DEFAULT         43
+#define PID_TORQUE_KP_DEFAULT         3234
+#define PID_TORQUE_KI_DEFAULT         65
 #define PID_TORQUE_KD_DEFAULT         100
-#define PID_FLUX_KP_DEFAULT           1509
-#define PID_FLUX_KI_DEFAULT           43
+#define PID_FLUX_KP_DEFAULT           2264
+#define PID_FLUX_KI_DEFAULT           65
 #define PID_FLUX_KD_DEFAULT           100
 
 /* Torque/Flux control loop gains dividers*/
@@ -111,11 +111,11 @@
 #define TFDIFFERENTIAL_TERM_ENABLING  DISABLE
 
 /* Speed control loop */
-#define SPEED_LOOP_FREQUENCY_HZ       ( uint16_t )400 /*!<Execution rate of speed
+#define SPEED_LOOP_FREQUENCY_HZ       ( uint16_t )500 /*!<Execution rate of speed
                                                       regulation loop (Hz) */
 
 #define PID_SPEED_KP_DEFAULT          3934/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
-#define PID_SPEED_KI_DEFAULT          16/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
+#define PID_SPEED_KI_DEFAULT          12/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
 #define PID_SPEED_KD_DEFAULT          0/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
 /* Speed PID parameter dividers */
 #define SP_KPDIV                      1024
@@ -133,7 +133,7 @@
 
 /* Default settings */
 #define DEFAULT_CONTROL_MODE           MCM_SPEED_MODE
-#define DEFAULT_TARGET_SPEED_RPM       1100
+#define DEFAULT_TARGET_SPEED_RPM       1300
 #define DEFAULT_TARGET_SPEED_UNIT      (DEFAULT_TARGET_SPEED_RPM*SPEED_UNIT/U_RPM)
 #define DEFAULT_TORQUE_COMPONENT_A       0
 #define DEFAULT_FLUX_COMPONENT_A         0
@@ -168,11 +168,11 @@
 /******************************   START-UP PARAMETERS   **********************/
 
 /* Phase 1 */
-#define PHASE1_DURATION                200 /*milliseconds */
+#define PHASE1_DURATION                1300 /*milliseconds */
 #define PHASE1_FINAL_SPEED_UNIT         (0*SPEED_UNIT/U_RPM)
 #define PHASE1_FINAL_CURRENT_A           5
 /* Phase 2 */
-#define PHASE2_DURATION                200 /*milliseconds */
+#define PHASE2_DURATION                500 /*milliseconds */
 #define PHASE2_FINAL_SPEED_UNIT         (0*SPEED_UNIT/U_RPM)
 #define PHASE2_FINAL_CURRENT_A           5
 /* Phase 3 */
@@ -181,29 +181,29 @@
 #define PHASE3_FINAL_CURRENT_A           5
 /* Phase 4 */
 #define PHASE4_DURATION                5000 /*milliseconds */
-#define PHASE4_FINAL_SPEED_UNIT         (1100*SPEED_UNIT/U_RPM)
+#define PHASE4_FINAL_SPEED_UNIT         (1200*SPEED_UNIT/U_RPM)
 #define PHASE4_FINAL_CURRENT_A           5
 /* Phase 5 */
 #define PHASE5_DURATION                20000 /* milliseconds */
-#define PHASE5_FINAL_SPEED_UNIT         (1100*SPEED_UNIT/U_RPM)
+#define PHASE5_FINAL_SPEED_UNIT         (1300*SPEED_UNIT/U_RPM)
 #define PHASE5_FINAL_CURRENT_A           5
 
 #define ENABLE_SL_ALGO_FROM_PHASE      4
 /* Sensor-less rev-up sequence */
 #define STARTING_ANGLE_DEG             0  /*!< degrees [0...359] */
 /* Observer start-up output conditions  */
-#define OBS_MINIMUM_SPEED_RPM          900
+#define OBS_MINIMUM_SPEED_RPM          700
 
 #define NB_CONSECUTIVE_TESTS           4 /* corresponding to
                                                          former NB_CONSECUTIVE_TESTS/
                                                          (TF_REGULATION_RATE/
                                                          MEDIUM_FREQUENCY_TASK_RATE) */
-#define SPEED_BAND_UPPER_LIMIT         20 /*!< It expresses how much
+#define SPEED_BAND_UPPER_LIMIT         24 /*!< It expresses how much
                                                             estimated speed can exceed
                                                             forced stator electrical
                                                             without being considered wrong.
                                                             In 1/16 of forced speed */
-#define SPEED_BAND_LOWER_LIMIT         12  /*!< It expresses how much
+#define SPEED_BAND_LOWER_LIMIT         14  /*!< It expresses how much
                                                              estimated speed can be below
                                                              forced stator electrical
                                                              without being considered wrong.
