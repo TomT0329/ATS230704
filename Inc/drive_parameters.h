@@ -31,14 +31,14 @@
 /******** MAIN AND AUXILIARY SPEED/POSITION SENSOR(S) SETTINGS SECTION ********/
 
 /*** Speed measurement settings ***/
-#define MAX_APPLICATION_SPEED_RPM       6000 /*!< rpm, mechanical */
-#define MIN_APPLICATION_SPEED_RPM       0 /*!< rpm, mechanical,
+#define MAX_APPLICATION_SPEED_RPM       5000 /*!< rpm, mechanical */
+#define MIN_APPLICATION_SPEED_RPM       900 /*!< rpm, mechanical,
                                                            absolute value */
-#define M1_SS_MEAS_ERRORS_BEFORE_FAULTS 50 /*!< Number of speed
+#define M1_SS_MEAS_ERRORS_BEFORE_FAULTS 100 /*!< Number of speed
                                                              measurement errors before
                                                              main sensor goes in fault */
 /****** State Observer + PLL ****/
-#define VARIANCE_THRESHOLD             0.85 /*!<Maximum accepted
+#define VARIANCE_THRESHOLD             0.25 /*!<Maximum accepted
                                                             variance on speed
                                                             estimates (percentage) */
 /* State observer scaling factors F1 */
@@ -49,7 +49,7 @@
 
 /* State observer constants */
 #define GAIN1                            -24514
-#define GAIN2                            19204/8
+#define GAIN2                            19204/2
 /*Only in case PLL is used, PLL gains */
 #define PLL_KP_GAIN                      638
 #define PLL_KI_GAIN                      45
@@ -170,40 +170,40 @@
 /* Phase 1 */
 #define PHASE1_DURATION                300 /*milliseconds */
 #define PHASE1_FINAL_SPEED_UNIT         (0*SPEED_UNIT/U_RPM)
-#define PHASE1_FINAL_CURRENT_A           5
+#define PHASE1_FINAL_CURRENT_A           10
 /* Phase 2 */
-#define PHASE2_DURATION                1000 /*milliseconds */
+#define PHASE2_DURATION                500 /*milliseconds */
 #define PHASE2_FINAL_SPEED_UNIT         (0*SPEED_UNIT/U_RPM)
-#define PHASE2_FINAL_CURRENT_A           5
+#define PHASE2_FINAL_CURRENT_A           10
 /* Phase 3 */
 #define PHASE3_DURATION                0 /*milliseconds */
 #define PHASE3_FINAL_SPEED_UNIT         (500*SPEED_UNIT/U_RPM)
-#define PHASE3_FINAL_CURRENT_A           5
+#define PHASE3_FINAL_CURRENT_A           10
 /* Phase 4 */
 #define PHASE4_DURATION                5000 /*milliseconds */
-#define PHASE4_FINAL_SPEED_UNIT         (1200*SPEED_UNIT/U_RPM)
-#define PHASE4_FINAL_CURRENT_A           5
+#define PHASE4_FINAL_SPEED_UNIT         (900*SPEED_UNIT/U_RPM)
+#define PHASE4_FINAL_CURRENT_A           10
 /* Phase 5 */
 #define PHASE5_DURATION                20000 /* milliseconds */
-#define PHASE5_FINAL_SPEED_UNIT         (1300*SPEED_UNIT/U_RPM)
-#define PHASE5_FINAL_CURRENT_A           5
+#define PHASE5_FINAL_SPEED_UNIT         (900*SPEED_UNIT/U_RPM)
+#define PHASE5_FINAL_CURRENT_A           10
 
-#define ENABLE_SL_ALGO_FROM_PHASE      5
+#define ENABLE_SL_ALGO_FROM_PHASE      4
 /* Sensor-less rev-up sequence */
 #define STARTING_ANGLE_DEG             0  /*!< degrees [0...359] */
 /* Observer start-up output conditions  */
-#define OBS_MINIMUM_SPEED_RPM          700
+#define OBS_MINIMUM_SPEED_RPM          1200
 
-#define NB_CONSECUTIVE_TESTS           4 /* corresponding to
+#define NB_CONSECUTIVE_TESTS           5 /* corresponding to
                                                          former NB_CONSECUTIVE_TESTS/
                                                          (TF_REGULATION_RATE/
                                                          MEDIUM_FREQUENCY_TASK_RATE) */
-#define SPEED_BAND_UPPER_LIMIT         22 /*!< It expresses how much
+#define SPEED_BAND_UPPER_LIMIT         20 /*!< It expresses how much
                                                             estimated speed can exceed
                                                             forced stator electrical
                                                             without being considered wrong.
                                                             In 1/16 of forced speed */
-#define SPEED_BAND_LOWER_LIMIT         16  /*!< It expresses how much
+#define SPEED_BAND_LOWER_LIMIT         18  /*!< It expresses how much
                                                              estimated speed can be below
                                                              forced stator electrical
                                                              without being considered wrong.

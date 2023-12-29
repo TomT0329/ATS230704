@@ -111,7 +111,7 @@ int main(void)
   /* Initialize interrupts */
   MX_NVIC_Init();
   /* USER CODE BEGIN 2 */
-  MCI_ExecSpeedRamp_F(&Mci[M1],3000,20000);
+  MCI_ExecSpeedRamp_F(&Mci[M1],2500,3000);
   /* USER CODE END 2 */
 
   /* Infinite loop */
