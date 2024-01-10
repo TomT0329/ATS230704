@@ -50,7 +50,7 @@
 
 /*** Noise parameters ***/
 #define TNOISE_NS                     5100
-#define TRISE_NS                      5100
+#define TRISE_NS                      4500
 #define MAX_TNTR_NS TRISE_NS
 
 /************ Temperature sensing section ***************/

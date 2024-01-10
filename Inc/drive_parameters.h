@@ -83,7 +83,7 @@
 #define PWM_FREQ_SCALING 1
 
 #define LOW_SIDE_SIGNALS_ENABLING        LS_PWM_TIMER
-#define SW_DEADTIME_NS                   900 /*!< Dead-time to be inserted
+#define SW_DEADTIME_NS                   3000 /*!< Dead-time to be inserted
                                                            by FW, only if low side
                                                            signals are enabled */
 
@@ -133,7 +133,7 @@
 
 /* Default settings */
 #define DEFAULT_CONTROL_MODE           MCM_SPEED_MODE
-#define DEFAULT_TARGET_SPEED_RPM       3000
+#define DEFAULT_TARGET_SPEED_RPM       1300
 #define DEFAULT_TARGET_SPEED_UNIT      (DEFAULT_TARGET_SPEED_RPM*SPEED_UNIT/U_RPM)
 #define DEFAULT_TORQUE_COMPONENT_A       0
 #define DEFAULT_FLUX_COMPONENT_A         0
@@ -170,40 +170,40 @@
 /* Phase 1 */
 #define PHASE1_DURATION                300 /*milliseconds */
 #define PHASE1_FINAL_SPEED_UNIT         (0*SPEED_UNIT/U_RPM)
-#define PHASE1_FINAL_CURRENT_A           10
+#define PHASE1_FINAL_CURRENT_A           5
 /* Phase 2 */
 #define PHASE2_DURATION                500 /*milliseconds */
 #define PHASE2_FINAL_SPEED_UNIT         (0*SPEED_UNIT/U_RPM)
-#define PHASE2_FINAL_CURRENT_A           10
+#define PHASE2_FINAL_CURRENT_A           5
 /* Phase 3 */
 #define PHASE3_DURATION                0 /*milliseconds */
 #define PHASE3_FINAL_SPEED_UNIT         (500*SPEED_UNIT/U_RPM)
-#define PHASE3_FINAL_CURRENT_A           10
+#define PHASE3_FINAL_CURRENT_A           5
 /* Phase 4 */
 #define PHASE4_DURATION                5000 /*milliseconds */
 #define PHASE4_FINAL_SPEED_UNIT         (900*SPEED_UNIT/U_RPM)
-#define PHASE4_FINAL_CURRENT_A           10
+#define PHASE4_FINAL_CURRENT_A           5
 /* Phase 5 */
 #define PHASE5_DURATION                20000 /* milliseconds */
-#define PHASE5_FINAL_SPEED_UNIT         (900*SPEED_UNIT/U_RPM)
-#define PHASE5_FINAL_CURRENT_A           10
+#define PHASE5_FINAL_SPEED_UNIT         (1300*SPEED_UNIT/U_RPM)
+#define PHASE5_FINAL_CURRENT_A           5
 
 #define ENABLE_SL_ALGO_FROM_PHASE      4
 /* Sensor-less rev-up sequence */
 #define STARTING_ANGLE_DEG             0  /*!< degrees [0...359] */
 /* Observer start-up output conditions  */
-#define OBS_MINIMUM_SPEED_RPM          1200
+#define OBS_MINIMUM_SPEED_RPM          900
 
-#define NB_CONSECUTIVE_TESTS           5 /* corresponding to
+#define NB_CONSECUTIVE_TESTS           3 /* corresponding to
                                                          former NB_CONSECUTIVE_TESTS/
                                                          (TF_REGULATION_RATE/
                                                          MEDIUM_FREQUENCY_TASK_RATE) */
-#define SPEED_BAND_UPPER_LIMIT         20 /*!< It expresses how much
+#define SPEED_BAND_UPPER_LIMIT         22 /*!< It expresses how much
                                                             estimated speed can exceed
                                                             forced stator electrical
                                                             without being considered wrong.
                                                             In 1/16 of forced speed */
-#define SPEED_BAND_LOWER_LIMIT         18  /*!< It expresses how much
+#define SPEED_BAND_LOWER_LIMIT         16  /*!< It expresses how much
                                                              estimated speed can be below
                                                              forced stator electrical
                                                              without being considered wrong.
