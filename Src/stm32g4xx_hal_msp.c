@@ -118,19 +118,12 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
     /* Peripheral clock enable */
     __HAL_RCC_ADC12_CLK_ENABLE();
 
-    __HAL_RCC_GPIOC_CLK_ENABLE();
     __HAL_RCC_GPIOA_CLK_ENABLE();
     __HAL_RCC_GPIOB_CLK_ENABLE();
     /**ADC1 GPIO Configuration
-    PC2     ------> ADC1_IN8
     PA2     ------> ADC1_IN3
     PB1     ------> ADC1_IN12
     */
-    GPIO_InitStruct.Pin = M1_TEMPERATURE_Pin;
-    GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    HAL_GPIO_Init(M1_TEMPERATURE_GPIO_Port, &GPIO_InitStruct);
-
     GPIO_InitStruct.Pin = M1_BUS_VOLTAGE_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
@@ -165,12 +158,9 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
     __HAL_RCC_ADC12_CLK_DISABLE();
 
     /**ADC1 GPIO Configuration
-    PC2     ------> ADC1_IN8
     PA2     ------> ADC1_IN3
     PB1     ------> ADC1_IN12
     */
-    HAL_GPIO_DeInit(M1_TEMPERATURE_GPIO_Port, M1_TEMPERATURE_Pin);
-
     HAL_GPIO_DeInit(M1_BUS_VOLTAGE_GPIO_Port, M1_BUS_VOLTAGE_Pin);
 
     HAL_GPIO_DeInit(M1_CURR_AMPL_GPIO_Port, M1_CURR_AMPL_Pin);

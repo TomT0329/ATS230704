@@ -49,16 +49,16 @@
 #define AMPLIFICATION_GAIN            6.06
 
 /*** Noise parameters ***/
-#define TNOISE_NS                     5100
+#define TNOISE_NS                     4500
 #define TRISE_NS                      4500
 #define MAX_TNTR_NS TRISE_NS
 
 /************ Temperature sensing section ***************/
 /* V[V]=V0+dV/dT[V/Celsius]*(T-T0)[Celsius]*/
-#define V0_V                          2.2 /*!< in Volts */
+#define V0_V                          0.290 /*!< in Volts */
 #define T0_C                          25 /*!< in Celsius degrees */
-#define dV_dT                         0.028 /*!< V/Celsius degrees */
-#define T_MAX                         100 /*!< Sensor measured
+#define dV_dT                         0.025 /*!< V/Celsius degrees */
+#define T_MAX                         70 /*!< Sensor measured
                                                        temperature at maximum
                                                        power stage working
                                                        temperature, Celsius degrees */

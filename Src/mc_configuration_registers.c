@@ -28,7 +28,7 @@
 #define FIRMWARE_NAME_STR "ST MC SDK\tVer.6.2.0"
 
 const char_t CTL_BOARD[] = "NUCLEO-G474RE";
-static const char_t M1_PWR_BOARD[] = "STEVAL-IHM023V3";
+static const char_t M1_PWR_BOARD[] = "ATS230704-R1";
 const char_t FIRMWARE_NAME [] = FIRMWARE_NAME_STR;
 
 const GlobalConfig_reg_t globalConfig_reg =
@@ -43,7 +43,7 @@ const GlobalConfig_reg_t globalConfig_reg =
 
 static const ApplicationConfig_reg_t M1_ApplicationConfig_reg =
 {
-  .maxMechanicalSpeed = 6000,
+  .maxMechanicalSpeed = 5000,
   .maxReadableCurrent = M1_MAX_READABLE_CURRENT,
   .nominalCurrent     = 13.3,
   .nominalVoltage     = 400,

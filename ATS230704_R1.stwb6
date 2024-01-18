@@ -8,7 +8,7 @@
       "mcu": {
         "id": "STM32G474RETx"
       },
-      "clockSource": "24_crystal",
+      "clockSource": "8_crystal",
       "clockFrequency": 170,
       "connectors": [
         {
@@ -707,11 +707,11 @@
                       ]
                     },
                     "shuntResistor": 0.01175,
-                    "amplifyingNetworkImax": 46.5,
+                    "amplifyingNetworkImax": 23.17,
                     "amplifyingNetworkVm": 3.3,
                     "amplifyingNetworkPrating": 2,
-                    "offsetNetworkAttenuation": 0.75,
-                    "opAmpGain": 4.008,
+                    "offsetNetworkAttenuation": 0.858,
+                    "opAmpGain": 7.061,
                     "polarizationOffset": 1.65
                   }
                 ]
@@ -980,8 +980,8 @@
           "MotorControlConnector"
         ],
         "hardwareFamily": "POWER",
-        "id": "STEVAL-IHM023V3",
-        "label": "STEVAL-IHM023V3",
+        "id": "ATS230704-R1",
+        "label": "ATS230704-R1",
         "description": "1 kW 3-phase motor control evaluation board featuring L6390 drivers and STGP10H60DF IGBTs, for STM32 boards with Motor Control connector",
         "descVersion": 4,
         "contentVersion": "1.0",
@@ -1317,8 +1317,8 @@
                           "signals": [
                             {
                               "name": "CURRENT_AMPL",
-                              "pin": "PB0",
-                              "peripheral": "ADC1_IN15",
+                              "pin": "PB1",
+                              "peripheral": "ADC1_IN12",
                               "help": {
                                 "en": [
                                   "Set jumpers W09 and W13 to position Single-shunt, setup jumper W10, set jumper W11 to dash position"
@@ -1946,8 +1946,8 @@
             "amplification": "external",
             "shuntResistor": "Number.NaN",
             "gain": "Number.NaN",
-            "tNoise": "Number.NaN",
-            "tRise": "Number.NaN",
+            "tNoise": 4500,
+            "tRise": 4500,
             "maxModulation": "Number.NaN",
             "samplingTime": "Number.NaN"
           }
@@ -2008,7 +2008,7 @@
         },
         "samplingTime": 640.5,
         "adc_freq": "Number.NaN",
-        "enable": true
+        "enable": false
       },
       "driveManagement_0": {
         "currentReg": {
@@ -2018,14 +2018,14 @@
             "P": "Number.NaN",
             "I": "Number.NaN"
           },
-          "cutOffFrequency": 1000,
+          "cutOffFrequency": 1500,
           "useMTPA": true,
           "feedForward": false,
           "MTPATarget": "Number.NaN"
         },
         "speedReg": {
-          "executionRate": 2.5,
-          "targetSpeed": 900,
+          "executionRate": 2,
+          "targetSpeed": 1300,
           "KpKi": {
             "P": {
               "num": "Number.NaN",
@@ -2103,7 +2103,7 @@
       "stageConfig_0": {
         "debugSettings": {
           "openLoop": {
-            "enabled": true
+            "enabled": false
           }
         },
         "potentiometer": {
@@ -2160,16 +2160,16 @@
       "speedSensing_0": {
         "mainSensorParams": {
           "speedSensorMode": "",
-          "maxAllowedErrors": 75,
+          "maxAllowedErrors": 100,
           "sensorParams": {
             "_tag": "pll",
             "sensorlessSpeedFeedback": true,
-            "varianceThreshold": 85,
+            "varianceThreshold": 25,
             "loopAverageSpeedDepth": "Number.NaN",
             "observerAverageSpeedDepth": "Number.NaN",
-            "autoCalculate": true,
+            "autoCalculate": false,
             "g1Observer": "Number.NaN",
-            "g2Observer": "Number.NaN",
+            "g2Observer": 9602,
             "bemfTolerance": "Number.NaN",
             "bemfGain": "Number.NaN",
             "F1": "Number.NaN",
@@ -2177,12 +2177,12 @@
             "pll": {
               "KpKi": {
                 "P": {
-                  "num": "Number.NaN",
-                  "den": "Number.NaN"
+                  "num": 638,
+                  "den": 16384
                 },
                 "I": {
-                  "num": "Number.NaN",
-                  "den": "Number.NaN"
+                  "num": 45,
+                  "den": 65536
                 }
               }
             }
@@ -2224,38 +2224,38 @@
                 "currVoltTarget": "Number.NaN"
               },
               {
-                "duration": "Number.NaN",
-                "speedTarget": "Number.NaN",
-                "currVoltTarget": 1
-              },
-              {
                 "duration": 300,
+                "speedTarget": "Number.NaN",
+                "currVoltTarget": 5
+              },
+              {
+                "duration": 500,
                 "speedTarget": 0,
-                "currVoltTarget": 1
+                "currVoltTarget": 5
               },
               {
                 "duration": "Number.NaN",
-                "speedTarget": 1000,
-                "currVoltTarget": 1
+                "speedTarget": 500,
+                "currVoltTarget": 5
               },
               {
-                "duration": 6666,
-                "speedTarget": 2000,
-                "currVoltTarget": 1
+                "duration": 5000,
+                "speedTarget": 900,
+                "currVoltTarget": 5
               },
               {
-                "duration": 48000,
-                "speedTarget": 3000,
-                "currVoltTarget": 1
+                "duration": 20000,
+                "speedTarget": 1300,
+                "currVoltTarget": 5
               }
             ],
             "sensorlessStartingPhase": 4,
             "onTheFlyStartupEnabled": false
           },
           "startupExitCond": {
-            "startUpSpeedThresh": 1500,
+            "startUpSpeedThresh": 900,
             "consecutiveCorrectMeasures": 3,
-            "speedBandToleranceLowerLimit": 50,
+            "speedBandToleranceLowerLimit": 85,
             "speedBandToleranceUpperLimit": 150
           },
           "FOCSwitchOver": {
@@ -2276,8 +2276,8 @@
         "maxDCVoltage": 400,
         "BEmfConstant": "Number.NaN",
         "inertia": "Number.NaN",
-        "friction": "Number.NaN",
-        "maxRatedSpeed": 6000,
+        "friction": 666,
+        "maxRatedSpeed": 5000,
         "hasHallSensor": false,
         "hallSensor": {
           "sensorsDisplacement": "Number.NaN",
@@ -2293,10 +2293,13 @@
       },
       "powerSwitches_0": {
         "setting": {
-          "PWMFrequency": 8000,
+          "PWMFrequency": 10000,
           "chargeBootCapDuty": "Number.NaN",
           "chargeBootCapMs": "Number.NaN",
-          "drivingTopology": ""
+          "drivingTopology": "",
+          "H_L_SwData": {
+            "swDeadTime": 3000
+          }
         }
       }
     }
