@@ -314,7 +314,7 @@ __weak void MC_Scheduler(void)
       }
 
       /* USER CODE BEGIN MC_Scheduler 1 */
-      HAL_GPIO_TogglePin(DEBUG_LED_RED_GPIO_Port, DEBUG_LED_RED_Pin);
+      // HAL_GPIO_TogglePin(DEBUG_LED_RED_GPIO_Port, DEBUG_LED_RED_Pin);
       /* USER CODE END MC_Scheduler 1 */
       hMFTaskCounterM1 = (uint16_t)MF_TASK_OCCURENCE_TICKS;
     }
