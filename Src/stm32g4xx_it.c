@@ -22,6 +22,7 @@
 #include "stm32g4xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <string.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -57,6 +58,9 @@
 /* External variables --------------------------------------------------------*/
 extern DMA_HandleTypeDef hdma_tim1_ch4;
 extern DMA_HandleTypeDef hdma_usart1_rx;
+extern DMA_HandleTypeDef hdma_usart2_tx;
+extern DMA_HandleTypeDef hdma_usart2_rx;
+extern UART_HandleTypeDef huart2;
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -71,6 +75,86 @@ extern DMA_HandleTypeDef hdma_usart1_rx;
 /* For the available peripheral interrupt handler names,                      */
 /* please refer to the startup file (startup_stm32g4xx.s).                    */
 /******************************************************************************/
+
+/**
+  * @brief This function handles DMA1 channel4 global interrupt.
+  */
+void DMA1_Channel4_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA1_Channel4_IRQn 0 */
+
+  /* USER CODE END DMA1_Channel4_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_usart2_tx);
+  /* USER CODE BEGIN DMA1_Channel4_IRQn 1 */
+
+  /* USER CODE END DMA1_Channel4_IRQn 1 */
+}
+
+/**
+  * @brief This function handles DMA1 channel5 global interrupt.
+  */
+void DMA1_Channel5_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA1_Channel5_IRQn 0 */
+
+  /* USER CODE END DMA1_Channel5_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_usart2_rx);
+  /* USER CODE BEGIN DMA1_Channel5_IRQn 1 */
+
+  /* USER CODE END DMA1_Channel5_IRQn 1 */
+}
+
+/**
+  * @brief This function handles USART2 global interrupt / USART2 wake-up interrupt through EXTI line 26.
+  */
+void USART2_IRQHandler(void)
+{
+  /* USER CODE BEGIN USART2_IRQn 0 */
+
+  /* USER CODE END USART2_IRQn 0 */
+  HAL_UART_IRQHandler(&huart2);
+  /* USER CODE BEGIN USART2_IRQn 1 */
+
+  Rx_count = 0;
+
+  if(U2.tx.ok == RESET)
+  {
+    memcpy(U2.rx.buf ,Rx_data ,RX_DATA_SIZE);
+
+    //irq will call after tx
+    if(U2.rx.buf[0] == 0 && U2.rx.buf[1] == 0)
+    {
+    	return;
+    }
+
+    memset(Rx_data, 0, RX_DATA_SIZE*sizeof(Rx_data[0]));
+
+    if(U2.rx.buf[0] == 1 && U2.rx.buf[1] == 0x10 )
+    {
+      U2.rx.ok = SET;
+      U2.rx.size = 29;
+    }
+    else if(U2.rx.buf[0] == 1
+    		&& U2.rx.buf[1] == 0x15)
+    {
+      U2.rx.ok = SET;
+      U2.rx.size = U2.rx.buf[9] * 2/*data bytes*/ + 12/*Modbus frame*/;
+    }
+    else if(U2.rx.buf[0] == 1
+    		&& (U2.rx.buf[1] == 0x06 || U2.rx.buf[1] == 0x03))
+    {
+      U2.rx.ok = SET;
+      U2.rx.size = 8;
+    }
+    else
+    {
+        Error_Handler();
+    }
+
+  }
+  
+  /* USER CODE END USART2_IRQn 1 */
+}
 
 /* USER CODE BEGIN 1 */
 

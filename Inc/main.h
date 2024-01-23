@@ -32,7 +32,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "app_Modbus_RTU.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -84,12 +84,17 @@ void Error_Handler(void);
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14
 #define TCK_GPIO_Port GPIOA
+#define U2_DIR_Pin GPIO_PIN_2
+#define U2_DIR_GPIO_Port GPIOD
 #define UART_TX_Pin GPIO_PIN_6
 #define UART_TX_GPIO_Port GPIOB
 #define UART_RX_Pin GPIO_PIN_7
 #define UART_RX_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
+#define RX_BUFFER_SIZE   252 // /*data bytes*/ + 12
+#define DATA_BYTES      240
+#define ARRAY_LEN(x)            (sizeof(x) / sizeof((x)[0]))
 
 /* USER CODE END Private defines */
 

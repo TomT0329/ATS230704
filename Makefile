@@ -36,6 +36,7 @@ BUILD_DIR = build
 ######################################
 # C sources
 C_SOURCES =  \
+STM32CubeIDE/Application/User/app_Modbus_RTU.c \
 Src/main.c \
 Src/motorcontrol.c \
 Src/mc_api.c \
