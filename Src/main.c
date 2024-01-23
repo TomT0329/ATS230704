@@ -143,7 +143,7 @@ int main(void)
   /* Initialize interrupts */
   MX_NVIC_Init();
   /* USER CODE BEGIN 2 */
-  MCI_ExecSpeedRamp_F(&Mci[M1],2000,12000);
+  MCI_ExecSpeedRamp_F(&Mci[M1],3000,12000);
   StartReception();
   /* USER CODE END 2 */
 

@@ -180,7 +180,7 @@
 #define PHASE3_FINAL_SPEED_UNIT         (500*SPEED_UNIT/U_RPM)
 #define PHASE3_FINAL_CURRENT_A           5
 /* Phase 4 */
-#define PHASE4_DURATION                5000 /*milliseconds */
+#define PHASE4_DURATION                4000 /*milliseconds */
 #define PHASE4_FINAL_SPEED_UNIT         (900*SPEED_UNIT/U_RPM)
 #define PHASE4_FINAL_CURRENT_A           5
 /* Phase 5 */
@@ -192,7 +192,7 @@
 /* Sensor-less rev-up sequence */
 #define STARTING_ANGLE_DEG             0  /*!< degrees [0...359] */
 /* Observer start-up output conditions  */
-#define OBS_MINIMUM_SPEED_RPM          900
+#define OBS_MINIMUM_SPEED_RPM          600
 
 #define NB_CONSECUTIVE_TESTS           3 /* corresponding to
                                                          former NB_CONSECUTIVE_TESTS/
