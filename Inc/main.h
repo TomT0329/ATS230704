@@ -34,6 +34,7 @@ extern "C" {
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "app_Modbus_RTU.h"
+#include "app_temperature.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -65,6 +66,8 @@ void Error_Handler(void);
 #define M1_OCP_GPIO_Port GPIOC
 #define DEBUG_LED_RED_Pin GPIO_PIN_14
 #define DEBUG_LED_RED_GPIO_Port GPIOC
+#define M1_IPM_TEMP_Pin GPIO_PIN_2
+#define M1_IPM_TEMP_GPIO_Port GPIOC
 #define M1_BUS_VOLTAGE_Pin GPIO_PIN_2
 #define M1_BUS_VOLTAGE_GPIO_Port GPIOA
 #define M1_CURR_AMPL_Pin GPIO_PIN_1

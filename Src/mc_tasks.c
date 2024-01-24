@@ -1090,6 +1090,7 @@ __weak void TSK_HardwareFaultTask(void)
   */
 __weak void mc_lock_pins (void)
 {
+LL_GPIO_LockPin(M1_IPM_TEMP_GPIO_Port, M1_IPM_TEMP_Pin);
 LL_GPIO_LockPin(M1_PWM_UH_GPIO_Port, M1_PWM_UH_Pin);
 LL_GPIO_LockPin(M1_PWM_VH_GPIO_Port, M1_PWM_VH_Pin);
 LL_GPIO_LockPin(M1_OCP_GPIO_Port, M1_OCP_Pin);

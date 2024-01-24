@@ -43,6 +43,7 @@ typedef StaticTask_t osStaticThreadDef_t;
 
 /* Private variables ---------------------------------------------------------*/
 ADC_HandleTypeDef hadc1;
+ADC_HandleTypeDef hadc2;
 
 CORDIC_HandleTypeDef hcordic;
 
@@ -95,8 +96,8 @@ const osThreadAttr_t Temperature_Tas_attributes = {
 };
 /* USER CODE BEGIN PV */
 
-uint32_t adcValue = 0;
-
+uint32_t temp_adc = 0;
+float IPM_temp = 0;
 //DMA UART begin
 uint8_t Rx_count;
 uint8_t Rx_data[RX_DATA_SIZE];
@@ -129,6 +130,7 @@ static void MX_TIM1_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_TIM6_Init(void);
+static void MX_ADC2_Init(void);
 void StartPrintTask(void *argument);
 void StartModbusTask(void *argument);
 void StartTemperatureTask(void *argument);
@@ -184,6 +186,7 @@ int main(void)
   MX_MotorControl_Init();
   MX_USART2_UART_Init();
   MX_TIM6_Init();
+  MX_ADC2_Init();
 
   /* Initialize interrupts */
   MX_NVIC_Init();
@@ -433,6 +436,65 @@ static void MX_ADC1_Init(void)
 }
 
 /**
+  * @brief ADC2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_ADC2_Init(void)
+{
+
+  /* USER CODE BEGIN ADC2_Init 0 */
+
+  /* USER CODE END ADC2_Init 0 */
+
+  ADC_ChannelConfTypeDef sConfig = {0};
+
+  /* USER CODE BEGIN ADC2_Init 1 */
+
+  /* USER CODE END ADC2_Init 1 */
+
+  /** Common config
+  */
+  hadc2.Instance = ADC2;
+  hadc2.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV1;
+  hadc2.Init.Resolution = ADC_RESOLUTION_12B;
+  hadc2.Init.DataAlign = ADC_DATAALIGN_RIGHT;
+  hadc2.Init.GainCompensation = 0;
+  hadc2.Init.ScanConvMode = ADC_SCAN_DISABLE;
+  hadc2.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
+  hadc2.Init.LowPowerAutoWait = DISABLE;
+  hadc2.Init.ContinuousConvMode = DISABLE;
+  hadc2.Init.NbrOfConversion = 1;
+  hadc2.Init.DiscontinuousConvMode = DISABLE;
+  hadc2.Init.ExternalTrigConv = ADC_SOFTWARE_START;
+  hadc2.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
+  hadc2.Init.DMAContinuousRequests = DISABLE;
+  hadc2.Init.Overrun = ADC_OVR_DATA_PRESERVED;
+  hadc2.Init.OversamplingMode = DISABLE;
+  if (HAL_ADC_Init(&hadc2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure Regular Channel
+  */
+  sConfig.Channel = ADC_CHANNEL_8;
+  sConfig.Rank = ADC_REGULAR_RANK_1;
+  sConfig.SamplingTime = ADC_SAMPLETIME_2CYCLES_5;
+  sConfig.SingleDiff = ADC_SINGLE_ENDED;
+  sConfig.OffsetNumber = ADC_OFFSET_NONE;
+  sConfig.Offset = 0;
+  if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN ADC2_Init 2 */
+
+  /* USER CODE END ADC2_Init 2 */
+
+}
+
+/**
   * @brief CORDIC Initialization Function
   * @param None
   * @retval None
@@ -674,7 +736,7 @@ static void MX_USART2_UART_Init(void)
 
   /* USER CODE END USART2_Init 1 */
   huart2.Instance = USART2;
-  huart2.Init.BaudRate = 9600;
+  huart2.Init.BaudRate = 115200;
   huart2.Init.WordLength = UART_WORDLENGTH_8B;
   huart2.Init.StopBits = UART_STOPBITS_1;
   huart2.Init.Parity = UART_PARITY_NONE;
@@ -933,7 +995,7 @@ void StartPrintTask(void *argument)
   {
     osDelay(1000);
     HAL_GPIO_TogglePin(DEBUG_LED_RED_GPIO_Port, DEBUG_LED_RED_Pin);
-    printf("Hello world!\n");
+    printf("IPM TEMP : %d\n", (uint8_t)IPM_temp);
   }
   /* USER CODE END 5 */
 }
@@ -972,6 +1034,18 @@ void StartTemperatureTask(void *argument)
   for(;;)
   {
     osDelay(10);
+    if (HAL_ADC_Start(&hadc2) != HAL_OK)
+    {
+    	// Handle ADC start error
+    	Error_Handler();
+    }
+
+    // Poll for ADC conversion to be completed
+    if (HAL_ADC_PollForConversion(&hadc2, HAL_MAX_DELAY) == HAL_OK)
+    {
+      temp_adc = HAL_ADC_GetValue(&hadc2);
+    }
+    Temp_Average(temp_adc, &IPM_temp);
   }
   /* USER CODE END StartTemperatureTask */
 }
