@@ -57,16 +57,40 @@ DMA_HandleTypeDef hdma_usart1_tx;
 DMA_HandleTypeDef hdma_usart2_tx;
 DMA_HandleTypeDef hdma_usart2_rx;
 
-/* Definitions for defaultTask */
-osThreadId_t defaultTaskHandle;
-uint32_t defaultTaskBuffer[ 128 ];
-osStaticThreadDef_t defaultTaskControlBlock;
-const osThreadAttr_t defaultTask_attributes = {
-  .name = "defaultTask",
-  .stack_mem = &defaultTaskBuffer[0],
-  .stack_size = sizeof(defaultTaskBuffer),
-  .cb_mem = &defaultTaskControlBlock,
-  .cb_size = sizeof(defaultTaskControlBlock),
+/* Definitions for Print_Task */
+osThreadId_t Print_TaskHandle;
+uint32_t PrintTaskBuffer[ 128 ];
+osStaticThreadDef_t PrintTaskControlBlock;
+const osThreadAttr_t Print_Task_attributes = {
+  .name = "Print_Task",
+  .stack_mem = &PrintTaskBuffer[0],
+  .stack_size = sizeof(PrintTaskBuffer),
+  .cb_mem = &PrintTaskControlBlock,
+  .cb_size = sizeof(PrintTaskControlBlock),
+  .priority = (osPriority_t) osPriorityLow,
+};
+/* Definitions for Modbus_Task */
+osThreadId_t Modbus_TaskHandle;
+uint32_t Modbus_TaskBuffer[ 128 ];
+osStaticThreadDef_t Modbus_TaskControlBlock;
+const osThreadAttr_t Modbus_Task_attributes = {
+  .name = "Modbus_Task",
+  .stack_mem = &Modbus_TaskBuffer[0],
+  .stack_size = sizeof(Modbus_TaskBuffer),
+  .cb_mem = &Modbus_TaskControlBlock,
+  .cb_size = sizeof(Modbus_TaskControlBlock),
+  .priority = (osPriority_t) osPriorityHigh,
+};
+/* Definitions for Temperature_Tas */
+osThreadId_t Temperature_TasHandle;
+uint32_t Temperature_TasBuffer[ 128 ];
+osStaticThreadDef_t Temperature_TasControlBlock;
+const osThreadAttr_t Temperature_Tas_attributes = {
+  .name = "Temperature_Tas",
+  .stack_mem = &Temperature_TasBuffer[0],
+  .stack_size = sizeof(Temperature_TasBuffer),
+  .cb_mem = &Temperature_TasControlBlock,
+  .cb_size = sizeof(Temperature_TasControlBlock),
   .priority = (osPriority_t) osPriorityNormal,
 };
 /* USER CODE BEGIN PV */
@@ -105,7 +129,9 @@ static void MX_TIM1_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_TIM6_Init(void);
-void StartDefaultTask(void *argument);
+void StartPrintTask(void *argument);
+void StartModbusTask(void *argument);
+void StartTemperatureTask(void *argument);
 
 static void MX_NVIC_Init(void);
 /* USER CODE BEGIN PFP */
@@ -187,8 +213,14 @@ int main(void)
   /* USER CODE END RTOS_QUEUES */
 
   /* Create the thread(s) */
-  /* creation of defaultTask */
-  defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
+  /* creation of Print_Task */
+  Print_TaskHandle = osThreadNew(StartPrintTask, NULL, &Print_Task_attributes);
+
+  /* creation of Modbus_Task */
+  Modbus_TaskHandle = osThreadNew(StartModbusTask, NULL, &Modbus_Task_attributes);
+
+  /* creation of Temperature_Tas */
+  Temperature_TasHandle = osThreadNew(StartTemperatureTask, NULL, &Temperature_Tas_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -206,8 +238,6 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* Enable UART */
-    detec_uart();
     //     if (HAL_ADC_Start(&hadc3) != HAL_OK)
     // {
     // 	// Handle ADC start error
@@ -740,11 +770,16 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 int __io_putchar(int ch)
-  {
-    HAL_UART_Transmit_DMA(&huart2, (uint8_t *)&ch, 1);
-    return ch;
-  }
+{
+  HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xffff);
+  return ch;
+}
+void DMA1_Channel2_IRQHandler(void){}
 
+void USART1_IRQHandler(void)
+{
+  HAL_UART_IRQHandler(&huart1);
+}
 
 /**
   * @brief  This function prints user info on PC com port and initiates RX transfer
@@ -883,14 +918,14 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 
 /* USER CODE END 4 */
 
-/* USER CODE BEGIN Header_StartDefaultTask */
+/* USER CODE BEGIN Header_StartPrintTask */
 /**
-  * @brief  Function implementing the defaultTask thread.
+  * @brief  Function implementing the Print_Task thread.
   * @param  argument: Not used
   * @retval None
   */
-/* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void *argument)
+/* USER CODE END Header_StartPrintTask */
+void StartPrintTask(void *argument)
 {
   /* USER CODE BEGIN 5 */
   /* Infinite loop */
@@ -898,8 +933,47 @@ void StartDefaultTask(void *argument)
   {
     osDelay(1000);
     HAL_GPIO_TogglePin(DEBUG_LED_RED_GPIO_Port, DEBUG_LED_RED_Pin);
+    printf("Hello world!\n");
   }
   /* USER CODE END 5 */
+}
+
+/* USER CODE BEGIN Header_StartModbusTask */
+/**
+* @brief Function implementing the Modbus_Task thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartModbusTask */
+void StartModbusTask(void *argument)
+{
+  /* USER CODE BEGIN StartModbusTask */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(10);
+    /* Enable UART */
+    detec_uart();
+  }
+  /* USER CODE END StartModbusTask */
+}
+
+/* USER CODE BEGIN Header_StartTemperatureTask */
+/**
+* @brief Function implementing the Temperature_Tas thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartTemperatureTask */
+void StartTemperatureTask(void *argument)
+{
+  /* USER CODE BEGIN StartTemperatureTask */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(10);
+  }
+  /* USER CODE END StartTemperatureTask */
 }
 
 /**

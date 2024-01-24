@@ -188,7 +188,7 @@ void DMA1_Channel1_IRQHandler (void)
   * @brief This function handles DMA_RX_A channel DMACH_RX_A global interrupt.
   */
 //cstat !MISRAC2012-Rule-8.4
-void DMA1_Channel2_IRQHandler(void)
+__weak void DMA1_Channel2_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA1_Channel2_IRQHandler 0 */
 
@@ -216,7 +216,7 @@ void DMA1_Channel2_IRQHandler(void)
   * @param  None
   */
 //cstat !MISRAC2012-Rule-8.4
-void USART1_IRQHandler(void)
+__weak void USART1_IRQHandler(void)
 {
   /* USER CODE BEGIN USART1_IRQHandler 0 */
 
