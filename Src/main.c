@@ -192,7 +192,7 @@ int main(void)
   MX_NVIC_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim6);
-  MCI_ExecSpeedRamp_F(&Mci[M1],3000,12000);
+  MCI_ExecSpeedRamp_F(&Mci[M1],3000,20000);
   StartReception();
   /* USER CODE END 2 */
 
@@ -736,7 +736,7 @@ static void MX_USART2_UART_Init(void)
 
   /* USER CODE END USART2_Init 1 */
   huart2.Instance = USART2;
-  huart2.Init.BaudRate = 115200;
+  huart2.Init.BaudRate = 9600;
   huart2.Init.WordLength = UART_WORDLENGTH_8B;
   huart2.Init.StopBits = UART_STOPBITS_1;
   huart2.Init.Parity = UART_PARITY_NONE;
@@ -993,9 +993,16 @@ void StartPrintTask(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1000);
+    osDelay(2000);
     HAL_GPIO_TogglePin(DEBUG_LED_RED_GPIO_Port, DEBUG_LED_RED_Pin);
-    printf("IPM TEMP : %d\n", (uint8_t)IPM_temp);
+    qd_t Iqd = MC_GetIqdrefMotor1();
+    static int sec = 0;
+    printf("IPM TEMP : %d, ", (uint8_t)IPM_temp);
+    printf("Fault code : %d.\n\n", MC_GetOccurredFaultsMotor1());
+    printf("Current Speed : %d, ", (uint32_t)MC_GetAverageMecSpeedMotor1_F());
+    printf("Speed Target : %d.\n\n", (uint32_t)MC_GetLastRampFinalSpeedM1_F());
+    printf("Power : %d, Iq : %d, Id : %d.\n\n",(uint32_t)MC_GetAveragePowerMotor1_F(), (uint8_t)Iqd.q, (uint8_t)Iqd.d);
+    printf("----- Run time : %d ------\n\n", sec+=2);
   }
   /* USER CODE END 5 */
 }
@@ -1033,7 +1040,7 @@ void StartTemperatureTask(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(10);
+    osDelay(100);
     if (HAL_ADC_Start(&hadc2) != HAL_OK)
     {
     	// Handle ADC start error
