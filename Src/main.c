@@ -977,7 +977,11 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
   old_pos = Size;
 
 }
-
+//Redeclar to avoid resetting the systick clock!
+void vPortSetupTimerInterrupt( void )
+{
+	//Do nothing
+}
 /* USER CODE END 4 */
 
 /* USER CODE BEGIN Header_StartPrintTask */
@@ -994,7 +998,7 @@ void StartPrintTask(void *argument)
   for(;;)
   {
     osDelay(2000);
-    HAL_GPIO_TogglePin(DEBUG_LED_RED_GPIO_Port, DEBUG_LED_RED_Pin);
+    // HAL_GPIO_TogglePin(DEBUG_LED_RED_GPIO_Port, DEBUG_LED_RED_Pin);
     qd_t Iqd = MC_GetIqdrefMotor1();
     static int sec = 0;
     printf("IPM TEMP : %d, ", (uint8_t)IPM_temp);
