@@ -170,7 +170,7 @@ static void send_Ux(UART_STR* Ux, UART_HandleTypeDef *pUartHandle, uint8_t *pDat
 {
 //	uint8_t count;
 	UART_BUFF_STR * tx = &Ux->tx;
-	UART_BUFF_STR * rx = &Ux->rx;
+//	UART_BUFF_STR * rx = &Ux->rx;
 
 	if ((pData == NULL) || (Size == 0U))
 	{
@@ -628,9 +628,8 @@ void modbus10(UART_STR* Ux, UART_HandleTypeDef *pUartHandle)
 void modbus15(UART_STR* Ux, UART_HandleTypeDef *pUartHandle)
 {
 	UART_BUFF_STR * rx = &Ux->rx;
-	uint16_t dptr = 0;
 	uint8_t len, reference;
-	TRANS_TYPE record, file, dat, count;
+	TRANS_TYPE record, file;
 
 	len = rx->buf[2];
 	reference = rx->buf[3];
@@ -638,8 +637,8 @@ void modbus15(UART_STR* Ux, UART_HandleTypeDef *pUartHandle)
 	file.b.lo = rx->buf[5];
 	record.b.hi = rx->buf[6];
 	record.b.lo = rx->buf[7];
-	count.b.hi = rx->buf[8];
-	count.b.lo = rx->buf[9];
+//	count.b.hi = rx->buf[8];
+//	count.b.lo = rx->buf[9];
 
 	if(rx->buf[0] != DRIVER_SLAVE_ID)
 		return;

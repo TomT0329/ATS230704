@@ -49,7 +49,7 @@
 
 /* State observer constants */
 #define GAIN1                            -24514
-#define GAIN2                            9602
+#define GAIN2                            9602/2
 /*Only in case PLL is used, PLL gains */
 #define PLL_KP_GAIN                      638
 #define PLL_KI_GAIN                      45
@@ -192,18 +192,18 @@
 /* Sensor-less rev-up sequence */
 #define STARTING_ANGLE_DEG             0  /*!< degrees [0...359] */
 /* Observer start-up output conditions  */
-#define OBS_MINIMUM_SPEED_RPM          600
+#define OBS_MINIMUM_SPEED_RPM          850
 
 #define NB_CONSECUTIVE_TESTS           3 /* corresponding to
                                                          former NB_CONSECUTIVE_TESTS/
                                                          (TF_REGULATION_RATE/
                                                          MEDIUM_FREQUENCY_TASK_RATE) */
-#define SPEED_BAND_UPPER_LIMIT         24 /*!< It expresses how much
+#define SPEED_BAND_UPPER_LIMIT         23 /*!< It expresses how much
                                                             estimated speed can exceed
                                                             forced stator electrical
                                                             without being considered wrong.
                                                             In 1/16 of forced speed */
-#define SPEED_BAND_LOWER_LIMIT         14  /*!< It expresses how much
+#define SPEED_BAND_LOWER_LIMIT         15  /*!< It expresses how much
                                                              estimated speed can be below
                                                              forced stator electrical
                                                              without being considered wrong.
