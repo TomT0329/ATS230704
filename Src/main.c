@@ -113,8 +113,8 @@ const char Default_Info[] =
 		"\r\nCommand Example : Enter 01 06 00 03 0b b8 to Ramp-up the motor to 3000 RPM.\r\n\n";
 
 
-const uint16_t ramp_time = 20000; // msec
-const float ramp_speed = 3000; //RPM
+const uint16_t Ramp_time = 30000; // msec
+const float Ramp_speed = 2900; //RPM
 char buffer[100];
 uint8_t aRXBufferUser[RX_BUFFER_SIZE];
 
@@ -202,7 +202,7 @@ int main(void)
   MX_NVIC_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim6);
-  MCI_ExecSpeedRamp_F(&Mci[M1],ramp_speed,ramp_time);
+  MCI_ExecSpeedRamp_F(&Mci[M1],Ramp_speed,Ramp_time);
   StartReception();
   printf(Default_Info);
   /* USER CODE END 2 */
@@ -1009,7 +1009,7 @@ void StartPrintTask(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(2000);
+    osDelay(1000);
 
     qd_f_t Iqd_ref = MC_GetIqdrefMotor1_F();
     qd_f_t Iqd = MC_GetIqdMotor1_F();
@@ -1021,7 +1021,7 @@ void StartPrintTask(void *argument)
     // printf("Power : %d, \n\n",(int)MC_GetAveragePowerMotor1_F());
     sprintf(buffer, "Iq_ref : %.2f, Iq : %.2f.\n\nId_ref : %.2f, Id : %.2f.\n\n", Iqd_ref.q, Iqd.q, Iqd_ref.d, Iqd.d);
     printf(buffer);
-    printf("----- Run time : %d ------\n\n", sec+=2);
+    printf("----- Run time : %d ------\n\n", sec+=1);
   }
   /* USER CODE END 5 */
 }
@@ -1087,7 +1087,8 @@ void Error_Handler(void)
   __disable_irq();
   while (1)
   {
-    // printf("Error_Hanler Disable irq. \n");
+    printf("Error_Hanler Disable irq. \n");
+    HAL_Delay(1000);
   }
   /* USER CODE END Error_Handler_Debug */
 }

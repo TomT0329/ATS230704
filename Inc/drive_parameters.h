@@ -32,7 +32,7 @@
 
 /*** Speed measurement settings ***/
 #define MAX_APPLICATION_SPEED_RPM       5000 /*!< rpm, mechanical */
-#define MIN_APPLICATION_SPEED_RPM       0 /*!< rpm, mechanical,
+#define MIN_APPLICATION_SPEED_RPM       900 /*!< rpm, mechanical,
                                                            absolute value */
 #define M1_SS_MEAS_ERRORS_BEFORE_FAULTS 100 /*!< Number of speed
                                                              measurement errors before
@@ -49,7 +49,7 @@
 
 /* State observer constants */
 #define GAIN1                            -24514
-#define GAIN2                            9602/2
+#define GAIN2                            19204/2
 /*Only in case PLL is used, PLL gains */
 #define PLL_KP_GAIN                      638
 #define PLL_KI_GAIN                      45
@@ -94,11 +94,11 @@
 #define ISR_FREQUENCY_HZ (PWM_FREQUENCY/REGULATION_EXECUTION_RATE) /*!< @brief FOC execution rate in
                                                            Hz */
 /* Gains values for torque and flux control loops */
-#define PID_TORQUE_KP_DEFAULT         3560
-#define PID_TORQUE_KI_DEFAULT         71
+#define PID_TORQUE_KP_DEFAULT         3234
+#define PID_TORQUE_KI_DEFAULT         66
 #define PID_TORQUE_KD_DEFAULT         100
-#define PID_FLUX_KP_DEFAULT           2492
-#define PID_FLUX_KI_DEFAULT           71
+#define PID_FLUX_KP_DEFAULT           2264
+#define PID_FLUX_KI_DEFAULT           66
 #define PID_FLUX_KD_DEFAULT           100
 
 /* Torque/Flux control loop gains dividers*/
@@ -114,8 +114,8 @@
 #define SPEED_LOOP_FREQUENCY_HZ       ( uint16_t )500 /*!<Execution rate of speed
                                                       regulation loop (Hz) */
 
-#define PID_SPEED_KP_DEFAULT          2253/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
-#define PID_SPEED_KI_DEFAULT          1154/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
+#define PID_SPEED_KP_DEFAULT          2481/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
+#define PID_SPEED_KI_DEFAULT          1270/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
 #define PID_SPEED_KD_DEFAULT          0/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
 /* Speed PID parameter dividers */
 #define SP_KPDIV                      64
@@ -180,7 +180,7 @@
 #define PHASE3_FINAL_SPEED_UNIT         (500*SPEED_UNIT/U_RPM)
 #define PHASE3_FINAL_CURRENT_A           5
 /* Phase 4 */
-#define PHASE4_DURATION                4000 /*milliseconds */
+#define PHASE4_DURATION                5000 /*milliseconds */
 #define PHASE4_FINAL_SPEED_UNIT         (900*SPEED_UNIT/U_RPM)
 #define PHASE4_FINAL_CURRENT_A           5
 /* Phase 5 */
@@ -198,12 +198,12 @@
                                                          former NB_CONSECUTIVE_TESTS/
                                                          (TF_REGULATION_RATE/
                                                          MEDIUM_FREQUENCY_TASK_RATE) */
-#define SPEED_BAND_UPPER_LIMIT         23 /*!< It expresses how much
+#define SPEED_BAND_UPPER_LIMIT         22 /*!< It expresses how much
                                                             estimated speed can exceed
                                                             forced stator electrical
                                                             without being considered wrong.
                                                             In 1/16 of forced speed */
-#define SPEED_BAND_LOWER_LIMIT         15  /*!< It expresses how much
+#define SPEED_BAND_LOWER_LIMIT         16  /*!< It expresses how much
                                                              estimated speed can be below
                                                              forced stator electrical
                                                              without being considered wrong.
@@ -239,9 +239,9 @@
 /*  Maximum Torque Per Ampere strategy parameters */
 
 #define MTPA_ENABLING
-#define SEGDIV                         2334
-#define M1_ANGC                        {-477,-1446,-2413,-3355,-4308,-5250,-6160,-7075}
-#define OFST                           {0,68,206,408,679,1015,1404,1860}
+#define SEGDIV                         2570
+#define M1_ANGC                        {-471,-1453,-2409,-3364,-4309,-5240,-6171,-7073}
+#define OFST                           {0,77,227,451,748,1113,1551,2046}
 
 /*** On the fly start-up ***/
 

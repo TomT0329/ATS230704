@@ -726,7 +726,7 @@ void Modbus_CtrlReg_Set(void)
 
 		break;
 		case DRIVER_FREQ:
-		pMCI[0]->pSTC->SpeedRefUnitExt = (int32_t)(stModb.wordReg1.wds[3] << 16);
+		MCI_ExecSpeedRamp_F(&Mci[M1],(float)stModb.wordReg1.wds[3],Ramp_time);
 		break;
 		case HEATER_CURRENT:
 
