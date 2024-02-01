@@ -129,7 +129,7 @@
 /* USER CODE END PID_SPEED_INTEGRAL_INIT_DIV */
 
 #define SPD_DIFFERENTIAL_TERM_ENABLING DISABLE
-#define IQMAX_A                          13.210894566168061
+#define IQMAX_A                          19.714317974313154
 
 /* Default settings */
 #define DEFAULT_CONTROL_MODE           MCM_SPEED_MODE
@@ -239,9 +239,9 @@
 /*  Maximum Torque Per Ampere strategy parameters */
 
 #define MTPA_ENABLING
-#define SEGDIV                         2570
-#define M1_ANGC                        {-471,-1453,-2409,-3364,-4309,-5240,-6171,-7073}
-#define OFST                           {0,77,227,451,748,1113,1551,2046}
+#define SEGDIV                         3483
+#define M1_ANGC                        {-715,-2153,-3584,-4984,-6367,-7705,-9010,-10261}
+#define OFST                           {0,152,457,903,1491,2202,3035,3966}
 
 /*** On the fly start-up ***/
 
