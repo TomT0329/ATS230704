@@ -115,7 +115,7 @@ const char Default_Info[] =
 
 const uint16_t Ramp_time = 30000; // msec
 const float Ramp_speed = 2900; //RPM
-char buffer[100];
+char float_buffer[100];
 uint8_t aRXBufferUser[RX_BUFFER_SIZE];
 
 /**
@@ -1002,7 +1002,7 @@ void vPortSetupTimerInterrupt( void )
   * @retval None
   */
 /* USER CODE END Header_StartPrintTask */
-void StartPrintTask(void *argument)
+__weak void StartPrintTask(void *argument)
 {
   /* USER CODE BEGIN 5 */
   static int sec = 0;
@@ -1019,8 +1019,8 @@ void StartPrintTask(void *argument)
     printf("Current Speed : %d, ", (int)MC_GetAverageMecSpeedMotor1_F());
     printf("Speed Target : %d.\n\n", (int)MC_GetMecSpeedReferenceMotor1_F());
     // printf("Power : %d, \n\n",(int)MC_GetAveragePowerMotor1_F());
-    sprintf(buffer, "Iq_ref : %.2f, Iq : %.2f.\n\nId_ref : %.2f, Id : %.2f.\n\n", Iqd_ref.q, Iqd.q, Iqd_ref.d, Iqd.d);
-    printf(buffer);
+    sprintf(float_buffer, "Iq_ref : %.2f, Iq : %.2f.\n\nId_ref : %.2f, Id : %.2f.\n\n", Iqd_ref.q, Iqd.q, Iqd_ref.d, Iqd.d);
+    printf(float_buffer);
     printf("----- Run time : %d ------\n\n", sec+=1);
   }
   /* USER CODE END 5 */
@@ -1033,7 +1033,7 @@ void StartPrintTask(void *argument)
 * @retval None
 */
 /* USER CODE END Header_StartModbusTask */
-void StartModbusTask(void *argument)
+__weak void StartModbusTask(void *argument)
 {
   /* USER CODE BEGIN StartModbusTask */
   /* Infinite loop */
@@ -1053,7 +1053,7 @@ void StartModbusTask(void *argument)
 * @retval None
 */
 /* USER CODE END Header_StartTemperatureTask */
-void StartTemperatureTask(void *argument)
+__weak void StartTemperatureTask(void *argument)
 {
   /* USER CODE BEGIN StartTemperatureTask */
   /* Infinite loop */

@@ -39,7 +39,10 @@ extern "C" {
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
-
+extern ADC_HandleTypeDef hadc2;
+extern char float_buffer[100];
+// extern char log[100];
+extern float IPM_temp;
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
