@@ -29,8 +29,8 @@
 
 /************************* CPU & ADC PERIPHERAL CLOCK CONFIG ******************/
 #define SYSCLK_FREQ      170000000uL
-#define TIM_CLOCK_DIVIDER  2
-#define ADV_TIM_CLK_MHz  85 /* Actual TIM clk including Timer clock divider*/
+#define TIM_CLOCK_DIVIDER  1
+#define ADV_TIM_CLK_MHz  170 /* Actual TIM clk including Timer clock divider*/
 #define ADC_CLK_MHz     42
 #define HALL_TIM_CLK    170000000uL
 #define APB1TIM_FREQ 170000000uL
