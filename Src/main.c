@@ -110,7 +110,8 @@ const char Default_Info[] =
 		"\r\nCommand Example : Enter 01 06 00 00 00 01 to Start the motor.\r\n"
 		"\r\nCommand Example : Enter 01 06 00 00 00 00 to Stop the motor.\r\n"
 		"\r\nCommand Example : Enter 01 06 00 00 00 80 to Ack fault.\r\n"
-		"\r\nCommand Example : Enter 01 06 00 03 0b b8 to Ramp-up the motor to 3000 RPM.\r\n\n";
+		"\r\nCommand Example : Enter 01 06 00 03 0b b8 to Ramp-up the motor to 3000 RPM.\r\n\n"
+    "\r\nCommand Example : Enter 01 10 00 00 00 0a 14 00 01 ff ff ff ff 0b b8 ff ff ff ff ff ff ff ff 88 88 88 88 to Ramp-up the motor to 3000 RPM.\r\n\n";
 
 
 const uint16_t Ramp_time = 60000; // msec
@@ -818,17 +819,17 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(DEBUG_LED_RED_GPIO_Port, DEBUG_LED_RED_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, DEBUG_LED_RED_Pin|U1_DIR_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(U2_DIR_GPIO_Port, U2_DIR_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : DEBUG_LED_RED_Pin */
-  GPIO_InitStruct.Pin = DEBUG_LED_RED_Pin;
+  /*Configure GPIO pins : DEBUG_LED_RED_Pin U1_DIR_Pin */
+  GPIO_InitStruct.Pin = DEBUG_LED_RED_Pin|U1_DIR_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(DEBUG_LED_RED_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pin : U2_DIR_Pin */
   GPIO_InitStruct.Pin = U2_DIR_Pin;
@@ -842,11 +843,6 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-__weak int __io_putchar(int ch)
-{
-  HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xffff);
-  return ch;
-}
 void DMA1_Channel2_IRQHandler(void){}
 
 void USART1_IRQHandler(void)
@@ -867,8 +863,8 @@ void StartReception(void)
   pBufferReadyForUser      = aRXBufferB;
   uwNbReceivedChars        = 0;
 
-  /* Print user info on PC com port */
-//   PrintInfo(&huart2, aTextInfoStart, ARRAY_LEN(aTextInfoStart));
+  /* Set LED as a indicator for user */
+  HAL_GPIO_TogglePin(DEBUG_LED_RED_GPIO_Port, DEBUG_LED_RED_Pin);
 
   /* Initializes Rx sequence using Reception To Idle event API.
      As DMA channel associated to UART Rx is configured as Circular,
@@ -1005,24 +1001,7 @@ void vPortSetupTimerInterrupt( void )
 __weak void StartPrintTask(void *argument)
 {
   /* USER CODE BEGIN 5 */
-  static int sec = 0;
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1000);
 
-    qd_f_t Iqd_ref = MC_GetIqdrefMotor1_F();
-    qd_f_t Iqd = MC_GetIqdMotor1_F();
-
-    printf("IPM TEMP : %d, ", (uint8_t)IPM_temp);
-    printf("Fault code : %d.\n\n", MC_GetOccurredFaultsMotor1());
-    printf("Current Speed : %d, ", (int)MC_GetAverageMecSpeedMotor1_F());
-    printf("Speed Target : %d.\n\n", (int)MC_GetMecSpeedReferenceMotor1_F());
-    // printf("Power : %d, \n\n",(int)MC_GetAveragePowerMotor1_F());
-    sprintf(float_buffer, "Iq_ref : %.2f, Iq : %.2f.\n\nId_ref : %.2f, Id : %.2f.\n\n", Iqd_ref.q, Iqd.q, Iqd_ref.d, Iqd.d);
-    printf(float_buffer);
-    printf("----- Run time : %d ------\n\n", sec+=1);
-  }
   /* USER CODE END 5 */
 }
 
@@ -1036,13 +1015,7 @@ __weak void StartPrintTask(void *argument)
 __weak void StartModbusTask(void *argument)
 {
   /* USER CODE BEGIN StartModbusTask */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(10);
-    /* Enable UART */
-    detec_uart();
-  }
+
   /* USER CODE END StartModbusTask */
 }
 
@@ -1056,23 +1029,7 @@ __weak void StartModbusTask(void *argument)
 __weak void StartTemperatureTask(void *argument)
 {
   /* USER CODE BEGIN StartTemperatureTask */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(100);
-    if (HAL_ADC_Start(&hadc2) != HAL_OK)
-    {
-    	// Handle ADC start error
-    	Error_Handler();
-    }
 
-    // Poll for ADC conversion to be completed
-    if (HAL_ADC_PollForConversion(&hadc2, HAL_MAX_DELAY) == HAL_OK)
-    {
-      temp_adc = HAL_ADC_GetValue(&hadc2);
-    }
-    Temp_Average(temp_adc, &IPM_temp);
-  }
   /* USER CODE END StartTemperatureTask */
 }
 

@@ -62,7 +62,8 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
-
+extern int __io_putchar(int ch);
+extern void StartReception(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
@@ -92,6 +93,8 @@ void Error_Handler(void);
 #define TMS_GPIO_Port GPIOA
 #define TCK_Pin GPIO_PIN_14
 #define TCK_GPIO_Port GPIOA
+#define U1_DIR_Pin GPIO_PIN_12
+#define U1_DIR_GPIO_Port GPIOC
 #define U2_DIR_Pin GPIO_PIN_2
 #define U2_DIR_GPIO_Port GPIOD
 #define UART_TX_Pin GPIO_PIN_6

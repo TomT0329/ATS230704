@@ -330,6 +330,8 @@ typedef union
 #define ERR_MODBUS_PARA    3
 #define ERR_MODBUS_WRITE   4
 
+#define U1_485_DIR_PORT		U1_DIR_GPIO_Port //
+#define U1_485_DIR_PIN		U1_DIR_Pin // 
 #define U2_485_DIR_PORT		U2_DIR_GPIO_Port // GPIOD
 #define U2_485_DIR_PIN		U2_DIR_Pin // GPIO_PIN_2
 #define U2_485_PIN_HIGH     NULL
@@ -384,6 +386,7 @@ static const char auchCRCLo[] =
  *================================================================================================*/
 extern UART_HandleTypeDef huart2;
 extern UART_STR U2;
+extern UART_STR U1;
 extern MODBUS_STR stModb;
 extern uint8_t Rx_data[RX_DATA_SIZE];  //  creating a buffer of RX_DATA_SIZE bytes
 extern uint8_t Rx_count;

@@ -137,7 +137,9 @@ void StartTemperatureTask(void *argument)
 
 int __io_putchar(int ch)
 {
+  ctrl_rs485_pin(&U1, SET);
   HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xffff);
+  ctrl_rs485_pin(&U1, RESET);
   return ch;
 }
 /* USER CODE END Application */

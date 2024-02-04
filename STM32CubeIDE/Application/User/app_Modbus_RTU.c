@@ -15,7 +15,7 @@
  * INCLUDE FILES
  *================================================================================================*/
 #include "app_Modbus_RTU.h"
-
+#include "main.h"
 /*================================================================================================*=
  * LOCAL CONSTANTS
  *================================================================================================*/
@@ -40,6 +40,7 @@
  * GLOBAL VARIABLES
  *================================================================================================*/
 UART_STR U2;
+UART_STR U1;
 MODBUS_STR stModb;
 /*================================================================================================*=
  * LOCAL FUNCTIONS PROTOTYPE
@@ -213,6 +214,20 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 		ctrl_rs485_pin(&U2, RESET);
 	}
 }
+
+void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
+{
+	if(huart == &huart1)
+	{
+		__HAL_UNLOCK(&huart1);
+//		HAL_UART_Receive_IT(&huart1, (uint8_t *)&uart1_rx_buffer, 1);
+	}
+	else if(huart == &huart2)
+	{
+		__HAL_UNLOCK(&huart2);
+		StartReception();
+	}
+}
 /*************************************************************************
  * Function Name: set_syst_para
  *
@@ -257,6 +272,13 @@ void ctrl_rs485_pin(UART_STR* Ux, int8_t flag)
 	if(Ux == &U2)
 	{
 		HAL_GPIO_WritePin(U2_485_DIR_PORT, U2_485_DIR_PIN, flag);
+
+		for (i = 0; i < 24; i++)
+		{};
+	}
+	if(Ux == &U1)
+	{
+		HAL_GPIO_WritePin(U1_485_DIR_PORT, U1_485_DIR_PIN, flag);
 
 		for (i = 0; i < 24; i++)
 		{};
@@ -692,55 +714,67 @@ void Modbus_CtrlReg_Set(void)
 	TRANS_TYPE addr;
 	addr.b.hi = rx->buf[2];
 	addr.b.lo = rx->buf[3];
-
-	switch (addr.w)
+	if(rx->buf[1] == 0x06)
 	{
-		case DRIVER_CTRL:
+		switch (addr.w)
+		{
+			case DRIVER_CTRL:
 
+			if(GET_BIT(stModb.wordReg1.wds[0],0))
+			{
+				MCI_StartMotor(pMCI[0]);
+			}else MCI_StopMotor(pMCI[0]);
+
+			if(GET_BIT(stModb.wordReg1.wds[0],2))
+			{
+				//PFC
+			}else;
+
+			if(GET_BIT(stModb.wordReg1.wds[0],3))
+			{
+				//Clear restarup
+			}else;
+
+			if(GET_BIT(stModb.wordReg1.wds[0],7))
+			{
+				//Clear fault Bit
+				MCI_FaultAcknowledged(pMCI[0]);
+			}else;
+
+			break;
+			case DRIVER_PARA:
+
+			break;
+			case DRIVER_EEPROM:
+
+			break;
+			case DRIVER_FREQ:
+			MCI_ExecSpeedRamp_F(&Mci[M1],(float)stModb.wordReg1.wds[3],Ramp_time);
+			break;
+			case HEATER_CURRENT:
+
+			break;
+			case DRIVER_OVERTEMP:
+
+			break;
+			case DRIVER_SECURITY1:
+
+			break;
+			case DRIVER_SECURITY2:
+
+			break;
+		}
+	}
+	else if(rx->buf[1] == 0x10 && rx->buf[26] == 0x88)
+	{
 		if(GET_BIT(stModb.wordReg1.wds[0],0))
 		{
 			MCI_StartMotor(pMCI[0]);
 		}else MCI_StopMotor(pMCI[0]);
-		
-		if(GET_BIT(stModb.wordReg1.wds[0],2))
-		{
-			//PFC
-		}else;
 
-		if(GET_BIT(stModb.wordReg1.wds[0],3))
-		{
-			//Clear restarup
-		}else;
-
-		if(GET_BIT(stModb.wordReg1.wds[0],7))
-		{
-			//Clear fault Bit
-			MCI_FaultAcknowledged(pMCI[0]);
-		}else;
-
-		break;
-		case DRIVER_PARA:
-
-		break;
-		case DRIVER_EEPROM:
-
-		break;
-		case DRIVER_FREQ:
 		MCI_ExecSpeedRamp_F(&Mci[M1],(float)stModb.wordReg1.wds[3],Ramp_time);
-		break;
-		case HEATER_CURRENT:
-
-		break;
-		case DRIVER_OVERTEMP:
-
-		break;
-		case DRIVER_SECURITY1:
-
-		break;
-		case DRIVER_SECURITY2:
-
-		break;
 	}
+
 }
 
 /*================================================================================================*=
