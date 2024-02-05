@@ -330,7 +330,7 @@ static uint8_t SystickDividerCounter = SYSTICK_DIVIDER;
   /* USER CODE BEGIN SysTick_IRQn 1 */
   /* USER CODE END SysTick_IRQn 1 */
     MC_RunMotorControlTasks();
-    // HAL_GPIO_TogglePin(DEBUG_LED_RED_GPIO_Port, DEBUG_LED_RED_Pin);
+
   /* USER CODE BEGIN SysTick_IRQn 2 */
   /* USER CODE END SysTick_IRQn 2 */
 }

@@ -40,10 +40,12 @@ extern "C" {
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
 extern ADC_HandleTypeDef hadc2;
+extern ADC_HandleTypeDef hadc3;
 extern char float_buffer[100];
 extern UART_HandleTypeDef huart1;
 // extern char log[100];
 extern float IPM_temp;
+extern uint32_t Curr_adc;
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
