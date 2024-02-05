@@ -46,6 +46,8 @@ extern char float_buffer[];
 extern UART_HandleTypeDef huart1;
 extern float IPM_temp;
 extern uint16_t Curr_adc[];
+extern void *Destination;
+extern const void *Source;
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
@@ -106,11 +108,11 @@ extern void StartReception(void);
 
 /* USER CODE BEGIN Private defines */
 #define RX_BUFFER_SIZE   252 // /*data bytes*/ + 12
-#define DATA_BYTES      200
+#define FLASH_DATA_BYTES      400
+#define ADC_BUFFER_SIZE 200 // uint16_t * 200
 #define ARRAY_LEN(x)            (sizeof(x) / sizeof((x)[0]))
 #define DWL_SLOT_START (uint32_t) 0x08020000
-#define ADC_BUFFER_SIZE 100 // uint16_t * 100
-#define FLOAT_BUFFER_SIZE 100 // uint16_t * 100
+#define FLOAT_BUFFER_SIZE 100
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

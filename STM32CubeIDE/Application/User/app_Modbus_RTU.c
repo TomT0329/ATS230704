@@ -42,6 +42,8 @@
 UART_STR U2;
 UART_STR U1;
 MODBUS_STR stModb;
+void *Destination = (void *)DWL_SLOT_START;
+const void *Source = &Curr_adc;
 /*================================================================================================*=
  * LOCAL FUNCTIONS PROTOTYPE
  *================================================================================================*/
@@ -736,7 +738,17 @@ void Modbus_CtrlReg_Set(void)
 			}else;
 
 			if(GET_BIT(stModb.wordReg1.wds[0],7))
-			{
+			{				
+				if(HAL_OK != FLASH_If_Erase_Size(Destination, FLASH_DATA_BYTES))
+				{
+					Error_Handler();
+				}
+				
+				if(HAL_OK != FLASH_If_Write(Destination, Source, FLASH_DATA_BYTES))
+				{
+					Error_Handler();
+				}
+
 				//Clear fault Bit
 				MCI_FaultAcknowledged(pMCI[0]);
 			}else;

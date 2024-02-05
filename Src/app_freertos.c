@@ -44,9 +44,8 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
-uint32_t Data_Length = DATA_BYTES;
-void *Destination = (void *)DWL_SLOT_START;
-const void *Source = &Curr_adc;
+uint16_t sec = 0;
+uint16_t Curr_adc[ADC_BUFFER_SIZE] = {0};
 /* USER CODE END Variables */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -64,7 +63,7 @@ void Logging_ADCvalue(ADC_HandleTypeDef hadc, uint16_t buffer[], uint16_t size)
   {
     static int i = 0 ;
     buffer[i++] = HAL_ADC_GetValue(&hadc);
-    if(i > 99)
+    if(i > size - 1)
     {
       i = 0;
     }
@@ -88,37 +87,33 @@ void StartPrintTask(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(5000);
+    osDelay(1000);
 
-//    qd_f_t Iqd_ref = MC_GetIqdrefMotor1_F();
-//    qd_f_t Iqd = MC_GetIqdMotor1_F();
-//
-//    printf("IPM TEMP : %d, ", (uint8_t)IPM_temp);
-//    printf("Fault code : %d.\n\n", MC_GetOccurredFaultsMotor1());
-//    printf("Current Speed : %d, ", (int)MC_GetAverageMecSpeedMotor1_F());
-//    printf("Speed Target : %d.\n\n", (int)MC_GetMecSpeedReferenceMotor1_F());
-//    printf("Power : %d, \n\n",(int)MC_GetAveragePowerMotor1_F());
-//    sprintf(float_buffer, "Iq_ref : %.2f, Iq : %.2f.\n\nId_ref : %.2f, Id : %.2f.\n\n", Iqd_ref.q, Iqd.q, Iqd_ref.d, Iqd.d);
-//    printf(float_buffer);
-//    printf("----- Run time : %d ------\n\n", sec+=1);
+   qd_f_t Iqd_ref = MC_GetIqdrefMotor1_F();
+   qd_f_t Iqd = MC_GetIqdMotor1_F();
 
-    if(HAL_OK != FLASH_If_Erase_Size((void *) Destination, Data_Length))
-    {
-      Error_Handler();
-    }
+   printf("IPM TEMP : %u, ", (uint8_t)IPM_temp);
+   printf("Past Fault code : %u.\n\n", MC_GetOccurredFaultsMotor1());
+   printf("Current Fault code : %u.\n\n", MC_GetCurrentFaultsMotor1());
+   printf("Current Speed : %d, ", (int)MC_GetAverageMecSpeedMotor1_F());
+   printf("Speed Target : %d.\n\n", (int)MC_GetMecSpeedReferenceMotor1_F());
+   printf("Power : %d, \n\n",(int)MC_GetAveragePowerMotor1_F());
+   sprintf(float_buffer, "Iq_ref : %.2f, Iq : %.2f.\n\nId_ref : %.2f, Id : %.2f.\n\n", Iqd_ref.q, Iqd.q, Iqd_ref.d, Iqd.d);
+   printf(float_buffer);
+   printf("----- Run time : %u ------\n\n", sec+=1);
 
-    if(HAL_OK != FLASH_If_Write(Destination, Source, Data_Length))
-    {
-      Error_Handler();
-    }
+	if(sec == 50)
+	{
+		if(HAL_OK != FLASH_If_Erase_Size(Destination, FLASH_DATA_BYTES))
+		{
+			Error_Handler();
+		}
 
-    Destination += DATA_BYTES;
-
-    if(Destination > (void* )( DWL_SLOT_START + DATA_BYTES))
-    {
-      Destination = (void* )DWL_SLOT_START;
-    }
-
+		if(HAL_OK != FLASH_If_Write(Destination, Source, FLASH_DATA_BYTES))
+		{
+			Error_Handler();
+		}
+	}
   }
   /* USER CODE END 5 */
 }
@@ -139,7 +134,12 @@ void StartModbusTask(void *argument)
     osDelay(10);
     /* Enable UART */
     detec_uart();
-    Logging_ADCvalue(hadc3, (uint16_t *)&Curr_adc, ADC_BUFFER_SIZE);
+
+    /*logging adc value when no MC fault*/
+    if(!MC_GetCurrentFaultsMotor1())
+    {
+        Logging_ADCvalue(hadc3, (uint16_t *)&Curr_adc, ADC_BUFFER_SIZE);
+    }
   }
   /* USER CODE END StartModbusTask */
 }

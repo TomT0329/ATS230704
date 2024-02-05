@@ -100,7 +100,6 @@ const osThreadAttr_t Temperature_Tas_attributes = {
 /* USER CODE BEGIN PV */
 
 uint32_t temp_adc = 0;
-uint16_t Curr_adc[ADC_BUFFER_SIZE] = {0};
 float IPM_temp = 0;
 //DMA UART begin
 uint8_t Rx_count;
