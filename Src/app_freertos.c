@@ -91,11 +91,13 @@ void StartPrintTask(void *argument)
 
     qd_f_t Iqd_ref = MC_GetIqdrefMotor1_F();
     qd_f_t Iqd = MC_GetIqdMotor1_F();
-    int16_t Phase_Peak = MCI_GetPhaseCurrentAmplitude(Mci[M1]);
+    int16_t Phase_Peak = MCI_GetPhaseCurrentAmplitude(&Mci[M1]);
 
     if(!MC_GetCurrentFaultsMotor1())
     {
-      printf("Phase Peak : %d, ",(int)Phase_Peak);
+      printf("\n\nPast Fault code : %u, ", MC_GetOccurredFaultsMotor1());
+      printf("Current Fault code : %u.\n\n", MC_GetCurrentFaultsMotor1());
+      // printf("Phase Peak : %d, ",(int)Phase_Peak);
       printf("Power : %d, ",(int)MC_GetAveragePowerMotor1_F());
       printf("IPM TEMP : %u.\n\n", (uint8_t)IPM_temp);
       printf("Current Speed : %d, ", (int)MC_GetAverageMecSpeedMotor1_F());

@@ -49,7 +49,7 @@
 
 /* State observer constants */
 #define GAIN1                            -24514
-#define GAIN2                            9602
+#define GAIN2                            9602*2
 /*Only in case PLL is used, PLL gains */
 #define PLL_KP_GAIN                      638
 #define PLL_KI_GAIN                      45
@@ -94,11 +94,11 @@
 #define ISR_FREQUENCY_HZ (PWM_FREQUENCY/REGULATION_EXECUTION_RATE) /*!< @brief FOC execution rate in
                                                            Hz */
 /* Gains values for torque and flux control loops */
-#define PID_TORQUE_KP_DEFAULT         3234
-#define PID_TORQUE_KI_DEFAULT         66
+#define PID_TORQUE_KP_DEFAULT         3234/2
+#define PID_TORQUE_KI_DEFAULT         66/2
 #define PID_TORQUE_KD_DEFAULT         100
-#define PID_FLUX_KP_DEFAULT           2264
-#define PID_FLUX_KI_DEFAULT           66
+#define PID_FLUX_KP_DEFAULT           2264/2
+#define PID_FLUX_KI_DEFAULT           66/2
 #define PID_FLUX_KD_DEFAULT           100
 
 /* Torque/Flux control loop gains dividers*/
