@@ -52,7 +52,8 @@ extern const void *Source;
 
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
-extern const uint16_t Ramp_time;
+extern const uint16_t Ramp_Time;
+extern const uint16_t ACC_Time;
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/
@@ -108,8 +109,8 @@ extern void StartReception(void);
 
 /* USER CODE BEGIN Private defines */
 #define RX_BUFFER_SIZE   252 // /*data bytes*/ + 12
-#define FLASH_DATA_BYTES      400
-#define ADC_BUFFER_SIZE 200 // uint16_t * 200
+#define FLASH_DATA_BYTES      800
+#define ADC_BUFFER_SIZE 400 // uint16_t * 200
 #define ARRAY_LEN(x)            (sizeof(x) / sizeof((x)[0]))
 #define DWL_SLOT_START (uint32_t) 0x08020000
 #define FLOAT_BUFFER_SIZE 100

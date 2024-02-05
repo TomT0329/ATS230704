@@ -108,16 +108,19 @@ uint8_t Rx_data[RX_DATA_SIZE];
   * @brief Text strings printed on PC Com port for user information
   */
 const char Default_Info[] =
-		"\r\nFW VER. : 2024_01_12\r\n"
-		"\r\nDefault RPM to 3000 in 20s.\r\n"
-		"\r\nCommand Example : Enter 01 06 00 00 00 01 to Start the motor.\r\n"
-		"\r\nCommand Example : Enter 01 06 00 00 00 00 to Stop the motor.\r\n"
-		"\r\nCommand Example : Enter 01 06 00 00 00 80 to Ack fault.\r\n"
-		"\r\nCommand Example : Enter 01 06 00 03 0b b8 to Ramp-up the motor to 3000 RPM.\r\n\n"
-    "\r\nCommand Example : Enter 01 10 00 00 00 0a 14 00 01 ff ff ff ff 0b b8 ff ff ff ff ff ff ff ff 88 88 88 88 to Ramp-up the motor to 3000 RPM.\r\n\n";
+		"\r\nFW VER. : 2024_02_05\r\n"
+		"\r\nDefault RPM to 3000 in 60s.\r\n"
+		"\r\nCommand Example : Enter 01 06 00 00 00 01 48 0a to Start the motor.\r\n"
+		"\r\nCommand Example : Enter 01 06 00 00 00 00 89 ca to Stop the motor.\r\n"
+		"\r\nCommand Example : Enter 01 06 00 00 00 80 88 6a to Ack fault.\r\n"
+		"\r\nCommand Example : Enter 01 06 00 03 0b b8 7e 88 to Ramp-up the motor to 3000 RPM.\r\n\n"
+    "\r\nCommand Example : Enter 01 06 00 03 0f a0 7c 42 to Ramp-up the motor to 4000 RPM.\r\n\n"
+    "\r\nCommand Example : Enter 01 06 00 03 11 94 74 35 to Ramp-up the motor to 4500 RPM.\r\n\n"
+    "\r\nCommand Example : Enter 01 10 00 00 00 0a 14 00 01 ff ff ff ff 0b b8 ff ff ff ff ff ff ff ff 88 88 88 88 b0 5d to Ramp-up the motor to 3000 RPM.\r\n\n";
 
 
-const uint16_t Ramp_time = 60000; // msec
+const uint16_t Ramp_Time = 60000; // msec
+const uint16_t ACC_Time = 30000; // msec
 const float Ramp_speed = 3000; //RPM
 char float_buffer[FLOAT_BUFFER_SIZE];
 uint8_t aRXBufferUser[RX_BUFFER_SIZE];
@@ -210,7 +213,7 @@ int main(void)
   MX_NVIC_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim6);
-  MCI_ExecSpeedRamp_F(&Mci[M1],Ramp_speed,Ramp_time);
+  MCI_ExecSpeedRamp_F(&Mci[M1],Ramp_speed,Ramp_Time);
   StartReception();
   printf(Default_Info);
   /* USER CODE END 2 */

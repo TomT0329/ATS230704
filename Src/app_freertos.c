@@ -89,31 +89,25 @@ void StartPrintTask(void *argument)
   {
     osDelay(1000);
 
-   qd_f_t Iqd_ref = MC_GetIqdrefMotor1_F();
-   qd_f_t Iqd = MC_GetIqdMotor1_F();
+    qd_f_t Iqd_ref = MC_GetIqdrefMotor1_F();
+    qd_f_t Iqd = MC_GetIqdMotor1_F();
+    int16_t Phase_Peak = MCI_GetPhaseCurrentAmplitude(Mci[M1]);
 
-   printf("IPM TEMP : %u, ", (uint8_t)IPM_temp);
-   printf("Past Fault code : %u.\n\n", MC_GetOccurredFaultsMotor1());
-   printf("Current Fault code : %u.\n\n", MC_GetCurrentFaultsMotor1());
-   printf("Current Speed : %d, ", (int)MC_GetAverageMecSpeedMotor1_F());
-   printf("Speed Target : %d.\n\n", (int)MC_GetMecSpeedReferenceMotor1_F());
-   printf("Power : %d, \n\n",(int)MC_GetAveragePowerMotor1_F());
-   sprintf(float_buffer, "Iq_ref : %.2f, Iq : %.2f.\n\nId_ref : %.2f, Id : %.2f.\n\n", Iqd_ref.q, Iqd.q, Iqd_ref.d, Iqd.d);
-   printf(float_buffer);
-   printf("----- Run time : %u ------\n\n", sec+=1);
-
-	if(sec == 50)
-	{
-		if(HAL_OK != FLASH_If_Erase_Size(Destination, FLASH_DATA_BYTES))
-		{
-			Error_Handler();
-		}
-
-		if(HAL_OK != FLASH_If_Write(Destination, Source, FLASH_DATA_BYTES))
-		{
-			Error_Handler();
-		}
-	}
+    if(!MC_GetCurrentFaultsMotor1())
+    {
+      printf("Phase Peak : %d, ",(int)Phase_Peak);
+      printf("Power : %d, ",(int)MC_GetAveragePowerMotor1_F());
+      printf("IPM TEMP : %u.\n\n", (uint8_t)IPM_temp);
+      printf("Current Speed : %d, ", (int)MC_GetAverageMecSpeedMotor1_F());
+      printf("Speed Target : %d.\n\n", (int)MC_GetMecSpeedReferenceMotor1_F());
+      sprintf(float_buffer, "Iq_ref : %.2f, Iq : %.2f.\n\nId_ref : %.2f, Id : %.2f.\n\n", Iqd_ref.q, Iqd.q, Iqd_ref.d, Iqd.d);
+      printf(float_buffer);
+      printf("----- Run time : %u ------\n\n", sec+=1);
+    }
+    else
+    {
+      //suspend printf task
+    }
   }
   /* USER CODE END 5 */
 }
@@ -131,14 +125,14 @@ void StartModbusTask(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(10);
+    osDelay(1);
     /* Enable UART */
     detec_uart();
 
     /*logging adc value when no MC fault*/
     if(!MC_GetCurrentFaultsMotor1())
     {
-        Logging_ADCvalue(hadc3, (uint16_t *)&Curr_adc, ADC_BUFFER_SIZE);
+      Logging_ADCvalue(hadc3, (uint16_t *)&Curr_adc, ADC_BUFFER_SIZE);
     }
   }
   /* USER CODE END StartModbusTask */
@@ -179,7 +173,7 @@ int __io_putchar(int ch)
 {
   ctrl_rs485_pin(&U1, SET);
   HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xffff);
-  ctrl_rs485_pin(&U1, RESET);
+  // ctrl_rs485_pin(&U1, RESET);
   return ch;
 }
 /* USER CODE END Application */

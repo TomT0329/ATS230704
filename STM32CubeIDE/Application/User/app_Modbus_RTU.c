@@ -739,16 +739,13 @@ void Modbus_CtrlReg_Set(void)
 
 			if(GET_BIT(stModb.wordReg1.wds[0],7))
 			{				
-				if(HAL_OK != FLASH_If_Erase_Size(Destination, FLASH_DATA_BYTES))
+				for(int i = ADC_BUFFER_SIZE -1 ; i >0 ; i--)
 				{
-					Error_Handler();
+					printf("%u, ",Curr_adc[i]);
 				}
+				printf("\n\nPast Fault code : %u, ", MC_GetOccurredFaultsMotor1());
+  				printf("Current Fault code : %u.\n\n", MC_GetCurrentFaultsMotor1());
 				
-				if(HAL_OK != FLASH_If_Write(Destination, Source, FLASH_DATA_BYTES))
-				{
-					Error_Handler();
-				}
-
 				//Clear fault Bit
 				MCI_FaultAcknowledged(pMCI[0]);
 			}else;
@@ -761,7 +758,7 @@ void Modbus_CtrlReg_Set(void)
 
 			break;
 			case DRIVER_FREQ:
-			MCI_ExecSpeedRamp_F(&Mci[M1],(float)stModb.wordReg1.wds[3],Ramp_time);
+			MCI_ExecSpeedRamp_F(&Mci[M1],(float)stModb.wordReg1.wds[3],ACC_Time);
 			break;
 			case HEATER_CURRENT:
 
@@ -784,7 +781,7 @@ void Modbus_CtrlReg_Set(void)
 			MCI_StartMotor(pMCI[0]);
 		}else MCI_StopMotor(pMCI[0]);
 
-		MCI_ExecSpeedRamp_F(&Mci[M1],(float)stModb.wordReg1.wds[3],Ramp_time);
+		MCI_ExecSpeedRamp_F(&Mci[M1],(float)stModb.wordReg1.wds[3],ACC_Time);
 	}
 
 }
