@@ -100,7 +100,7 @@ const osThreadAttr_t Temperature_Tas_attributes = {
 /* USER CODE BEGIN PV */
 
 uint32_t temp_adc = 0;
-uint32_t Curr_adc = 0;
+uint16_t Curr_adc[ADC_BUFFER_SIZE] = {0};
 float IPM_temp = 0;
 //DMA UART begin
 uint8_t Rx_count;
@@ -120,7 +120,7 @@ const char Default_Info[] =
 
 const uint16_t Ramp_time = 60000; // msec
 const float Ramp_speed = 3000; //RPM
-char float_buffer[100];
+char float_buffer[FLOAT_BUFFER_SIZE];
 uint8_t aRXBufferUser[RX_BUFFER_SIZE];
 
 /**
@@ -1156,7 +1156,7 @@ void Error_Handler(void)
   __disable_irq();
   while (1)
   {
-    printf("Error_Hanler Disable irq. \n");
+    // printf("Error_Hanler Disable irq. \n");
     HAL_Delay(1000);
   }
   /* USER CODE END Error_Handler_Debug */

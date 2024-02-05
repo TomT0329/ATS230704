@@ -35,17 +35,17 @@ extern "C" {
 /* USER CODE BEGIN Includes */
 #include "app_Modbus_RTU.h"
 #include "app_temperature.h"
+#include "flash_if.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
 extern ADC_HandleTypeDef hadc2;
 extern ADC_HandleTypeDef hadc3;
-extern char float_buffer[100];
+extern char float_buffer[];
 extern UART_HandleTypeDef huart1;
-// extern char log[100];
 extern float IPM_temp;
-extern uint32_t Curr_adc;
+extern uint16_t Curr_adc[];
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
@@ -106,9 +106,11 @@ extern void StartReception(void);
 
 /* USER CODE BEGIN Private defines */
 #define RX_BUFFER_SIZE   252 // /*data bytes*/ + 12
-#define DATA_BYTES      240
+#define DATA_BYTES      200
 #define ARRAY_LEN(x)            (sizeof(x) / sizeof((x)[0]))
-
+#define DWL_SLOT_START (uint32_t) 0x08020000
+#define ADC_BUFFER_SIZE 100 // uint16_t * 100
+#define FLOAT_BUFFER_SIZE 100 // uint16_t * 100
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

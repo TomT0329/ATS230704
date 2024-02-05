@@ -57,6 +57,8 @@ static void EE_W_Byte(uint16_t addr,uint8_t data)
 	tx_buff[1] = data; /* write address */
 
 	STATE = HAL_I2C_Master_Transmit(&hi2c1, EE_W_ADDRESS, tx_buff, 2, 1000);
+
+	(void)STATE;
 }
 
 static void EE_R_Byte(uint16_t addr,uint8_t length ,uint8_t *data)
@@ -75,6 +77,7 @@ static void EE_R_Byte(uint16_t addr,uint8_t length ,uint8_t *data)
 			if(cnt == 0) return;
 		}
 	}
+	(void)rx_buff;
 }
 /*================================================================================================*=
  * GLOBAL FUNCTIONS
@@ -82,11 +85,11 @@ static void EE_R_Byte(uint16_t addr,uint8_t length ,uint8_t *data)
 void EE_Init_Read(void)
 {
 	/* EEPROM Initial Variable */
-	uint16_t AutoFlowSet = 0;
-	uint16_t AutoPresSet = 0;
-	uint16_t AutoTempSet = 0;
+//	uint16_t AutoFlowSet = 0;
+//	uint16_t AutoPresSet = 0;
+//	uint16_t AutoTempSet = 0;
 
-	EE_READ_BYTE(0,29,&EE);
+	EE_READ_BYTE(0,29,(uint8_t*)&EE);
 #if 0
 	/* flow rate set */
 	AutoFlowSet |= EE.AutoFlow_L;
@@ -162,7 +165,7 @@ void EE_WRITE_BYTE(uint8_t AddStr , uint8_t *data)
   W_Data = *(data + index);
   AddStr = AddStr+1;
   EE_W_Byte(AddStr ,W_Data);
-  Delay_Func(10);
+//  Delay_Func(10);
 }
 
 void EE_READ_BYTE(uint8_t AddStr ,uint8_t length ,uint8_t *data)
@@ -178,12 +181,13 @@ void EE_READ_ALL(void)
 	STATE = HAL_I2C_Master_Transmit(&hi2c1, EE_W_ADDRESS, cmd, 1 , 1000);
 	if(STATE == HAL_OK){
 		cnt = 5;
-		while(HAL_I2C_Master_Receive(&hi2c1, EE_R_ADDRESS, &EE, 12, 1000) != HAL_OK)
+		while(HAL_I2C_Master_Receive(&hi2c1, EE_R_ADDRESS, (uint8_t *)&EE, 12, 1000) != HAL_OK)
 		{
 			cnt --;
 			if(cnt == 0) return;
 		}
 	}
+	(void)rx_buff;
 }
 /*================================================================================================*=
  * END OF FILE
