@@ -91,6 +91,11 @@ void ADC1_2_IRQHandler(void)
 
  /* USER CODE BEGIN HighFreq */
 
+	/*logging adc value when no MC fault*/
+    if(MCI_GetSTMState(&Mci[M1]) == RUN)
+    {
+      Logging_ADCvalue(hadc3, (uint16_t *)&Curr_adc, ADC_BUFFER_SIZE);
+    }
  /* USER CODE END HighFreq  */
 
  /* USER CODE BEGIN ADC1_2_IRQn 1 */

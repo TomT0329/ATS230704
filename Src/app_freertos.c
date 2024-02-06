@@ -61,7 +61,7 @@ void Logging_ADCvalue(ADC_HandleTypeDef hadc, uint16_t buffer[], uint16_t size)
     // Poll for ADC conversion to be completed
   if (HAL_ADC_PollForConversion(&hadc, HAL_MAX_DELAY) == HAL_OK)
   {
-    static int i = 0 ;
+    static uint32_t i = 0 ;
     buffer[i++] = HAL_ADC_GetValue(&hadc);
     if(i > size - 1)
     {
@@ -91,13 +91,11 @@ void StartPrintTask(void *argument)
 
     qd_f_t Iqd_ref = MC_GetIqdrefMotor1_F();
     qd_f_t Iqd = MC_GetIqdMotor1_F();
-    int16_t Phase_Peak = MCI_GetPhaseCurrentAmplitude(&Mci[M1]);
-
-    if(!MC_GetCurrentFaultsMotor1())
+    int16_t Phase_Peak_S16A = MCI_GetPhaseCurrentAmplitude(&Mci[M1]);
+    float Current_Amp = (Phase_Peak_S16A * 3.3) / (65536 * RSHUNT * 24.0);
+    if(MCI_GetSTMState(&Mci[M1]) == RUN && !MC_GetCurrentFaultsMotor1())
     {
-      printf("\n\nPast Fault code : %u, ", MC_GetOccurredFaultsMotor1());
-      printf("Current Fault code : %u.\n\n", MC_GetCurrentFaultsMotor1());
-      // printf("Phase Peak : %d, ",(int)Phase_Peak);
+      printf("Phase Peak : %d, ",(int)Current_Amp);
       printf("Power : %d, ",(int)MC_GetAveragePowerMotor1_F());
       printf("IPM TEMP : %u.\n\n", (uint8_t)IPM_temp);
       printf("Current Speed : %d, ", (int)MC_GetAverageMecSpeedMotor1_F());
@@ -108,7 +106,7 @@ void StartPrintTask(void *argument)
     }
     else
     {
-      //suspend printf task
+      sec = 0;
     }
   }
   /* USER CODE END 5 */
@@ -127,15 +125,9 @@ void StartModbusTask(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(1);
+    osDelay(10);
     /* Enable UART */
     detec_uart();
-
-    /*logging adc value when no MC fault*/
-    if(!MC_GetCurrentFaultsMotor1())
-    {
-      Logging_ADCvalue(hadc3, (uint16_t *)&Curr_adc, ADC_BUFFER_SIZE);
-    }
   }
   /* USER CODE END StartModbusTask */
 }

@@ -739,13 +739,6 @@ void Modbus_CtrlReg_Set(void)
 
 			if(GET_BIT(stModb.wordReg1.wds[0],7))
 			{				
-				for(int i = ADC_BUFFER_SIZE -1 ; i >0 ; i--)
-				{
-					printf("%u, ",Curr_adc[i]);
-				}
-				printf("\n\nPast Fault code : %u, ", MC_GetOccurredFaultsMotor1());
-  				printf("Current Fault code : %u.\n\n", MC_GetCurrentFaultsMotor1());
-				
 				//Clear fault Bit
 				MCI_FaultAcknowledged(pMCI[0]);
 			}else;
@@ -764,6 +757,16 @@ void Modbus_CtrlReg_Set(void)
 
 			break;
 			case DRIVER_OVERTEMP:
+			break;
+
+			case DRIVER_RESERVED1:
+
+			for(int i = ADC_BUFFER_SIZE -1 ; i >0 ; i--)
+			{
+				printf("%u, ",Curr_adc[i]);
+			}
+			printf("\n\nPast Fault code : %u, ", MC_GetOccurredFaultsMotor1());
+			printf("Current Fault code : %u.\n\n", MC_GetCurrentFaultsMotor1());
 
 			break;
 			case DRIVER_SECURITY1:
