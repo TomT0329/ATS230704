@@ -46,6 +46,9 @@
 /* USER CODE BEGIN Variables */
 uint16_t sec = 0;
 uint16_t Curr_adc[ADC_BUFFER_SIZE] = {0};
+float Error_buffer[ERROR_BUFFER_SIZE] = {0};
+float Current_Speed;
+float Speed_Target;
 /* USER CODE END Variables */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -91,15 +94,16 @@ void StartPrintTask(void *argument)
 
     qd_f_t Iqd_ref = MC_GetIqdrefMotor1_F();
     qd_f_t Iqd = MC_GetIqdMotor1_F();
-    int16_t Phase_Peak_S16A = MCI_GetPhaseCurrentAmplitude(&Mci[M1]);
-    float Current_Amp = (Phase_Peak_S16A * 3.3) / (65536 * RSHUNT * 24.0);
+    // int16_t Phase_Peak_S16A = MCI_GetPhaseCurrentAmplitude(&Mci[M1]);
+    // float Current_Amp = (Phase_Peak_S16A * 3.3) / (65536 * RSHUNT * 24.0);
     if(MCI_GetSTMState(&Mci[M1]) == RUN && !MC_GetCurrentFaultsMotor1())
     {
-      printf("Phase Peak : %d, ",(int)Current_Amp);
+      printf("Ramp Speed Target : %d. ", (int)MC_GetLastRampFinalSpeedM1_F());
+      printf("Ramp Command status: %d.\n\n", MC_HasRampCompletedMotor1());
       printf("Power : %d, ",(int)MC_GetAveragePowerMotor1_F());
       printf("IPM TEMP : %u.\n\n", (uint8_t)IPM_temp);
-      printf("Current Speed : %d, ", (int)MC_GetAverageMecSpeedMotor1_F());
-      printf("Speed Target : %d.\n\n", (int)MC_GetMecSpeedReferenceMotor1_F());
+      printf("Current Speed : %d, ", (int)Current_Speed);
+      printf("Speed Target : %d.\n\n", (int)Speed_Target);
       sprintf(float_buffer, "Iq_ref : %.2f, Iq : %.2f.\n\nId_ref : %.2f, Id : %.2f.\n\n", Iqd_ref.q, Iqd.q, Iqd_ref.d, Iqd.d);
       printf(float_buffer);
       printf("----- Run time : %u ------\n\n", sec+=1);
@@ -107,6 +111,8 @@ void StartPrintTask(void *argument)
     else
     {
       sec = 0;
+      printf("\n\nRamp Speed Target : %d. ", (int)MC_GetLastRampFinalSpeedM1_F());
+      printf("Ramp Command status : %d.", MC_HasRampCompletedMotor1());
     }
   }
   /* USER CODE END 5 */
@@ -125,9 +131,22 @@ void StartModbusTask(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(10);
+    osDelay(2);
     /* Enable UART */
     detec_uart();
+
+    static uint32_t i = 0;
+
+    if(MCI_GetSTMState(&Mci[M1]) == RUN)
+    {
+      Current_Speed = MC_GetAverageMecSpeedMotor1_F();
+      Speed_Target = MC_GetMecSpeedReferenceMotor1_F();
+      Error_buffer[i++] = Speed_Target - Current_Speed;
+      if(i > ERROR_BUFFER_SIZE -1)
+      {
+        i=0;
+      }
+    }
   }
   /* USER CODE END StartModbusTask */
 }

@@ -761,9 +761,13 @@ void Modbus_CtrlReg_Set(void)
 
 			case DRIVER_RESERVED1:
 
-			for(int i = ADC_BUFFER_SIZE -1 ; i >0 ; i--)
+			// for(int i = ADC_BUFFER_SIZE -1 ; i >0 ; i--)
+			// {
+			// 	printf("%u, ",Curr_adc[i]);
+			// }
+			for(int i = ERROR_BUFFER_SIZE -1 ; i >0 ; i--)
 			{
-				printf("%u, ",Curr_adc[i]);
+				printf("%d, ", (int)Error_buffer[i]);
 			}
 			printf("\n\nPast Fault code : %u, ", MC_GetOccurredFaultsMotor1());
 			printf("Current Fault code : %u.\n\n", MC_GetCurrentFaultsMotor1());

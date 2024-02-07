@@ -46,6 +46,7 @@ extern char float_buffer[];
 extern UART_HandleTypeDef huart1;
 extern float IPM_temp;
 extern uint16_t Curr_adc[];
+extern float Error_buffer[];
 extern void *Destination;
 extern const void *Source;
 /* USER CODE END ET */
@@ -112,6 +113,7 @@ extern void Logging_ADCvalue(ADC_HandleTypeDef hadc, uint16_t buffer[], uint16_t
 #define RX_BUFFER_SIZE   252 // /*data bytes*/ + 12
 #define FLASH_DATA_BYTES      ADC_BUFFER_SIZE * 2
 #define ADC_BUFFER_SIZE 2500 // uint16_t
+#define ERROR_BUFFER_SIZE 500 // uint16_t
 #define ARRAY_LEN(x)            (sizeof(x) / sizeof((x)[0]))
 #define DWL_SLOT_START (uint32_t) 0x08020000
 #define FLOAT_BUFFER_SIZE 100

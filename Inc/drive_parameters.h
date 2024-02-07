@@ -49,7 +49,7 @@
 
 /* State observer constants */
 #define GAIN1                            -24514
-#define GAIN2                            9602*2
+#define GAIN2                            9602
 /*Only in case PLL is used, PLL gains */
 #define PLL_KP_GAIN                      638
 #define PLL_KI_GAIN                      45
