@@ -121,7 +121,7 @@ const char Default_Info[] =
 
 const uint16_t Ramp_Time = 60000; // msec
 const uint16_t ACC_Time = 30000; // msec
-const float Ramp_speed = 3000; //RPM
+const float Ramp_Speed = 3000; //RPM
 char float_buffer[FLOAT_BUFFER_SIZE];
 uint8_t aRXBufferUser[RX_BUFFER_SIZE];
 
@@ -213,7 +213,7 @@ int main(void)
   MX_NVIC_Init();
   /* USER CODE BEGIN 2 */
   HAL_TIM_Base_Start_IT(&htim6);
-  MCI_ExecSpeedRamp_F(&Mci[M1],Ramp_speed,Ramp_Time);
+  MCI_ExecSpeedRamp_F(&Mci[M1],Ramp_Speed,Ramp_Time);
   StartReception();
   printf(Default_Info);
   /* USER CODE END 2 */

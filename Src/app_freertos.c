@@ -96,24 +96,15 @@ void StartPrintTask(void *argument)
     qd_f_t Iqd = MC_GetIqdMotor1_F();
     // int16_t Phase_Peak_S16A = MCI_GetPhaseCurrentAmplitude(&Mci[M1]);
     // float Current_Amp = (Phase_Peak_S16A * 3.3) / (65536 * RSHUNT * 24.0);
-    if(MCI_GetSTMState(&Mci[M1]) == RUN && !MC_GetCurrentFaultsMotor1())
-    {
-      printf("Ramp Speed Target : %d. ", (int)MC_GetLastRampFinalSpeedM1_F());
-      printf("Ramp Command status: %d.\n\n", MC_HasRampCompletedMotor1());
-      printf("Power : %d, ",(int)MC_GetAveragePowerMotor1_F());
-      printf("IPM TEMP : %u.\n\n", (uint8_t)IPM_temp);
-      printf("Current Speed : %d, ", (int)Current_Speed);
-      printf("Speed Target : %d.\n\n", (int)Speed_Target);
-      sprintf(float_buffer, "Iq_ref : %.2f, Iq : %.2f.\n\nId_ref : %.2f, Id : %.2f.\n\n", Iqd_ref.q, Iqd.q, Iqd_ref.d, Iqd.d);
-      printf(float_buffer);
-      printf("----- Run time : %u ------\n\n", sec+=1);
-    }
-    else
-    {
-      sec = 0;
-      printf("\n\nRamp Speed Target : %d. ", (int)MC_GetLastRampFinalSpeedM1_F());
-      printf("Ramp Command status : %d.", MC_HasRampCompletedMotor1());
-    }
+    printf("\n\nRamp Speed Target : %d. ", (int)MC_GetLastRampFinalSpeedM1_F());
+    printf("Ramp Command Completed: %d.\n\n", MC_HasRampCompletedMotor1());
+    printf("Power : %d, ",(int)MC_GetAveragePowerMotor1_F());
+    printf("IPM TEMP : %u.\n\n", (uint8_t)IPM_temp);
+    printf("Current Speed : %d, ", (int)Current_Speed);
+    printf("Speed Target : %d.\n\n", (int)Speed_Target);
+    sprintf(float_buffer, "Iq_ref : %.2f, Iq : %.2f.\n\nId_ref : %.2f, Id : %.2f.\n\n", Iqd_ref.q, Iqd.q, Iqd_ref.d, Iqd.d);
+    printf(float_buffer);
+    printf("----- Run time : %u ------\n\n", sec+=1);
   }
   /* USER CODE END 5 */
 }
