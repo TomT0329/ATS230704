@@ -649,7 +649,7 @@
             "name": "M1",
             "minRatedVoltage": 18,
             "maxRatedVoltage": 400,
-            "maxRatedCurrent": 13.3,
+            "maxRatedCurrent": 23,
             "maxRatedPower": 1000,
             "resistorOffset": 0.67,
             "connectorType": "MotorControlConnector",
@@ -923,7 +923,7 @@
                     "OCComparatorThreshold": 0.53,
                     "OCNetworkOffset": 0,
                     "OCNetworkGain": 0.08,
-                    "OCThreshold": 24,
+                    "OCThreshold": 25,
                     "OCSignalPolarity": "Active low"
                   }
                 ]
@@ -1002,7 +1002,7 @@
           "sixStep"
         ],
         "polePairs": 2,
-        "nominalCurrent": 20,
+        "nominalCurrent": 23,
         "nominalDCVoltage": 400,
         "rs": 0.25,
         "ls": 3.5,
@@ -1926,7 +1926,7 @@
     "steps": {
       "powerSupply_0": {
         "nominalDcBusVoltage": "Number.NaN",
-        "nominalCurrent": 13.3,
+        "nominalCurrent": 23,
         "maxCurrent_pk": "Number.NaN",
         "icl": {
           "enable": false,
@@ -1946,8 +1946,8 @@
             "amplification": "external",
             "shuntResistor": "Number.NaN",
             "gain": "Number.NaN",
-            "tNoise": 4500,
-            "tRise": 4500,
+            "tNoise": 2500,
+            "tRise": 7000,
             "maxModulation": "Number.NaN",
             "samplingTime": "Number.NaN"
           }
@@ -2253,7 +2253,7 @@
             "onTheFlyStartupEnabled": false
           },
           "startupExitCond": {
-            "startUpSpeedThresh": 900,
+            "startUpSpeedThresh": 850,
             "consecutiveCorrectMeasures": 3,
             "speedBandToleranceLowerLimit": 85,
             "speedBandToleranceUpperLimit": 150
@@ -2272,7 +2272,7 @@
         "rs": "Number.NaN",
         "ls": "Number.NaN",
         "mmsLd_lq_ratio": "Number.NaN",
-        "maxCurrent": 13.3,
+        "maxCurrent": 23,
         "maxDCVoltage": 400,
         "BEmfConstant": "Number.NaN",
         "inertia": "Number.NaN",

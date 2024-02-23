@@ -31,8 +31,8 @@
 /******** MAIN AND AUXILIARY SPEED/POSITION SENSOR(S) SETTINGS SECTION ********/
 
 /*** Speed measurement settings ***/
-#define MAX_APPLICATION_SPEED_RPM       5000 /*!< rpm, mechanical */
-#define MIN_APPLICATION_SPEED_RPM       900 /*!< rpm, mechanical,
+#define MAX_APPLICATION_SPEED_RPM       5400 /*!< rpm, mechanical */
+#define MIN_APPLICATION_SPEED_RPM       0 /*!< rpm, mechanical,
                                                            absolute value */
 #define M1_SS_MEAS_ERRORS_BEFORE_FAULTS 100 /*!< Number of speed
                                                              measurement errors before
@@ -48,11 +48,11 @@
 #define F2_LOG                           LOG2((8192))
 
 /* State observer constants */
-#define GAIN1                            -24514
-#define GAIN2                            9602
+#define GAIN1                            -24494
+#define GAIN2                            24912
 /*Only in case PLL is used, PLL gains */
-#define PLL_KP_GAIN                      638
-#define PLL_KI_GAIN                      45
+#define PLL_KP_GAIN                      718
+#define PLL_KI_GAIN                      64
 #define PLL_KPDIV     16384
 #define PLL_KPDIV_LOG LOG2((PLL_KPDIV))
 #define PLL_KIDIV     65535
@@ -79,7 +79,7 @@
 /**************************    DRIVE SETTINGS SECTION   **********************/
 /* PWM generation and current reading */
 
-#define PWM_FREQUENCY   10000
+#define PWM_FREQUENCY   8000
 #define PWM_FREQ_SCALING 1
 
 #define LOW_SIDE_SIGNALS_ENABLING        LS_PWM_TIMER
@@ -94,18 +94,18 @@
 #define ISR_FREQUENCY_HZ (PWM_FREQUENCY/REGULATION_EXECUTION_RATE) /*!< @brief FOC execution rate in
                                                            Hz */
 /* Gains values for torque and flux control loops */
-#define PID_TORQUE_KP_DEFAULT         3560
-#define PID_TORQUE_KI_DEFAULT         71
+#define PID_TORQUE_KP_DEFAULT         2361
+#define PID_TORQUE_KI_DEFAULT         127
 #define PID_TORQUE_KD_DEFAULT         100
-#define PID_FLUX_KP_DEFAULT           2492
-#define PID_FLUX_KI_DEFAULT           71
+#define PID_FLUX_KP_DEFAULT           1703
+#define PID_FLUX_KI_DEFAULT           127
 #define PID_FLUX_KD_DEFAULT           100
 
 /* Torque/Flux control loop gains dividers*/
-#define TF_KPDIV                      4096
+#define TF_KPDIV                      2048
 #define TF_KIDIV                      16384
 #define TF_KDDIV                      8192
-#define TF_KPDIV_LOG                  LOG2((4096))
+#define TF_KPDIV_LOG                  LOG2((2048))
 #define TF_KIDIV_LOG                  LOG2((16384))
 #define TF_KDDIV_LOG                  LOG2((8192))
 #define TFDIFFERENTIAL_TERM_ENABLING  DISABLE
@@ -114,14 +114,14 @@
 #define SPEED_LOOP_FREQUENCY_HZ       ( uint16_t )500 /*!<Execution rate of speed
                                                       regulation loop (Hz) */
 
-#define PID_SPEED_KP_DEFAULT          2253/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
-#define PID_SPEED_KI_DEFAULT          1154/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
+#define PID_SPEED_KP_DEFAULT          3166/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
+#define PID_SPEED_KI_DEFAULT          811/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
 #define PID_SPEED_KD_DEFAULT          0/(SPEED_UNIT/10) /* Workbench compute the gain for 01Hz unit*/
 /* Speed PID parameter dividers */
-#define SP_KPDIV                      64
+#define SP_KPDIV                      128
 #define SP_KIDIV                      16384
 #define SP_KDDIV                      16
-#define SP_KPDIV_LOG                  LOG2((64))
+#define SP_KPDIV_LOG                  LOG2((128))
 #define SP_KIDIV_LOG                  LOG2((16384))
 #define SP_KDDIV_LOG                  LOG2((16))
 /* USER CODE BEGIN PID_SPEED_INTEGRAL_INIT_DIV */
@@ -129,7 +129,7 @@
 /* USER CODE END PID_SPEED_INTEGRAL_INIT_DIV */
 
 #define SPD_DIFFERENTIAL_TERM_ENABLING DISABLE
-#define IQMAX_A                          19.714317974313154
+#define IQMAX_A                          24.58797507430251
 
 /* Default settings */
 #define DEFAULT_CONTROL_MODE           MCM_SPEED_MODE
@@ -239,9 +239,9 @@
 /*  Maximum Torque Per Ampere strategy parameters */
 
 #define MTPA_ENABLING
-#define SEGDIV                         3483
-#define M1_ANGC                        {-715,-2153,-3584,-4984,-6367,-7705,-9010,-10261}
-#define OFST                           {0,152,457,903,1491,2202,3035,3966}
+#define SEGDIV                         3052
+#define M1_ANGC                        {-773,-2329,-3874,-5379,-6858,-8285,-9684,-11001}
+#define OFST                           {0,144,432,853,1404,2069,2851,3709}
 
 /*** On the fly start-up ***/
 
