@@ -60,6 +60,7 @@ void modbus06(UART_STR* Ux, UART_HandleTypeDef *pUartHandle);
 void modbus10(UART_STR* Ux, UART_HandleTypeDef *pUartHandle);
 void modbus15(UART_STR* Ux, UART_HandleTypeDef *pUartHandle);
 void Modbus_CtrlReg_Set(void);
+
 /*================================================================================================*=
  * LOCAL FUNCTIONS
  *================================================================================================*/
@@ -154,7 +155,7 @@ static void  send_err_code (UART_STR* Ux, UART_HandleTypeDef *pUartHandle, uint8
  ************************************************************************/
 static int16_t get_syst_para(int16_t index)
 {
-	if((index >= _ID_SET_WORD_MIN) && (index <= DRIVER_STATUS))
+	if((index >= _ID_SET_WORD_MIN) && (index <= _ID_SET_WORD_MAX))
 	{
 		return stModb.wordReg1.wds[index - _ID_SET_WORD_MIN];
 	}
@@ -554,10 +555,6 @@ void modbus06(UART_STR* Ux, UART_HandleTypeDef *pUartHandle)
 	{
 
 	}
-	else if(addr.w == 0x3001 || addr.w == 0x3002)
-	{
-		set_syst_para(addr.w, dat.w);
-	}
 	else
 	{
 		send_err_code(Ux, pUartHandle, ERR_MODBUS_ADDR);
@@ -697,16 +694,46 @@ void modbus15(UART_STR* Ux, UART_HandleTypeDef *pUartHandle)
 	send_Ux(Ux, pUartHandle, rx->buf, rx->size);
 }
 /*************************************************************************
- * Function Name: modbus_slave_value_update(_MODBUS_SLAVE_ADDR addr, *int16_t pData, uint8_t dataLen)
+ * Function Name: modbus_slave_value_update()
  *
- * Parameters: _MODBUS_WORD addr, int16_t val
+ * Parameters: 
  *
  * Return: None
  *
  * Description: Update MODBUS data
  ************************************************************************/
-void modbus_slave_value_update(int16_t addr, int16_t *pData, uint8_t dataLen)
+void modbus_slave_value_update()
 {
+	UART_BUFF_STR * rx = &U2.rx;
+	BusVoltageSensor_Handle_t* BusVoltageSensor= &BusVoltageSensor_M1._Super;
+
+	if(MCI_GetSTMState(&Mci[M1]) == RUN)
+	{
+		MODBUS_SET_BIT(stModb.wordReg1.wds[DRIVER_STATUS],0);
+	}
+	else
+	{
+		MODBUS_CLEAR_BIT(stModb.wordReg1.wds[DRIVER_STATUS],0);
+	}
+
+	if(MC_GetOccurredFaultsMotor1())
+	{
+		MODBUS_SET_BIT(stModb.wordReg1.wds[DRIVER_STATUS],7);
+	}
+	else
+	{
+		MODBUS_CLEAR_BIT(stModb.wordReg1.wds[DRIVER_STATUS],7);
+	}
+
+	stModb.wordReg1.wds[COMP_FREQ] = (uint16_t)MC_GetMecSpeedAverageMotor1();
+
+	stModb.wordReg1.wds[COMP_POWER] = (uint16_t)MC_GetAveragePowerMotor1_F();
+
+	stModb.wordReg1.wds[IPM_TEMP] = (uint16_t)IPM_temp;
+
+	stModb.wordReg1.wds[IPM_PWMFREQ] = (uint16_t)PWM_FREQUENCY;
+
+	stModb.wordReg1.wds[DCBUS_VOLTAGE] = (int16_t)VBS_GetAvBusVoltage_V(BusVoltageSensor);
 
 }
 
@@ -722,22 +749,22 @@ void Modbus_CtrlReg_Set(void)
 		{
 			case DRIVER_CTRL:
 
-			if(GET_BIT(stModb.wordReg1.wds[0],0))
+			if(MODBUS_GET_BIT(stModb.wordReg1.wds[DRIVER_CTRL],0))
 			{
 				MCI_StartMotor(pMCI[0]);
 			}else MCI_StopMotor(pMCI[0]);
 
-			if(GET_BIT(stModb.wordReg1.wds[0],2))
+			if(MODBUS_GET_BIT(stModb.wordReg1.wds[DRIVER_CTRL],2))
 			{
 				//PFC
 			}else;
 
-			if(GET_BIT(stModb.wordReg1.wds[0],3))
+			if(MODBUS_GET_BIT(stModb.wordReg1.wds[DRIVER_CTRL],3))
 			{
 				//Clear restarup
 			}else;
 
-			if(GET_BIT(stModb.wordReg1.wds[0],7))
+			if(MODBUS_GET_BIT(stModb.wordReg1.wds[DRIVER_CTRL],7))
 			{				
 				//Clear fault Bit
 				MCI_FaultAcknowledged(pMCI[0]);
@@ -751,20 +778,16 @@ void Modbus_CtrlReg_Set(void)
 
 			break;
 			case DRIVER_FREQ:
-			MCI_ExecSpeedRamp_F(&Mci[M1],(float)stModb.wordReg1.wds[3],ACC_Time);
+			MCI_ExecSpeedRamp(&Mci[M1],(int16_t)(stModb.wordReg1.wds[DRIVER_FREQ]), ACC_Time);
 			break;
-			case HEATER_CURRENT:
+			case HEATER_SHCURRENT:
 
 			break;
-			case DRIVER_OVERTEMP:
+			case DRIVER_OAT:
 			break;
 
 			case DRIVER_RESERVED1:
 
-			// for(int i = ADC_BUFFER_SIZE -1 ; i >0 ; i--)
-			// {
-			// 	printf("%u, ",Curr_adc[i]);
-			// }
 			for(int i = ADC_BUFFER_SIZE -1 ; i >0 ; i--)
 			{
 				printf("%d, ", (int)Curr_adc[i]);
@@ -781,16 +804,19 @@ void Modbus_CtrlReg_Set(void)
 			break;
 		}
 	}
-	else if(rx->buf[1] == 0x10 && rx->buf[26] == 0x88)
+	else if(rx->buf[1] == 0x10 
+	&& rx->buf[23] == 0x88
+	&& rx->buf[24] == 0x88
+	&& rx->buf[25] == 0x88
+	&& rx->buf[26] == 0x88)
 	{
-		if(GET_BIT(stModb.wordReg1.wds[0],0))
+		if(MODBUS_GET_BIT(stModb.wordReg1.wds[DRIVER_CTRL],0))
 		{
 			MCI_StartMotor(pMCI[0]);
 		}else MCI_StopMotor(pMCI[0]);
 
-		MCI_ExecSpeedRamp_F(&Mci[M1],(float)stModb.wordReg1.wds[3],ACC_Time);
+		MCI_ExecSpeedRamp(&Mci[M1],(int16_t)(stModb.wordReg1.wds[DRIVER_FREQ]),ACC_Time);
 	}
-
 }
 
 /*================================================================================================*=

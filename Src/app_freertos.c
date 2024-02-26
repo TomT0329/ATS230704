@@ -105,6 +105,8 @@ void StartPrintTask(void *argument)
     sprintf(float_buffer, "Iq_ref : %.2f, Iq : %.2f.\n\nId_ref : %.2f, Id : %.2f.\n\n", Iqd_ref.q, Iqd.q, Iqd_ref.d, Iqd.d);
     printf(float_buffer);
     printf("----- Run time : %u ------\n\n", sec+=1);
+
+	modbus_slave_value_update();
   }
   /* USER CODE END 5 */
 }

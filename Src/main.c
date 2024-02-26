@@ -113,10 +113,11 @@ const char Default_Info[] =
 		"\r\nCommand Example : Enter 01 06 00 00 00 01 48 0a to Start the motor.\r\n"
 		"\r\nCommand Example : Enter 01 06 00 00 00 00 89 ca to Stop the motor.\r\n"
 		"\r\nCommand Example : Enter 01 06 00 00 00 80 88 6a to Ack fault.\r\n"
-		"\r\nCommand Example : Enter 01 06 00 03 0b b8 7e 88 to Ramp-up the motor to 3000 RPM.\r\n\n"
-    "\r\nCommand Example : Enter 01 06 00 03 0f a0 7c 42 to Ramp-up the motor to 4000 RPM.\r\n\n"
-    "\r\nCommand Example : Enter 01 06 00 03 11 94 74 35 to Ramp-up the motor to 4500 RPM.\r\n\n"
-    "\r\nCommand Example : Enter 01 10 00 00 00 0a 14 00 01 ff ff ff ff 0b b8 ff ff ff ff ff ff ff ff 88 88 88 88 b0 5d to Ramp-up the motor to 3000 RPM.\r\n\n";
+		"\r\nCommand Example : Enter 01 06 00 03 01 f4 7e 88 to Ramp-up the motor to 500 rps(01Hz).\r\n\n"
+    "\r\nCommand Example : Enter 01 06 00 03 02 9a 7c 42 to Ramp-up the motor to 666 rps(01Hz).\r\n\n"
+    "\r\nCommand Example : Enter 01 06 00 03 02 ee 74 35 to Ramp-up the motor to 750 rps(01Hz).\r\n\n"
+    "\r\nCommand Example : Enter 01 10 00 00 00 0a 14 00 01 ff ff ff ff 01 f4 ff ff ff ff ff ff ff ff 88 88 88 88 b0 5d to Ramp-up the motor to 500 rps(01Hz).\r\n\n"
+    "\r\nCommand Example : Enter 01 03 00 00 00 78 45 e8 to acquire data registers.\r\n\n";
 
 
 const uint16_t Ramp_Time = 60000; // msec

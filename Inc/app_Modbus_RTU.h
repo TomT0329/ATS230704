@@ -32,14 +32,14 @@ typedef enum
 	DRIVER_PARA,
 	DRIVER_EEPROM,
 	DRIVER_FREQ,
-	HEATER_CURRENT,
-	DRIVER_OVERTEMP,
+	HEATER_SHCURRENT,
+	DRIVER_OAT,
 	DRIVER_RESERVED1,
 	DRIVER_RESERVED2,
 	DRIVER_SECURITY1,
 	DRIVER_SECURITY2,
 
-	DRIVER_STATUS			= 0x10,
+	DRIVER_STATUS			= 0x000a,
 	DRIVER_RESERVED3,
 	EEPROM_STATUS,
 	COMP_FREQ,
@@ -60,94 +60,36 @@ typedef enum
 	DLT_VOLTAGE,
 	IF_VOLTAGE,
 	DRIVER_RESERVED4,
-
-	_ID_SET_WORD_MAX   	   = DRIVER_RESERVED4,
+	SL_SR,
+	FAULT_CODE,
+	FAULT1,
+	FAULT2,
+	FAULT3,
+	MESSAGE_COUNT_ACK,
+	MESSAGE_COUNT_NACK,
+	MESSAGE_COUNT_BAD,
+	DRIVER_RESERVED5		= 0x0027,
+	HISTORY_FAULT_CODE1		=0x0040,
+	POWER_ON_TIME			=0x004a,
+	COMP_RUN_TIME,
+	COMP_RUN_TIME1,
+	SH_RUN_TIME,
+	ENERGY,
+	BL_VER					=0x0050,
+	BL_CRC,
+	DRIVER_RESERVED6,
+	FW_VER,
+	DRIVER_RESERVED7,
+	EE_VER,
+	DRIVER_RESERVED8,
+	PROG_ID					=0x0058,
+	MODEL_NUM				=0x0060,
+	SERIAL_NUM				=0x0068,
+	COMP_NUM				=0x0070,
+	_ID_SET_WORD_MAX   	   = 0x0077,
 } _MODBUS_SLAVE_ADDR;
 
-/* Information */
-enum _MODBUS_INPUT_REG
-{
-	_ID_INPUT_REG_MIN 	= 0x0300,
-	TEMP_W1    			= _ID_INPUT_REG_MIN,
-	TEMP_W2    			= TEMP_W1 + 1,
-	TEMP_AIR     		= TEMP_W2  + 1,
-	TEMP_R4  			= TEMP_AIR  + 1,
-	TEMP_R3  			= TEMP_R4  + 1,
-	TEMP_R2  			= TEMP_R3  + 1,
-	TEMP_R1     		= TEMP_R2 + 1,
-	TEMP_TAMBIENT  		= TEMP_R1  + 1,
-	PRES_W1				= TEMP_TAMBIENT + 1,
-	PRES_W2				= PRES_W1 + 1,
-	PRES_W3				= PRES_W2 + 1,
-	PRES_R1				= PRES_W3 + 1,
-	PUMP1_RPM_FB		= PRES_R1 + 1,
-	PUMP1_DUTY_FB	    = PUMP1_RPM_FB + 1,
-	COMP_2100			= PUMP1_DUTY_FB +1,
-	COMP_2101			= COMP_2100 +1,
-	COMP_2102			= COMP_2101 +1,
-	COMP_2103			= COMP_2102 +1,
-	COMP_2110			= COMP_2103 +1,
-	COMP_2121			= COMP_2110 +1,
-	_ID_INPUT_REG_MID   = COMP_2121,
-	// Alarm
-	_ID_ALERT_INDEX_BASE= 0x0400,						// Alarm status base
-	RPU_FAN_STATUS      = _ID_ALERT_INDEX_BASE,			// RPU internal fan alarm status
-	RPU_PUMP_STATUS 	= RPU_FAN_STATUS + 1,			// RPU pump alarm status
-	RPU_SENSOR_ABNORMAL = RPU_PUMP_STATUS + 1,			// RPU sensor alarm status
-	LEAKAGE_ABNORMAL    = RPU_SENSOR_ABNORMAL + 1,		// Leakage abnormal status
-	HX_SENSOR_ABNORMAL  = LEAKAGE_ABNORMAL + 1,			// HX Sensor abnormal status
-	HX_FAN_ABNORMAL  	= HX_SENSOR_ABNORMAL + 1,		// HX Fan abnormal status
-	HX_FAN_2_ABNORMAL  	= HX_FAN_ABNORMAL + 1,			// HX Fan 2 abnormal status
 
-	// Firmware verion
-	_ID_FW_INDEX_BASE  = 0x0500,						// Firmware version base
-	FW_VERSION_1       = _ID_FW_INDEX_BASE,				// Firmware version 1
-	FW_VERSION_2       = FW_VERSION_1 + 1,				// Firmware version 2
-	FW_VERSION_3       = FW_VERSION_2 + 1,				// Firmware version 3
-	FW_VERSION_4       = FW_VERSION_3 + 1,				// Firmware version 4
-	FW_VERSION_5       = FW_VERSION_4 + 1,				// Firmware version 5
-	_ID_INPUT_REG_MAX  = FW_VERSION_5,
-};
-
-enum _MODBUS_BIT
-{
-	_ID_SET_BIT_MIN   		= 0x800,
-	/* bit0 */
-	_ID_WATER_HEATER_SWITCH = _ID_SET_BIT_MIN,
-	_ID_PUMP_HEATER_SWITCH  = 0x801,
-	_ID_PUMP_ALARM_STOP     = 0x802,
-	_ID_PUMP_ALARM_OV_UV  	= 0x803,
-	_ID_PUMP_ALARM_OC    	= 0x804,
-	_ID_PUMP_ALARM_OT  		= 0x805,
-	_ID_PUMP_ALARM_AL  		= 0x806,
-	_ID_PUMP_ALARM_NL 		= 0x807,
-	/* bit1 */
-	_ID_PUMP2_STA 		    = 0x808,
-	_ID_WATER_HEATER_STA    = 0x809,
-	_ID_FAN1_1_STA          = 0x80A,
-	_ID_FAN1_2_STA          = 0x80B,
-	_ID_FAN1_3_STA          = 0x80C,
-	_ID_FAN2_1_STA          = 0x80D,
-	_ID_FAN2_2_STA          = 0x80E,
-	_ID_RESERVE             = 0x80F,
-	/* bit2 0x810 - 0x817 */
-	/* bit3 0x818 - 0x81F */
-	/* bit4 0x820 - 0x827 */
-	/* bit5 0x828 - 0x82F */
-	/* bit6 0x830 - 0x837 */
-	/* bit7 0x838 - 0x83F */
-	/* bit8 0x840 - 0x847 */
-	/* bit9 */
-	_ID_COMP_2100_DRIVER_STATUS  = 0x848,
-	_ID_COMP_2100_PFC_STA     	 = 0x849,
-	_ID_COMP_2100_CHG_FIN_STA 	 = 0x84A,
-	_ID_COMP_2100_STOP_PROT    	 = 0x84B,
-	_ID_COMP_2100_ALARM_PROT   	 = 0x84C,
-    /**/
-
-	_ID_SET_BIT_MAX_1 = _ID_COMP_2100_ALARM_PROT,
-	_ID_SET_BIT_MAX = _ID_SET_BIT_MAX_1,
-};
 typedef enum{
 	FIRST_DATA = 0,
 	SECOND_DATA  = 1,
@@ -176,90 +118,75 @@ typedef struct
 
 typedef union
 {
-    int16_t wds[DRIVER_SECURITY2 - _ID_SET_WORD_MIN + 1];
+    uint16_t wds[_ID_SET_WORD_MAX - _ID_SET_WORD_MIN + 1];
     struct
     {
-    	uint16_t Ctrl;      	 // 0x00 Auto tune Coolant Flow Rate Target Set
-    	uint16_t Para;   		 // 0x01 Auto tune Coolant Pressure Target Set
-    	uint16_t EEPROM;         // 0x02 Manual Control Pump duty set
-    	int16_t Freq; 	     	 // 0x03 Manual Control Pump on/off
-    	uint16_t SH_current;     // 0x04 Manual Control Valve duty set
-    	int16_t OAT;             // 0x05 Manual Control Valve on/off
-		uint16_t Reserved1;		 // 0X06
-		uint16_t Reserved2;		 // 0X07
-		uint16_t Security1;		 // 0X08
-		uint16_t Security2;		 // 0X09
+		/* R/W registers*/
+    	uint16_t Ctrl;      	 // 0x00 
+    	uint16_t Para;   		 // 0x01 
+    	uint16_t EEPROM;         // 0x02 
+    	int16_t Freq; 	     	 // 0x03 
+    	uint16_t SH_current;     // 0x04 
+    	int16_t OAT;             // 0x05 
+		uint16_t Reserved1;		 // 0x06
+		uint16_t Reserved2;		 // 0x07
+		uint16_t Security1;		 // 0x08
+		uint16_t Security2;		 // 0x09
+		/* R only registers*/
+		uint16_t Status;			//0x10
+		uint16_t Reserved3;
+		uint16_t EE_status;
+		int16_t Comp_freq;
+		int16_t Comp_voltage;
+		int16_t Comp_current;
+		int16_t Comp_power;
+		int16_t Comp_torque;
+		int16_t Ipm_temp;
+		uint16_t Ipm_pwmfreq;
+		int16_t DCbus_voltage;
+		int16_t AC_voltage;
+		int16_t AC_current;
+		uint16_t AC_power;
+		uint16_t VDC_ripple;
+		int16_t PFC_temp;
+		uint16_t PFC_pwm;
+		int16_t DLT_voltage;
+		int16_t IF_voltage;
+		uint16_t Reserved4;
+		uint16_t SL_SR;
+		uint16_t Fault_code;
+		uint16_t Fault1;
+		uint16_t Fault2;
+		uint16_t Fault3;
+		uint16_t ACK_count;
+		uint16_t NACK_count;
+		uint16_t BAD_count;
+		/*Addr 39-63*/
+		uint16_t Reserved5[24];
+		/*Addr 64-73*/
+		uint16_t History_fault[10];
+		uint16_t Power_on_time;
+		uint16_t Comp_run_time;
+		uint16_t SH_run_time;
+		uint16_t Energy;
+		uint16_t BL_ver;
+		uint16_t BL_crc;
+		uint16_t Reserved6;
+		uint16_t FW_ver;
+		uint16_t Reserved7;
+		uint16_t EE_ver;
+		/*Addr 86-87*/
+		uint16_t Reserved8[2];
+		/*Addr 88-95*/
+		uint16_t Prog_ID[8];
+		/*Addr 96-103*/
+		uint16_t Model_num[8];
+		/*Addr 104-111*/
+		uint16_t Serial_num[8];
+		/*Addr 112-119*/
+		uint16_t Com_num[8];
     } Driver;
 } _MEM_REG_1;
-
-
-
-
-typedef union
-{
-	uint16_t all[1];
-	struct
-	{
-        uint16_t outlet_T_IL_Set: 1;// 1
-        uint16_t outlet_T_IH_Set: 1;// 2
-        uint16_t outlet_T_PL_Set: 1;// 3
-        uint16_t outlet_T_PH_Set: 1;// 4
-        uint16_t outlet_P_IL_Set: 1;// 5
-        uint16_t outlet_P_IH_Set: 1;// 6
-        uint16_t reserve: 		  10;// 5~16
-	} flag;
-} controlFlag;
-
-typedef struct
-{
-	union
-	{
-		int8_t bits[15];
-		struct
-		{
-			/* bits[0] */
-			uint8_t WaterHeater_SW:    1; //0x00
-			uint8_t PumpHeater_SW :    1; //0x01
-			uint8_t Pump_Alarm_Stop:   1; //0x02
-			uint8_t Pump_Alarm_OV_UV:  1; //0x03
-			uint8_t Pump_Alarm_OC:     1; //0x04
-			uint8_t Pump_Alarm_OT:     1; //0x05
-			uint8_t Pump_Alarm_AL:     1; //0x06
-			uint8_t Pump_Alarm_NL:     1; //0x07
-			/* bits[1] */
-			uint8_t Pump2_STA:         1; //0x08
-			uint8_t WaterHeater_STA:   1; //0x09
-			uint8_t Fan1_1_STA:   	   1; //0x0A
-			uint8_t Fan1_2_STA:   	   1; //0x0B
-			uint8_t Fan1_3_STA:   	   1; //0x0C
-			uint8_t Fan2_1_STA:   	   1; //0x0D
-			uint8_t Fan2_2_STA:   	   1; //0x0E
-			uint8_t reserve:   	       1; //0x0F
-			/* bits[2] */
-			uint8_t reserve1:   	   8;
-			/* bits[3] */
-			uint8_t reserve2:   	   8;
-			/* bits[4] */
-			uint8_t reserve3:   	   8;
-			/* bits[5] */
-			uint8_t reserve4:   	   8;
-			/* bits[6] */
-			uint8_t reserve5:   	   8;
-			/* bits[7] */
-			uint8_t reserve6:   	   8;
-			/* bits[8] */
-			uint8_t reserve7:   	   8;
-			/* bits[9] : Comp.2100*/
-			uint8_t COMP_2100_Driver_STA:   1;
-			uint8_t COMP_2100_PFC_STA:      1;
-			uint8_t COMP_2100_CHG_FIN_Flag: 1;
-			uint8_t COMP_2100_Stop_PROT:	1;
-			uint8_t COMP_2100_Alarm_PROT:   1;
-			uint8_t COMP_2100_Reserve:      3;
-			/* bits[10] : Comp.2101*/
-		} bit;
-	};
-} MEM_COILS;
 
 typedef union
 {
@@ -281,28 +208,12 @@ typedef union
     } inputReg;
 } MEM_INPUT_REG_2;
 
-// Firmware version register
-typedef union
-{
-    int16_t wds[FW_VERSION_5 - _ID_FW_INDEX_BASE + 1];
-    struct
-    {
-        uint16_t fwVer_1;  	// 0x0200, Firmware version 1
-        uint16_t fwVer_2; 	// 0x0101, Firmware version 2
-        uint16_t fwVer_3; 	// 0x0102, Firmware version 3
-        uint16_t fwVer_4;   // 0x0103, Firmware version 4
-        uint16_t fwVer_5;   // 0x0104, Firmware version 5
-    } inputReg;
-} MEM_INPUT_REG_3;
 
 typedef struct _MODBUS_STR
 {
-	controlFlag		ctrlFlag;
-	MEM_COILS       bitCoil;
 	_MEM_REG_1 		wordReg1;
 	MEM_INPUT_REG_1 inputReg1;
 	MEM_INPUT_REG_2 inputReg2;
-	MEM_INPUT_REG_3 inputReg3;
 } MODBUS_STR;
 
 typedef union
@@ -320,7 +231,9 @@ typedef union
  *================================================================================================*/
 #define	OFF 0x00
 #define ON  0xff
-#define GET_BIT(x, bit) ((x & (1<<bit)) >> bit)
+#define MODBUS_GET_BIT(x, bit) ((x & (1<<bit)) >> bit)
+#define MODBUS_SET_BIT(x, bit) (x = x | (1 << bit))
+#define MODBUS_CLEAR_BIT(x, bit) (x = x & (~(1 << bit)))
 #define RX_DATA_SIZE    200
 
 #define DRIVER_SLAVE_ID		0x01
@@ -395,7 +308,7 @@ extern uint8_t Rx_count;
  *================================================================================================*/
 void Modbus_Slave_init();
 void detec_uart(void);
-void modbus_slave_value_update(int16_t addr, int16_t *pData, uint8_t dataLen);
+void modbus_slave_value_update();
 void uart_timOut(void);
 void UartResponse(void);
 void ctrl_rs485_pin(UART_STR* Ux, int8_t flag);
