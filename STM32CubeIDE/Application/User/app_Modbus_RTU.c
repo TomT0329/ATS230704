@@ -704,7 +704,6 @@ void modbus15(UART_STR* Ux, UART_HandleTypeDef *pUartHandle)
  ************************************************************************/
 void modbus_slave_value_update()
 {
-	UART_BUFF_STR * rx = &U2.rx;
 	BusVoltageSensor_Handle_t* BusVoltageSensor= &BusVoltageSensor_M1._Super;
 
 	if(MCI_GetSTMState(&Mci[M1]) == RUN)

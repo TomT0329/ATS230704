@@ -134,7 +134,7 @@ void DMA1_Channel5_IRQHandler(void)
 void USART2_IRQHandler(void)
 {
   /* USER CODE BEGIN USART2_IRQn 0 */
-  HAL_GPIO_TogglePin(DEBUG_LED_RED_GPIO_Port, DEBUG_LED_RED_Pin);
+  HAL_GPIO_TogglePin(DEBUG_LED_GREEN_GPIO_Port, DEBUG_LED_GREEN_Pin);
   /* USER CODE END USART2_IRQn 0 */
   HAL_UART_IRQHandler(&huart2);
   /* USER CODE BEGIN USART2_IRQn 1 */
@@ -198,7 +198,7 @@ void TIM6_DAC_IRQHandler(void)
 #if (INCLUDE_xTaskGetSchedulerState == 1 )
   }
 #endif /* INCLUDE_xTaskGetSchedulerState */
-  // HAL_GPIO_TogglePin(DEBUG_LED_RED_GPIO_Port, DEBUG_LED_RED_Pin);
+
   /* USER CODE END TIM6_DAC_IRQn 1 */
 }
 

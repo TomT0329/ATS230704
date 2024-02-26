@@ -24,6 +24,8 @@
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
+extern DMA_HandleTypeDef hdma_adc2;
+
 extern DMA_HandleTypeDef hdma_tim1_ch4;
 
 extern DMA_HandleTypeDef hdma_usart1_rx;
@@ -169,13 +171,39 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
     }
 
     __HAL_RCC_GPIOC_CLK_ENABLE();
+    __HAL_RCC_GPIOA_CLK_ENABLE();
     /**ADC2 GPIO Configuration
     PC2     ------> ADC2_IN8
+    PA4     ------> ADC2_IN17
+    PA5     ------> ADC2_IN13
     */
     GPIO_InitStruct.Pin = M1_IPM_TEMP_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     HAL_GPIO_Init(M1_IPM_TEMP_GPIO_Port, &GPIO_InitStruct);
+
+    GPIO_InitStruct.Pin = VAC_VSEN_Pin|PFC_I_CS_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+    /* ADC2 DMA Init */
+    /* ADC2 Init */
+    hdma_adc2.Instance = DMA1_Channel6;
+    hdma_adc2.Init.Request = DMA_REQUEST_ADC2;
+    hdma_adc2.Init.Direction = DMA_PERIPH_TO_MEMORY;
+    hdma_adc2.Init.PeriphInc = DMA_PINC_DISABLE;
+    hdma_adc2.Init.MemInc = DMA_MINC_ENABLE;
+    hdma_adc2.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
+    hdma_adc2.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
+    hdma_adc2.Init.Mode = DMA_CIRCULAR;
+    hdma_adc2.Init.Priority = DMA_PRIORITY_LOW;
+    if (HAL_DMA_Init(&hdma_adc2) != HAL_OK)
+    {
+      Error_Handler();
+    }
+
+    __HAL_LINKDMA(hadc,DMA_Handle,hdma_adc2);
 
   /* USER CODE BEGIN ADC2_MspInit 1 */
 
@@ -268,8 +296,15 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* hadc)
 
     /**ADC2 GPIO Configuration
     PC2     ------> ADC2_IN8
+    PA4     ------> ADC2_IN17
+    PA5     ------> ADC2_IN13
     */
     HAL_GPIO_DeInit(M1_IPM_TEMP_GPIO_Port, M1_IPM_TEMP_Pin);
+
+    HAL_GPIO_DeInit(GPIOA, VAC_VSEN_Pin|PFC_I_CS_Pin);
+
+    /* ADC2 DMA DeInit */
+    HAL_DMA_DeInit(hadc->DMA_Handle);
 
     /* ADC2 interrupt DeInit */
   /* USER CODE BEGIN ADC2:ADC1_2_IRQn disable */

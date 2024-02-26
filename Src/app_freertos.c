@@ -94,19 +94,19 @@ void StartPrintTask(void *argument)
 
     qd_f_t Iqd_ref = MC_GetIqdrefMotor1_F();
     qd_f_t Iqd = MC_GetIqdMotor1_F();
-    // int16_t Phase_Peak_S16A = MCI_GetPhaseCurrentAmplitude(&Mci[M1]);
-    // float Current_Amp = (Phase_Peak_S16A * 3.3) / (65536 * RSHUNT * 24.0);
+    int16_t Phase_Peak_S16A = MCI_GetPhaseCurrentAmplitude(&Mci[M1]);
+    float Current_Amp = (Phase_Peak_S16A * 3.3) / (65536 * RSHUNT * AMPLIFICATION_GAIN);
     printf("\n\nRamp Speed Target : %d. ", (int)MC_GetLastRampFinalSpeedM1_F());
     printf("Ramp Command Completed: %d.\n\n", MC_HasRampCompletedMotor1());
     printf("Power : %d, ",(int)MC_GetAveragePowerMotor1_F());
     printf("IPM TEMP : %u.\n\n", (uint8_t)IPM_temp);
     printf("Current Speed : %d, ", (int)Current_Speed);
     printf("Speed Target : %d.\n\n", (int)Speed_Target);
-    sprintf(float_buffer, "Iq_ref : %.2f, Iq : %.2f.\n\nId_ref : %.2f, Id : %.2f.\n\n", Iqd_ref.q, Iqd.q, Iqd_ref.d, Iqd.d);
+    sprintf(float_buffer, "Iq_ref : %.2f, Iq : %.2f, Ia_pk : %.1f.\n\nId_ref : %.2f, Id : %.2f.\n\n", Iqd_ref.q, Iqd.q, Current_Amp, Iqd_ref.d, Iqd.d);
     printf(float_buffer);
     printf("----- Run time : %u ------\n\n", sec+=1);
 
-	modbus_slave_value_update();
+    modbus_slave_value_update();
   }
   /* USER CODE END 5 */
 }
@@ -158,18 +158,7 @@ void StartTemperatureTask(void *argument)
   for(;;)
   {
     osDelay(100);
-    if (HAL_ADC_Start(&hadc2) != HAL_OK)
-    {
-    	// Handle ADC start error
-    	Error_Handler();
-    }
-
-    // Poll for ADC conversion to be completed
-    if (HAL_ADC_PollForConversion(&hadc2, HAL_MAX_DELAY) == HAL_OK)
-    {
-      temp_adc = HAL_ADC_GetValue(&hadc2);
-    }
-    Temp_Average(temp_adc, &IPM_temp);
+    Temp_Average(temp_adc[0], &IPM_temp);
 
   }
   /* USER CODE END StartTemperatureTask */
@@ -181,6 +170,14 @@ int __io_putchar(int ch)
   HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xffff);
   // ctrl_rs485_pin(&U1, RESET);
   return ch;
+}
+
+void ADC2_DMA_Init(uint32_t *AdcValue)
+{
+	if(HAL_ADC_Start_DMA(&hadc2,(uint32_t *)AdcValue,3) != HAL_OK)
+	{
+	  Error_Handler();
+	}
 }
 /* USER CODE END Application */
 

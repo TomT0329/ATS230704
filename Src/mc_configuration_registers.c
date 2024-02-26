@@ -43,7 +43,7 @@ const GlobalConfig_reg_t globalConfig_reg =
 
 static const ApplicationConfig_reg_t M1_ApplicationConfig_reg =
 {
-  .maxMechanicalSpeed = 5000,
+  .maxMechanicalSpeed = 5400,
   .maxReadableCurrent = M1_MAX_READABLE_CURRENT,
   .nominalCurrent     = 20.0,
   .nominalVoltage     = 400,
@@ -56,8 +56,8 @@ static const MotorConfig_reg_t M1_MotorConfig_reg =
   .polePairs  = 2,
   .ratedFlux  = 43.1,
   .rs         = 0.25,
-  .ls         = 0.005*0.700,
-  .ld         = 0.005,
+  .ls         = 0.00466*0.700,
+  .ld         = 0.00466,
   .maxCurrent = 20.0,
   .name = "BTH420SDPC9EQA"
 };

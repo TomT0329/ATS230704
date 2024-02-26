@@ -71,6 +71,7 @@ void Error_Handler(void);
 extern int __io_putchar(int ch);
 extern void StartReception(void);
 extern void Logging_ADCvalue(ADC_HandleTypeDef hadc, uint16_t buffer[], uint16_t size);
+void ADC2_DMA_Init(uint32_t *AdcValue);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
@@ -78,12 +79,20 @@ extern void Logging_ADCvalue(ADC_HandleTypeDef hadc, uint16_t buffer[], uint16_t
 #define M1_OCP_GPIO_Port GPIOC
 #define DEBUG_LED_RED_Pin GPIO_PIN_14
 #define DEBUG_LED_RED_GPIO_Port GPIOC
+#define DEBUG_LED_GREEN_Pin GPIO_PIN_15
+#define DEBUG_LED_GREEN_GPIO_Port GPIOC
 #define M1_IPM_TEMP_Pin GPIO_PIN_2
 #define M1_IPM_TEMP_GPIO_Port GPIOC
 #define M1_BUS_VOLTAGE_Pin GPIO_PIN_2
 #define M1_BUS_VOLTAGE_GPIO_Port GPIOA
+#define VAC_VSEN_Pin GPIO_PIN_4
+#define VAC_VSEN_GPIO_Port GPIOA
+#define PFC_I_CS_Pin GPIO_PIN_5
+#define PFC_I_CS_GPIO_Port GPIOA
 #define M1_CURR_AMPL_Pin GPIO_PIN_1
 #define M1_CURR_AMPL_GPIO_Port GPIOB
+#define PFC_EN_Pin GPIO_PIN_2
+#define PFC_EN_GPIO_Port GPIOB
 #define M1_PWM_UL_Pin GPIO_PIN_13
 #define M1_PWM_UL_GPIO_Port GPIOB
 #define M1_PWM_VL_Pin GPIO_PIN_14

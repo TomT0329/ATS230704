@@ -45,6 +45,7 @@ typedef StaticTask_t osStaticThreadDef_t;
 ADC_HandleTypeDef hadc1;
 ADC_HandleTypeDef hadc2;
 ADC_HandleTypeDef hadc3;
+DMA_HandleTypeDef hdma_adc2;
 
 CORDIC_HandleTypeDef hcordic;
 
@@ -99,7 +100,7 @@ const osThreadAttr_t Temperature_Tas_attributes = {
 };
 /* USER CODE BEGIN PV */
 
-uint32_t temp_adc = 0;
+uint32_t temp_adc[3];
 float IPM_temp = 0;
 //DMA UART begin
 uint8_t Rx_count;
@@ -213,10 +214,21 @@ int main(void)
   /* Initialize interrupts */
   MX_NVIC_Init();
   /* USER CODE BEGIN 2 */
+
+  /* TIM6 Initial Configuration */
   HAL_TIM_Base_Start_IT(&htim6);
+
+  /* MC Initial Configuration */
   MCI_ExecSpeedRamp_F(&Mci[M1],Ramp_Speed,Ramp_Time);
   StartReception();
   printf(Default_Info);
+
+  /* ADC Initial Configuration */
+  ADC2_DMA_Init((uint32_t *)temp_adc);
+
+  /* PFC Initial Configuration */
+  HAL_GPIO_WritePin(PFC_EN_GPIO_Port,PFC_EN_Pin,GPIO_PIN_RESET);
+
   /* USER CODE END 2 */
 
   /* Init scheduler */
@@ -471,15 +483,15 @@ static void MX_ADC2_Init(void)
   hadc2.Init.Resolution = ADC_RESOLUTION_12B;
   hadc2.Init.DataAlign = ADC_DATAALIGN_RIGHT;
   hadc2.Init.GainCompensation = 0;
-  hadc2.Init.ScanConvMode = ADC_SCAN_DISABLE;
+  hadc2.Init.ScanConvMode = ADC_SCAN_ENABLE;
   hadc2.Init.EOCSelection = ADC_EOC_SINGLE_CONV;
   hadc2.Init.LowPowerAutoWait = DISABLE;
-  hadc2.Init.ContinuousConvMode = DISABLE;
-  hadc2.Init.NbrOfConversion = 1;
+  hadc2.Init.ContinuousConvMode = ENABLE;
+  hadc2.Init.NbrOfConversion = 3;
   hadc2.Init.DiscontinuousConvMode = DISABLE;
   hadc2.Init.ExternalTrigConv = ADC_SOFTWARE_START;
   hadc2.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;
-  hadc2.Init.DMAContinuousRequests = DISABLE;
+  hadc2.Init.DMAContinuousRequests = ENABLE;
   hadc2.Init.Overrun = ADC_OVR_DATA_PRESERVED;
   hadc2.Init.OversamplingMode = DISABLE;
   if (HAL_ADC_Init(&hadc2) != HAL_OK)
@@ -495,6 +507,24 @@ static void MX_ADC2_Init(void)
   sConfig.SingleDiff = ADC_SINGLE_ENDED;
   sConfig.OffsetNumber = ADC_OFFSET_NONE;
   sConfig.Offset = 0;
+  if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure Regular Channel
+  */
+  sConfig.Channel = ADC_CHANNEL_13;
+  sConfig.Rank = ADC_REGULAR_RANK_2;
+  if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /** Configure Regular Channel
+  */
+  sConfig.Channel = ADC_CHANNEL_17;
+  sConfig.Rank = ADC_REGULAR_RANK_3;
   if (HAL_ADC_ConfigChannel(&hadc2, &sConfig) != HAL_OK)
   {
     Error_Handler();
@@ -934,17 +964,27 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, DEBUG_LED_RED_Pin|U1_DIR_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, DEBUG_LED_RED_Pin|DEBUG_LED_GREEN_Pin|U1_DIR_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(PFC_EN_GPIO_Port, PFC_EN_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(U2_DIR_GPIO_Port, U2_DIR_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : DEBUG_LED_RED_Pin U1_DIR_Pin */
-  GPIO_InitStruct.Pin = DEBUG_LED_RED_Pin|U1_DIR_Pin;
+  /*Configure GPIO pins : DEBUG_LED_RED_Pin DEBUG_LED_GREEN_Pin U1_DIR_Pin */
+  GPIO_InitStruct.Pin = DEBUG_LED_RED_Pin|DEBUG_LED_GREEN_Pin|U1_DIR_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PFC_EN_Pin */
+  GPIO_InitStruct.Pin = PFC_EN_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(PFC_EN_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pin : U2_DIR_Pin */
   GPIO_InitStruct.Pin = U2_DIR_Pin;
@@ -979,7 +1019,7 @@ void StartReception(void)
   uwNbReceivedChars        = 0;
 
   /* Set LED as a indicator for user */
-  HAL_GPIO_TogglePin(DEBUG_LED_RED_GPIO_Port, DEBUG_LED_RED_Pin);
+  HAL_GPIO_TogglePin(DEBUG_LED_GREEN_GPIO_Port, DEBUG_LED_GREEN_Pin);
 
   /* Initializes Rx sequence using Reception To Idle event API.
      As DMA channel associated to UART Rx is configured as Circular,
