@@ -83,7 +83,7 @@
 #define PWM_FREQ_SCALING 1
 
 #define LOW_SIDE_SIGNALS_ENABLING        LS_PWM_TIMER
-#define SW_DEADTIME_NS                   1000 /*!< Dead-time to be inserted
+#define SW_DEADTIME_NS                   4000 /*!< Dead-time to be inserted
                                                            by FW, only if low side
                                                            signals are enabled */
 
@@ -95,17 +95,17 @@
                                                            Hz */
 /* Gains values for torque and flux control loops */
 #define PID_TORQUE_KP_DEFAULT         2361
-#define PID_TORQUE_KI_DEFAULT         127
+#define PID_TORQUE_KI_DEFAULT         63
 #define PID_TORQUE_KD_DEFAULT         100
 #define PID_FLUX_KP_DEFAULT           1703
-#define PID_FLUX_KI_DEFAULT           127
+#define PID_FLUX_KI_DEFAULT           63
 #define PID_FLUX_KD_DEFAULT           100
 
 /* Torque/Flux control loop gains dividers*/
-#define TF_KPDIV                      2048
+#define TF_KPDIV                      4096
 #define TF_KIDIV                      16384
 #define TF_KDDIV                      8192
-#define TF_KPDIV_LOG                  LOG2((2048))
+#define TF_KPDIV_LOG                  LOG2((4096))
 #define TF_KIDIV_LOG                  LOG2((16384))
 #define TF_KDDIV_LOG                  LOG2((8192))
 #define TFDIFFERENTIAL_TERM_ENABLING  DISABLE
