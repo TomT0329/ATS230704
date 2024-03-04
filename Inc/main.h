@@ -49,12 +49,13 @@ extern uint16_t Curr_adc[];
 extern float Error_buffer[];
 extern void *Destination;
 extern const void *Source;
+extern uint16_t ACC_Time;
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
 extern const uint16_t Ramp_Time;
-extern const uint16_t ACC_Time;
+extern const float ACC_Value;
 /* USER CODE END EC */
 
 /* Exported macro ------------------------------------------------------------*/

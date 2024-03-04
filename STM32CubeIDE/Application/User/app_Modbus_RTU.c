@@ -804,17 +804,40 @@ void Modbus_CtrlReg_Set(void)
 		}
 	}
 	else if(rx->buf[1] == 0x10 
-	&& rx->buf[23] == 0x88
-	&& rx->buf[24] == 0x88
-	&& rx->buf[25] == 0x88
-	&& rx->buf[26] == 0x88)
+	&& rx->buf[23] == 0x00
+	&& rx->buf[24] == 0x00
+	&& rx->buf[25] == 0x00
+	&& rx->buf[26] == 0x00)
 	{
 		if(MODBUS_GET_BIT(stModb.wordReg1.wds[DRIVER_CTRL],0))
 		{
 			MCI_StartMotor(pMCI[0]);
 		}else MCI_StopMotor(pMCI[0]);
 
-		MCI_ExecSpeedRamp(&Mci[M1],(int16_t)(stModb.wordReg1.wds[DRIVER_FREQ]),ACC_Time);
+		if(MODBUS_GET_BIT(stModb.wordReg1.wds[DRIVER_CTRL],1))
+		{
+			HAL_GPIO_WritePin(PFC_EN_GPIO_Port,PFC_EN_Pin,GPIO_PIN_RESET);
+		}else HAL_GPIO_WritePin(PFC_EN_GPIO_Port,PFC_EN_Pin,GPIO_PIN_SET);
+
+		if(MC_HasRampCompletedMotor1() && stModb.wordReg1.wds[DRIVER_FREQ])
+		{
+			int16_t spd_err = (stModb.wordReg1.wds[DRIVER_FREQ] - MC_GetMecSpeedAverageMotor1());
+			
+			if(spd_err < 0)
+			{
+				spd_err = -spd_err;
+			}
+
+			(uint16_t)ACC_Time = ((float)spd_err) / ACC_Value;
+			
+			if(ACC_Time < 5000)
+			{
+				ACC_Time = 5000;
+			}
+			MCI_ExecSpeedRamp(&Mci[M1],(int16_t)(stModb.wordReg1.wds[DRIVER_FREQ]),ACC_Time);
+		}
+
+
 	}
 }
 

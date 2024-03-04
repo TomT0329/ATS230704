@@ -122,7 +122,8 @@ const char Default_Info[] =
 
 
 const uint16_t Ramp_Time = 60000; // msec
-const uint16_t ACC_Time = 30000; // msec
+uint16_t ACC_Time = 30000; // msec
+const float ACC_Value = 0.005; // rps(01Hz) / msec 
 const float Ramp_Speed = 3000; //RPM
 char float_buffer[FLOAT_BUFFER_SIZE];
 uint8_t aRXBufferUser[RX_BUFFER_SIZE];
@@ -326,10 +327,6 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-
-  /** Enables the Clock Security System
-  */
-  HAL_RCC_EnableCSS();
 }
 
 /**
@@ -893,10 +890,10 @@ static void MX_USART2_UART_Init(void)
 
   /* USER CODE END USART2_Init 1 */
   huart2.Instance = USART2;
-  huart2.Init.BaudRate = 9600;
-  huart2.Init.WordLength = UART_WORDLENGTH_8B;
+  huart2.Init.BaudRate = 19200;
+  huart2.Init.WordLength = UART_WORDLENGTH_9B;
   huart2.Init.StopBits = UART_STOPBITS_1;
-  huart2.Init.Parity = UART_PARITY_NONE;
+  huart2.Init.Parity = UART_PARITY_EVEN;
   huart2.Init.Mode = UART_MODE_TX_RX;
   huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
   huart2.Init.OverSampling = UART_OVERSAMPLING_16;
