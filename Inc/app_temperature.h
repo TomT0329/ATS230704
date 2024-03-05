@@ -50,7 +50,12 @@ static const uint16_t IpmTempTable[191] = {
  * LOCAL MACROS
  *================================================================================================*/
 #define AVG_NUM 100
-
+#define ADC12BIT 4096
+#define ADC12BITREF 2048
+#define MCUref2CURR 41.66666667
+#define MCUref2VOLT 257.3529412
+#define MEAN_FACTOR 0.6366
+#define AC_PERIOD 160 //ms
 /*================================================================================================*=
  * GLOBAL CONSTANTS
  *================================================================================================*/
@@ -60,9 +65,14 @@ static const uint16_t IpmTempTable[191] = {
  * GLOBAL VARIABLES
  *================================================================================================*/
 extern uint32_t temp_adc[3];
+extern float PFC_power;
+extern float PFC_current[];
+extern float PFC_voltage[];
 /*================================================================================================*=
  * GLOBAL FUNCTIONS PROTOTYPE
  *================================================================================================*/
 void Temp_Average(uint32_t  DigitalValue, float* IpmTemp);
+float PFC_GetCurrent(uint32_t  DigitalValue);
+float PFC_GetVoltage(uint32_t  DigitalValue);
 
 #endif /* INC_APP_TEMPERATURE_H_ */

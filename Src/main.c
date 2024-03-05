@@ -222,7 +222,7 @@ int main(void)
   /* MC Initial Configuration */
   MCI_ExecSpeedRamp_F(&Mci[M1],Ramp_Speed,Ramp_Time);
   StartReception();
-  printf(Default_Info);
+  // printf(Default_Info);
 
   /* ADC Initial Configuration */
   ADC2_DMA_Init((uint32_t *)temp_adc);

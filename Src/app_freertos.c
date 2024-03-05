@@ -25,6 +25,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "cmsis_os.h"
+#include "math.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -44,6 +45,13 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
+float PFC_current[AC_PERIOD] = {0.0};
+float PFC_voltage_total = 0.0;
+float PFC_voltage_rms = 0.0;
+float PFC_voltage[AC_PERIOD] = {0.0};
+float PFC_current_total = 0.0;
+float PFC_current_avg = 0.0;
+float PFC_power = 0.0;
 uint16_t sec = 0;
 uint16_t Curr_adc[ADC_BUFFER_SIZE] = {0};
 float Error_buffer[ERROR_BUFFER_SIZE] = {0};
@@ -102,6 +110,7 @@ void StartPrintTask(void *argument)
     printf("IPM TEMP : %u.\n\n", (uint8_t)IPM_temp);
     printf("Current Speed : %d, ", (int)Current_Speed);
     printf("Speed Target : %d.\n\n", (int)Speed_Target);
+    printf("PFC voltage : %d.\n\n", (int)PFC_voltage_rms);
     sprintf(float_buffer, "Iq_ref : %.2f, Iq : %.2f, Ia_pk : %.1f.\n\nId_ref : %.2f, Id : %.2f.\n\n", Iqd_ref.q, Iqd.q, Current_Amp, Iqd_ref.d, Iqd.d);
     printf(float_buffer);
     printf("----- Run time : %u ------\n\n", sec+=1);
@@ -129,6 +138,7 @@ void StartModbusTask(void *argument)
     detec_uart();
 
     static uint32_t i = 0;
+    static uint32_t j = 0;
 
     if(MCI_GetSTMState(&Mci[M1]) == RUN)
     {
@@ -140,6 +150,25 @@ void StartModbusTask(void *argument)
         i=0;
       }
     }
+
+    // PFC_current[j++] = PFC_GetCurrent(temp_adc[1]);
+    PFC_voltage[j++] = PFC_GetVoltage(temp_adc[2]);
+    // PFC_current_total = PFC_current_total + PFC_current[j];
+    PFC_voltage_total = PFC_voltage_total + powf(PFC_voltage[j],2.0);
+
+    if(j == AC_PERIOD -1)
+    {
+      // PFC_current_avg = PFC_current_total / AC_PERIOD;
+      PFC_voltage_rms = sqrtf(PFC_voltage_total / AC_PERIOD);
+      
+      PFC_power = PFC_current_avg * PFC_voltage_rms;
+      
+      PFC_current_total = 0;
+      PFC_voltage_total = 0;
+      j = 0;
+    }
+
+    
   }
   /* USER CODE END StartModbusTask */
 }
