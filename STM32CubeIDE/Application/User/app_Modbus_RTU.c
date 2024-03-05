@@ -777,7 +777,28 @@ void Modbus_CtrlReg_Set(void)
 
 			break;
 			case DRIVER_FREQ:
-			MCI_ExecSpeedRamp(&Mci[M1],(int16_t)(stModb.wordReg1.wds[DRIVER_FREQ]), ACC_Time);
+
+			if(MC_HasRampCompletedMotor1() && stModb.wordReg1.wds[DRIVER_FREQ])
+			{
+				int16_t spd_err = (stModb.wordReg1.wds[DRIVER_FREQ] - MC_GetMecSpeedAverageMotor1());
+				
+				if(spd_err < 0)
+				{
+					spd_err = -spd_err;
+				}
+
+				ACC_Time = (uint16_t)(((float)spd_err) / ACC_Value);
+				
+				if(ACC_Time < MIN_ACC_TIME)
+				{
+					ACC_Time = MIN_ACC_TIME;
+				}
+				if(ACC_Time > MAX_ACC_TIME)
+				{
+					ACC_Time = MAX_ACC_TIME;
+				}
+				MCI_ExecSpeedRamp(&Mci[M1],(int16_t)(stModb.wordReg1.wds[DRIVER_FREQ]),ACC_Time);
+			}
 			break;
 			case HEATER_SHCURRENT:
 
@@ -828,11 +849,15 @@ void Modbus_CtrlReg_Set(void)
 				spd_err = -spd_err;
 			}
 
-			(uint16_t)ACC_Time = ((float)spd_err) / ACC_Value;
+			ACC_Time = (uint16_t)(((float)spd_err) / ACC_Value);
 			
-			if(ACC_Time < 5000)
+			if(ACC_Time < MIN_ACC_TIME)
 			{
-				ACC_Time = 5000;
+				ACC_Time = MIN_ACC_TIME;
+			}
+			if(ACC_Time > MAX_ACC_TIME)
+			{
+				ACC_Time = MAX_ACC_TIME;
 			}
 			MCI_ExecSpeedRamp(&Mci[M1],(int16_t)(stModb.wordReg1.wds[DRIVER_FREQ]),ACC_Time);
 		}
