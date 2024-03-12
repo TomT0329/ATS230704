@@ -354,7 +354,7 @@ static void MX_NVIC_Init(void)
   HAL_NVIC_SetPriority(TIM1_UP_TIM16_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(TIM1_UP_TIM16_IRQn);
   /* TIM6_DAC_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(TIM6_DAC_IRQn, 7, 0);
+  HAL_NVIC_SetPriority(TIM6_DAC_IRQn, 15, 0);
   HAL_NVIC_EnableIRQ(TIM6_DAC_IRQn);
 }
 
@@ -1136,10 +1136,12 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
   old_pos = Size;
 
 }
-//Redeclar to avoid resetting the systick clock!
+//Re-implement vPortSetupTimerInterrupt to set systick the highest pri
 void vPortSetupTimerInterrupt( void )
 {
-	//Do nothing
+  /* Reconfigure the SysTick interrupt to fire every 500 us. */
+  (void)HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq() / SYS_TICK_FREQUENCY);
+  HAL_NVIC_SetPriority(SysTick_IRQn, uwTickPrio, 0U);
 }
 /* USER CODE END 4 */
 
