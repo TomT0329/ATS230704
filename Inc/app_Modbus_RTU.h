@@ -237,6 +237,8 @@ typedef union
 #define RX_DATA_SIZE    200
 #define MAX_ACC_TIME	30000
 #define MIN_ACC_TIME	5000
+#define MAX_SPEED_01HZ	820
+#define MIN_SPEED_01HZ	250
 
 #define DRIVER_SLAVE_ID		0x01
 #define USART_TIMEOUT_CNT   8

@@ -734,6 +734,8 @@ void modbus_slave_value_update()
 
 	stModb.wordReg1.wds[DCBUS_VOLTAGE] = (int16_t)VBS_GetAvBusVoltage_V(BusVoltageSensor);
 
+	stModb.wordReg1.wds[AC_VOLTAGE] = (int16_t)PFC_voltage_rms;
+
 }
 
 void Modbus_CtrlReg_Set(void)
@@ -835,7 +837,7 @@ void Modbus_CtrlReg_Set(void)
 			MCI_StartMotor(pMCI[0]);
 		}else MCI_StopMotor(pMCI[0]);
 
-		if(MODBUS_GET_BIT(stModb.wordReg1.wds[DRIVER_CTRL],1))
+		if(MODBUS_GET_BIT(stModb.wordReg1.wds[DRIVER_CTRL],2))
 		{
 			HAL_GPIO_WritePin(PFC_EN_GPIO_Port,PFC_EN_Pin,GPIO_PIN_RESET);
 		}else HAL_GPIO_WritePin(PFC_EN_GPIO_Port,PFC_EN_Pin,GPIO_PIN_SET);
@@ -858,6 +860,14 @@ void Modbus_CtrlReg_Set(void)
 			if(ACC_Time > MAX_ACC_TIME)
 			{
 				ACC_Time = MAX_ACC_TIME;
+			}
+			if(stModb.wordReg1.wds[DRIVER_FREQ] > MAX_SPEED_01HZ)
+			{
+				stModb.wordReg1.wds[DRIVER_FREQ] = MAX_SPEED_01HZ;
+			}
+			if(stModb.wordReg1.wds[DRIVER_FREQ] < MIN_SPEED_01HZ)
+			{
+				stModb.wordReg1.wds[DRIVER_FREQ] = MIN_SPEED_01HZ;
 			}
 			MCI_ExecSpeedRamp(&Mci[M1],(int16_t)(stModb.wordReg1.wds[DRIVER_FREQ]),ACC_Time);
 		}
