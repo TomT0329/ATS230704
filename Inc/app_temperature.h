@@ -55,7 +55,7 @@ static const uint16_t IpmTempTable[191] = {
 #define MCUref2CURR 41.66666667
 #define MCUref2VOLT 257.3529412
 #define MEAN_FACTOR 0.6366
-#define AC_PERIOD 160 //ms
+#define AC_PERIOD 166 //ms
 /*================================================================================================*=
  * GLOBAL CONSTANTS
  *================================================================================================*/

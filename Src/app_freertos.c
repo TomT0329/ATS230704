@@ -133,23 +133,31 @@ void StartModbusTask(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(2);
+    osDelay(10);
     /* Enable UART */
     detec_uart();
+    
+  }
+  /* USER CODE END StartModbusTask */
+}
 
-    static uint32_t i = 0;
+/* USER CODE BEGIN Header_StartSensorTask */
+/**
+* @brief Function implementing the StartSensorTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartSensorTask */
+void StartSensorTask(void *argument)
+{
+  /* USER CODE BEGIN StartSensorTask */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+    Temp_Average(temp_adc[0], &IPM_temp);
+
     static uint32_t j = 0;
-
-    if(MCI_GetSTMState(&Mci[M1]) == RUN)
-    {
-      Current_Speed = MC_GetAverageMecSpeedMotor1_F();
-      Speed_Target = MC_GetMecSpeedReferenceMotor1_F();
-      Error_buffer[i++] = Speed_Target - Current_Speed;
-      if(i > ERROR_BUFFER_SIZE -1)
-      {
-        i=0;
-      }
-    }
 
     // PFC_current[j++] = PFC_GetCurrent(temp_adc[1]);
     PFC_voltage[j++] = PFC_GetVoltage(temp_adc[2]);
@@ -168,45 +176,22 @@ void StartModbusTask(void *argument)
       j = 0;
     }
 
-    
-  }
-  /* USER CODE END StartModbusTask */
-}
+    static uint32_t i = 0;
 
-/* USER CODE BEGIN Header_StartTemperatureTask */
-/**
-* @brief Function implementing the Temperature_Tas thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_StartTemperatureTask */
-void StartTemperatureTask(void *argument)
-{
-  /* USER CODE BEGIN StartTemperatureTask */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(100);
-    Temp_Average(temp_adc[0], &IPM_temp);
+    if(MCI_GetSTMState(&Mci[M1]) == RUN)
+    {
+      Current_Speed = MC_GetAverageMecSpeedMotor1_F();
+      Speed_Target = MC_GetMecSpeedReferenceMotor1_F();
+      Error_buffer[i++] = Speed_Target - Current_Speed;
+      if(i > ERROR_BUFFER_SIZE -1)
+      {
+        i=0;
+      }
+    }
 
   }
-  /* USER CODE END StartTemperatureTask */
+  /* USER CODE END StartSensorTask */
 }
 
-int __io_putchar(int ch)
-{
-  ctrl_rs485_pin(&U1, SET);
-  HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xffff);
-  // ctrl_rs485_pin(&U1, RESET);
-  return ch;
-}
-
-void ADC2_DMA_Init(uint32_t *AdcValue)
-{
-	if(HAL_ADC_Start_DMA(&hadc2,(uint32_t *)AdcValue,3) != HAL_OK)
-	{
-	  Error_Handler();
-	}
-}
 /* USER CODE END Application */
 

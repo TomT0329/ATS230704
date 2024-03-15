@@ -43,7 +43,6 @@ UART_STR U2;
 UART_STR U1;
 MODBUS_STR stModb;
 void *Destination = (void *)DWL_SLOT_START;
-const void *Source = &Curr_adc;
 /*================================================================================================*=
  * LOCAL FUNCTIONS PROTOTYPE
  *================================================================================================*/
@@ -810,9 +809,9 @@ void Modbus_CtrlReg_Set(void)
 
 			case DRIVER_RESERVED1:
 
-			for(int i = ADC_BUFFER_SIZE -1 ; i >0 ; i--)
+			for(int i = ERROR_BUFFER_SIZE -1 ; i >0 ; i--)
 			{
-				printf("%d, ", (int)Curr_adc[i]);
+				printf("%d, ", (int)Error_buffer[i]);
 			}
 			printf("\n\nPast Fault code : %u, ", MC_GetOccurredFaultsMotor1());
 			printf("Current Fault code : %u.\n\n", MC_GetCurrentFaultsMotor1());
@@ -869,7 +868,16 @@ void Modbus_CtrlReg_Set(void)
 			{
 				stModb.wordReg1.wds[DRIVER_FREQ] = MIN_SPEED_01HZ;
 			}
-			MCI_ExecSpeedRamp(&Mci[M1],(int16_t)(stModb.wordReg1.wds[DRIVER_FREQ]),ACC_Time);
+			
+			else
+			{
+				MCI_ExecSpeedRamp(&Mci[M1],(int16_t)(stModb.wordReg1.wds[DRIVER_FREQ]),ACC_Time);
+			}
+		}
+
+		if(MC_GetOccurredFaultsMotor1() && stModb.wordReg1.wds[DRIVER_FREQ] == 0)
+		{
+			HAL_NVIC_SystemReset();
 		}
 
 
