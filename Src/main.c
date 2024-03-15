@@ -86,16 +86,16 @@ const osThreadAttr_t Modbus_Task_attributes = {
   .cb_size = sizeof(Modbus_TaskControlBlock),
   .priority = (osPriority_t) osPriorityHigh,
 };
-/* Definitions for Temperature_Tas */
-osThreadId_t Temperature_TasHandle;
-uint32_t Temperature_TasBuffer[ 128 ];
-osStaticThreadDef_t Temperature_TasControlBlock;
-const osThreadAttr_t Temperature_Tas_attributes = {
-  .name = "Temperature_Tas",
-  .stack_mem = &Temperature_TasBuffer[0],
-  .stack_size = sizeof(Temperature_TasBuffer),
-  .cb_mem = &Temperature_TasControlBlock,
-  .cb_size = sizeof(Temperature_TasControlBlock),
+/* Definitions for Sensor_TasK */
+osThreadId_t Sensor_TasKHandle;
+uint32_t Sensor_TasKBuffer[ 128 ];
+osStaticThreadDef_t Sensor_TasKControlBlock;
+const osThreadAttr_t Sensor_TasK_attributes = {
+  .name = "Sensor_TasK",
+  .stack_mem = &Sensor_TasKBuffer[0],
+  .stack_size = sizeof(Sensor_TasKBuffer),
+  .cb_mem = &Sensor_TasKControlBlock,
+  .cb_size = sizeof(Sensor_TasKControlBlock),
   .priority = (osPriority_t) osPriorityNormal,
 };
 /* USER CODE BEGIN PV */
@@ -155,7 +155,7 @@ static void MX_I2C1_Init(void);
 static void MX_ADC3_Init(void);
 void StartPrintTask(void *argument);
 void StartModbusTask(void *argument);
-void StartTemperatureTask(void *argument);
+void StartSensorTask(void *argument);
 
 static void MX_NVIC_Init(void);
 /* USER CODE BEGIN PFP */
@@ -258,8 +258,8 @@ int main(void)
   /* creation of Modbus_Task */
   Modbus_TaskHandle = osThreadNew(StartModbusTask, NULL, &Modbus_Task_attributes);
 
-  /* creation of Temperature_Tas */
-  Temperature_TasHandle = osThreadNew(StartTemperatureTask, NULL, &Temperature_Tas_attributes);
+  /* creation of Sensor_TasK */
+  Sensor_TasKHandle = osThreadNew(StartSensorTask, NULL, &Sensor_TasK_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -995,11 +995,30 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+//Re-implenment DMA1_Channel2_IRQHandler
 void DMA1_Channel2_IRQHandler(void){}
 
+//Re-implenment USART1_IRQHandler
 void USART1_IRQHandler(void)
 {
   HAL_UART_IRQHandler(&huart1);
+}
+
+void ADC2_DMA_Init(uint32_t *AdcValue)
+{
+	if(HAL_ADC_Start_DMA(&hadc2,(uint32_t *)AdcValue,3) != HAL_OK)
+	{
+	  Error_Handler();
+	}
+}
+
+int __io_putchar(int ch)
+{
+  ctrl_rs485_pin(&U1, SET);
+  HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xffff);
+  // ctrl_rs485_pin(&U1, RESET);
+  return ch;
 }
 
 /**
@@ -1136,13 +1155,6 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
   old_pos = Size;
 
 }
-//Re-implement vPortSetupTimerInterrupt to set systick the highest pri
-void vPortSetupTimerInterrupt( void )
-{
-  /* Reconfigure the SysTick interrupt to fire every 500 us. */
-  (void)HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq() / SYS_TICK_FREQUENCY);
-  HAL_NVIC_SetPriority(SysTick_IRQn, uwTickPrio, 0U);
-}
 /* USER CODE END 4 */
 
 /* USER CODE BEGIN Header_StartPrintTask */
@@ -1173,18 +1185,22 @@ __weak void StartModbusTask(void *argument)
   /* USER CODE END StartModbusTask */
 }
 
-/* USER CODE BEGIN Header_StartTemperatureTask */
+/* USER CODE BEGIN Header_StartSensorTask */
 /**
-* @brief Function implementing the Temperature_Tas thread.
+* @brief Function implementing the Sensor_TasK thread.
 * @param argument: Not used
 * @retval None
 */
-/* USER CODE END Header_StartTemperatureTask */
-__weak void StartTemperatureTask(void *argument)
+/* USER CODE END Header_StartSensorTask */
+__weak void StartSensorTask(void *argument)
 {
-  /* USER CODE BEGIN StartTemperatureTask */
-
-  /* USER CODE END StartTemperatureTask */
+  /* USER CODE BEGIN StartSensorTask */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END StartSensorTask */
 }
 
 /**

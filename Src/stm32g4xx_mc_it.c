@@ -196,7 +196,7 @@ void DMA1_Channel1_IRQHandler (void)
 __weak void DMA1_Channel2_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA1_Channel2_IRQHandler 0 */
-
+  //we are not using the original uart1 mcp
   /* USER CODE BEGIN DMA1_Channel2_IRQHandler 0 */
 
   /* Buffer is ready by the HW layer to be processed */
@@ -224,7 +224,7 @@ __weak void DMA1_Channel2_IRQHandler(void)
 __weak void USART1_IRQHandler(void)
 {
   /* USER CODE BEGIN USART1_IRQHandler 0 */
-
+  //we are not using the original uart1 mcp
   /* USER CODE END USART1_IRQHandler 0 */
 
   if (0U == LL_USART_IsActiveFlag_TC(USARTA))

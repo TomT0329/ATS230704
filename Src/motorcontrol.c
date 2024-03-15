@@ -48,15 +48,19 @@ MCI_Handle_t* pMCI[NBR_OF_MOTORS];
  */
 __weak void MX_MotorControl_Init(void)
 {
-  /* Reconfigure the SysTick interrupt to fire every 500 us. */
-  (void)HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq() / SYS_TICK_FREQUENCY);
-  HAL_NVIC_SetPriority(SysTick_IRQn, uwTickPrio, 0U);
 
   /* Initialize the Motor Control Subsystem */
   MCboot(pMCI);
   mc_lock_pins();
 }
 
+void vPortSetupTimerInterrupt( void )
+{
+  /* Reconfigure the SysTick interrupt to fire every 500 us. */
+  ( void )HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/SYS_TICK_FREQUENCY);
+  //The RTOS is using tim6 so assign SysTick_IRQn to highest priority
+  HAL_NVIC_SetPriority(SysTick_IRQn, uwTickPrio, 0U);
+}
 /**
   * @}
   */

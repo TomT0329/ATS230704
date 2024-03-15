@@ -77,7 +77,7 @@ extern UART_HandleTypeDef huart2;
 __weak void SysTick_Handler(void)
 {
   /* USER CODE BEGIN SysTick_IRQn 0 */
-
+  //The RTOS is using tim6 so assign SysTick_IRQn to weak fun!!
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();
 #if (INCLUDE_xTaskGetSchedulerState == 1 )
