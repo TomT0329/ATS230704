@@ -831,10 +831,15 @@ void Modbus_CtrlReg_Set(void)
 	&& rx->buf[25] == 0x00
 	&& rx->buf[26] == 0x00)
 	{
-		if(MODBUS_GET_BIT(stModb.wordReg1.wds[DRIVER_CTRL],0))
+		if(MODBUS_GET_BIT(stModb.wordReg1.wds[DRIVER_CTRL],0) && stModb.wordReg1.wds[DRIVER_FREQ])
 		{
-			MCI_StartMotor(pMCI[0]);
-		}else MCI_StopMotor(pMCI[0]);
+			MC_StartMotor1();
+		}
+		else
+		{
+			MC_StopSpeedRampMotor1();
+			MC_StopMotor1();
+		}
 
 		if(MODBUS_GET_BIT(stModb.wordReg1.wds[DRIVER_CTRL],2))
 		{
@@ -869,14 +874,12 @@ void Modbus_CtrlReg_Set(void)
 				stModb.wordReg1.wds[DRIVER_FREQ] = MIN_SPEED_01HZ;
 			}
 			
-			else
-			{
-				MCI_ExecSpeedRamp(&Mci[M1],(int16_t)(stModb.wordReg1.wds[DRIVER_FREQ]),ACC_Time);
-			}
+			MCI_ExecSpeedRamp(&Mci[M1],(int16_t)(stModb.wordReg1.wds[DRIVER_FREQ]),ACC_Time);
 		}
 
 		if(MC_GetOccurredFaultsMotor1() && stModb.wordReg1.wds[DRIVER_FREQ] == 0)
 		{
+			//save the error code first!
 			HAL_NVIC_SystemReset();
 		}
 

@@ -123,7 +123,7 @@ const char Default_Info[] =
 
 const uint16_t Ramp_Time = 60000; // msec
 uint16_t ACC_Time = 30000; // msec
-const float ACC_Value = 0.005; // rps(01Hz) / msec 
+const float ACC_Value = 0.008; // rps(01Hz) / msec 
 const float Ramp_Speed = 3000; //RPM
 char float_buffer[FLOAT_BUFFER_SIZE];
 uint8_t aRXBufferUser[RX_BUFFER_SIZE];
@@ -220,7 +220,7 @@ int main(void)
   HAL_TIM_Base_Start_IT(&htim6);
 
   /* MC Initial Configuration */
-  MCI_ExecSpeedRamp_F(&Mci[M1],Ramp_Speed,Ramp_Time);
+  // MCI_ExecSpeedRamp_F(&Mci[M1],Ramp_Speed,Ramp_Time);
   StartReception();
   // printf(Default_Info);
 

@@ -133,7 +133,7 @@ void StartModbusTask(void *argument)
   /* Infinite loop */
   for(;;)
   {
-    osDelay(10);
+    osDelay(1);
     /* Enable UART */
     detec_uart();
     
