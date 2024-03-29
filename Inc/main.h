@@ -51,6 +51,7 @@ extern void *Destination;
 extern const void *Source;
 extern uint16_t ACC_Time;
 extern float PFC_voltage_rms;
+extern float PFC_current_rms;
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/

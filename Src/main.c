@@ -220,7 +220,7 @@ int main(void)
   HAL_TIM_Base_Start_IT(&htim6);
 
   /* MC Initial Configuration */
-  // MCI_ExecSpeedRamp_F(&Mci[M1],Ramp_Speed,Ramp_Time);
+  MCI_ExecSpeedRamp_F(&Mci[M1],Ramp_Speed,Ramp_Time);
   StartReception();
   // printf(Default_Info);
 

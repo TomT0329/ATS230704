@@ -735,6 +735,8 @@ void modbus_slave_value_update()
 
 	stModb.wordReg1.wds[AC_VOLTAGE] = (int16_t)PFC_voltage_rms;
 
+	stModb.wordReg1.wds[AC_CURRENT] = (int16_t)PFC_current_rms;
+
 }
 
 void Modbus_CtrlReg_Set(void)
@@ -848,6 +850,10 @@ void Modbus_CtrlReg_Set(void)
 
 		if(MC_HasRampCompletedMotor1() && stModb.wordReg1.wds[DRIVER_FREQ])
 		{
+			if(stModb.wordReg1.wds[DRIVER_FREQ] == 60)
+			{
+				return;
+			}
 			int16_t spd_err = (stModb.wordReg1.wds[DRIVER_FREQ] - MC_GetMecSpeedAverageMotor1());
 			
 			if(spd_err < 0)
