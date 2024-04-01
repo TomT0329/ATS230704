@@ -841,6 +841,8 @@ void Modbus_CtrlReg_Set(void)
 		{
 			MC_StopSpeedRampMotor1();
 			MC_StopMotor1();
+			//execute init speed ramp to 3000rpm to protect compressor
+			MCI_ExecSpeedRamp_F(&Mci[M1],Ramp_Speed,Ramp_Time);
 		}
 
 		if(MODBUS_GET_BIT(stModb.wordReg1.wds[DRIVER_CTRL],2))

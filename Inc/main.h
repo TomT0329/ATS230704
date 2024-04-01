@@ -50,6 +50,7 @@ extern float Error_buffer[];
 extern void *Destination;
 extern const void *Source;
 extern uint16_t ACC_Time;
+extern const float Ramp_Speed;
 extern float PFC_voltage_rms;
 extern float PFC_current_rms;
 /* USER CODE END ET */
