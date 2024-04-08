@@ -57,6 +57,7 @@ uint16_t Curr_adc[ADC_BUFFER_SIZE] = {0};
 float Error_buffer[ERROR_BUFFER_SIZE] = {0};
 float Current_Speed;
 float Speed_Target;
+uint32_t OneShunt_ADC = 0;
 /* USER CODE END Variables */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -104,6 +105,8 @@ void StartPrintTask(void *argument)
     qd_f_t Iqd = MC_GetIqdMotor1_F();
     int16_t Phase_Peak_S16A = MCI_GetPhaseCurrentAmplitude(&Mci[M1]);
     float Current_Amp = (Phase_Peak_S16A * 3.3) / (65536 * RSHUNT * AMPLIFICATION_GAIN);
+    Current_Speed = MC_GetAverageMecSpeedMotor1_F();
+    Speed_Target = MC_GetMecSpeedReferenceMotor1_F();
     printf("\n\nRamp Speed Target : %d. ", (int)MC_GetLastRampFinalSpeedM1_F());
     printf("Ramp Command Completed: %d.\n\n", MC_HasRampCompletedMotor1());
     printf("Power : %d, ",(int)MC_GetAveragePowerMotor1_F());
@@ -156,41 +159,20 @@ void StartSensorTask(void *argument)
   for(;;)
   {
     osDelay(1);
+    
     Temp_Average(temp_adc[0], &IPM_temp);
+    
+    //sampling rate = 1kHz 
+    PFC_current_rms = PFC_GetRMS(PFC_GetCurrent, temp_adc[1]);
+    
+    //sampling rate = 1kHz
+    PFC_voltage_rms = PFC_GetRMS(PFC_GetVoltage, temp_adc[2]);
 
-    static uint32_t j = 0;
-    static uint32_t k = 0;
+    PFC_power = PFC_current_rms * PFC_voltage_rms;
 
-    PFC_current[j++] = PFC_GetCurrent(temp_adc[1]);
-    PFC_voltage[k++] = PFC_GetVoltage(temp_adc[2]);
-    PFC_current_total = PFC_current_total + powf(PFC_current[j],2.0);
-    PFC_voltage_total = PFC_voltage_total + powf(PFC_voltage[k],2.0);
-
-    if(j == AC_PERIOD -1)
-    {
-      PFC_current_rms = sqrtf(PFC_current_total / AC_PERIOD);
-      PFC_voltage_rms = sqrtf(PFC_voltage_total / AC_PERIOD);
-      
-      PFC_power = PFC_current_rms * PFC_voltage_rms;
-      
-      PFC_current_total = 0;
-      PFC_voltage_total = 0;
-      j = 0;
-      k = 0;
-    }
-
-    static uint32_t i = 0;
-
-    if(MCI_GetSTMState(&Mci[M1]) == RUN)
-    {
-      Current_Speed = MC_GetAverageMecSpeedMotor1_F();
-      Speed_Target = MC_GetMecSpeedReferenceMotor1_F();
-      Error_buffer[i++] = Speed_Target - Current_Speed;
-      if(i > ERROR_BUFFER_SIZE -1)
-      {
-        i=0;
-      }
-    }
+    OneShunt_ADC = HAL_ADC_GetValue(&hadc3);
+    
+    Logging_SpeedErr(Error_buffer, Speed_Target, Current_Speed);
 
   }
   /* USER CODE END StartSensorTask */

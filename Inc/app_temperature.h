@@ -17,6 +17,7 @@
  * INCLUDE FILES
  *================================================================================================*/
 #include <stdint.h>
+#include "main.h"
 /*================================================================================================*=
  * LOCAL CONSTANTS
  *================================================================================================*/
@@ -72,7 +73,8 @@ extern float PFC_voltage[];
  * GLOBAL FUNCTIONS PROTOTYPE
  *================================================================================================*/
 void Temp_Average(uint32_t  DigitalValue, float* IpmTemp);
-float PFC_GetCurrent(uint32_t  DigitalValue);
-float PFC_GetVoltage(uint32_t  DigitalValue);
-
+float PFC_GetCurrent(uint32_t  DigitalValue) __attribute__((__aligned__(8)));
+float PFC_GetVoltage(uint32_t  DigitalValue) __attribute__((__aligned__(8)));
+float PFC_GetRMS(float(*adc2value)(uint32_t), uint32_t  DigitalValue);
+void Logging_SpeedErr(float* buffer,float target, float reference);
 #endif /* INC_APP_TEMPERATURE_H_ */

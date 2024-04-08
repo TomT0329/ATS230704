@@ -16,6 +16,7 @@
  *================================================================================================*/
 #include "app_temperature.h"
 #include <stdio.h>
+#include <math.h>
 /*================================================================================================*=
  * LOCAL CONSTANTS
  *================================================================================================*/
@@ -149,9 +150,43 @@ void Temp_Average(uint32_t  DigitalValue, float* IpmTemp)
 
 float PFC_GetCurrent(uint32_t  DigitalValue)
 {
-    return (((float)DigitalValue/ADC12BIT) * 3.3) * MCUref2CURR;
+    return (float)((((float)DigitalValue/ADC12BIT) * 3.3) * MCUref2CURR);
 }
 float PFC_GetVoltage(uint32_t  DigitalValue)
 {
-    return ((((float)DigitalValue - ADC12BITREF)/ADC12BIT) * 3.3 ) * MCUref2VOLT;
+    return (float)(((((float)DigitalValue - ADC12BITREF)/ADC12BIT) * 3.3 ) * MCUref2VOLT);
+}
+
+float PFC_GetRMS(float(*adc2value)(uint32_t), uint32_t  DigitalValue)
+{
+    static uint32_t i = 0;
+    static float PFC_total = 0;
+    float PFC_value[AC_PERIOD]= {0.0};
+    float PFC_rms = 0;
+
+    PFC_value[i++] = adc2value(DigitalValue);
+    PFC_total = PFC_total + powf(PFC_value[i],2.0);
+
+    if(i == AC_PERIOD -1)
+    {
+      PFC_rms = sqrtf(PFC_total / AC_PERIOD);
+      PFC_total = 0;
+      i = 0;
+    }
+    return PFC_rms;
+}
+
+void Logging_SpeedErr(float* buffer,float target, float reference)
+{
+    MCI_State_t state = MCI_GetSTMState(&Mci[M1]);
+    static uint32_t i = 0;
+
+    if(state == RUN) 
+    {
+        buffer[i++] = target - reference;
+        if(i > ERROR_BUFFER_SIZE -1)
+        {
+            i=0;
+        }
+    }
 }

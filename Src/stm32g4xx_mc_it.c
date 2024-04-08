@@ -337,6 +337,18 @@ static uint8_t SystickDividerCounter = SYSTICK_DIVIDER;
     MC_RunMotorControlTasks();
 
   /* USER CODE BEGIN SysTick_IRQn 2 */
+
+    //polling one shunt current adc value
+    if (HAL_ADC_Start(&hadc3) != HAL_OK)
+    {
+    	// Handle ADC start error
+    	Error_Handler();
+    }
+    // Poll for ADC conversion to be completed
+    if (HAL_ADC_PollForConversion(&hadc3, HAL_MAX_DELAY) != HAL_OK)
+    {
+    	Error_Handler();
+    }
   /* USER CODE END SysTick_IRQn 2 */
 }
 

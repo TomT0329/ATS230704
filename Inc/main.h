@@ -54,6 +54,7 @@ extern uint16_t ACC_Time;
 extern const float Ramp_Speed;
 extern float PFC_voltage_rms;
 extern float PFC_current_rms;
+extern uint32_t OneShunt_ADC;
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
