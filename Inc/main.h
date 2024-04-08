@@ -36,6 +36,7 @@ extern "C" {
 #include "app_Modbus_RTU.h"
 #include "app_temperature.h"
 #include "flash_if.h"
+#include "app_System_Protect.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/

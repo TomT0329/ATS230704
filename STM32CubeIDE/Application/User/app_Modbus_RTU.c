@@ -833,6 +833,9 @@ void Modbus_CtrlReg_Set(void)
 	&& rx->buf[25] == 0x00
 	&& rx->buf[26] == 0x00)
 	{
+		//Communicate succeed
+		SysCtrl.count_protect[eLostCommunication].last1 = RESET;
+
 		if(MODBUS_GET_BIT(stModb.wordReg1.wds[DRIVER_CTRL],0) && stModb.wordReg1.wds[DRIVER_FREQ])
 		{
 			MC_StartMotor1();

@@ -116,6 +116,7 @@ void StartPrintTask(void *argument)
     printf("----- Run time : %u ------\n\n", sec+=1);
 
     modbus_slave_value_update();
+    System_Alarm_Handler();
   }
   /* USER CODE END 5 */
 }
