@@ -45,11 +45,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
-float PFC_current[AC_PERIOD] = {0.0};
-float PFC_voltage_total = 0.0;
 float PFC_voltage_rms = 0.0;
-float PFC_voltage[AC_PERIOD] = {0.0};
-float PFC_current_total = 0.0;
 float PFC_current_rms = 0.0;
 float PFC_power = 0.0;
 uint16_t sec = 0;
@@ -173,14 +169,8 @@ void StartSensorTask(void *argument)
     osDelay(1);
     
     Temp_Average(temp_adc[0], &IPM_temp);
-    
-    //sampling rate = 1kHz 
-    PFC_current_rms = PFC_GetRMS(PFC_GetCurrent, temp_adc[1]);
-    
-    //sampling rate = 1kHz
-    PFC_voltage_rms = PFC_GetRMS(PFC_GetVoltage, temp_adc[2]);
 
-    PFC_power = PFC_current_rms * PFC_voltage_rms;
+    PFC_GetRMS(&PFC_current_rms,&PFC_voltage_rms,&PFC_power);
 
     OneShunt_ADC = HAL_ADC_GetValue(&hadc3);
     

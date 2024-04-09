@@ -39,7 +39,10 @@
 /*================================================================================================*=
  * GLOBAL VARIABLES
  *================================================================================================*/
-
+float PFC_current_total = 0.0;
+float PFC_voltage_total = 0.0;
+float PFC_voltage[AC_PERIOD] = {0.0};
+float PFC_current[AC_PERIOD] = {0.0};
 /*================================================================================================*=
  * LOCAL FUNCTIONS PROTOTYPE
  *================================================================================================*/
@@ -156,24 +159,27 @@ float PFC_GetVoltage(uint32_t  DigitalValue)
 {
     return (float)(((((float)DigitalValue - ADC12BITREF)/ADC12BIT) * 3.3 ) * MCUref2VOLT);
 }
-
-float PFC_GetRMS(float(*adc2value)(uint32_t), uint32_t  DigitalValue)
+void PFC_GetRMS(float* PFC_current_rms, float* PFC_voltage_rms, float* PFC_power)
 {
-    static uint32_t i = 0;
-    static float PFC_total = 0;
-    float PFC_value[AC_PERIOD]= {0.0};
-    float PFC_rms = 0;
+    static uint32_t j = 0;
+    static uint32_t k = 0;
 
-    PFC_value[i++] = adc2value(DigitalValue);
-    PFC_total = PFC_total + powf(PFC_value[i],2.0);
+    PFC_current[j++] = PFC_GetCurrent(temp_adc[1]);
+    PFC_voltage[k++] = PFC_GetVoltage(temp_adc[2]);
+    PFC_current_total = PFC_current_total + powf(PFC_current[j],2.0);
+    PFC_voltage_total = PFC_voltage_total + powf(PFC_voltage[k],2.0);
 
-    if(i == AC_PERIOD -1)
+    if(j == AC_PERIOD -1)
     {
-      PFC_rms = sqrtf(PFC_total / AC_PERIOD);
-      PFC_total = 0;
-      i = 0;
+      *PFC_current_rms = sqrtf(PFC_current_total / AC_PERIOD);
+      *PFC_voltage_rms = sqrtf(PFC_voltage_total / AC_PERIOD);
+      *PFC_power = (*PFC_current_rms) * (*PFC_voltage_rms);
+
+      PFC_current_total = 0;
+      PFC_voltage_total = 0;
+      j = 0;
+      k = 0;
     }
-    return PFC_rms;
 }
 
 void Logging_SpeedErr(float* buffer,float target, float reference)
