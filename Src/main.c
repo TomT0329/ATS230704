@@ -76,7 +76,7 @@ const osThreadAttr_t Print_Task_attributes = {
 };
 /* Definitions for Modbus_Task */
 osThreadId_t Modbus_TaskHandle;
-uint32_t Modbus_TaskBuffer[ 128 ];
+uint32_t Modbus_TaskBuffer[ 256 ];
 osStaticThreadDef_t Modbus_TaskControlBlock;
 const osThreadAttr_t Modbus_Task_attributes = {
   .name = "Modbus_Task",
@@ -88,7 +88,7 @@ const osThreadAttr_t Modbus_Task_attributes = {
 };
 /* Definitions for Sensor_TasK */
 osThreadId_t Sensor_TasKHandle;
-uint32_t Sensor_TasKBuffer[ 128 ];
+uint32_t Sensor_TasKBuffer[ 256 ];
 osStaticThreadDef_t Sensor_TasKControlBlock;
 const osThreadAttr_t Sensor_TasK_attributes = {
   .name = "Sensor_TasK",
