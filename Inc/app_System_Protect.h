@@ -25,14 +25,14 @@ enum{
 		eReserved1,
         eReserved2,
         eIpmOverCurrent,
-		eADoffsetAbnormal ,
+		eADCoffsetAbnormal ,
 		eOutputLosePhase ,
 		eComStarupFail ,
 		eCompMisalignment ,//not use
 		eReserved3 ,
 		eReserved4 ,
 		eIpmOverTemp ,
-		eIpmSensorFault ,
+		eIpmNTCFault ,
 		eDCunderVoltage ,
 		eDCoverVoltage,
 		eChargeCircuitFault,//not use
@@ -65,14 +65,14 @@ typedef struct ALARM_INFO_t
             unsigned int Reserved1 : 1;
             unsigned int Reserved2 : 1;
             unsigned int IpmOverCurrent : 1;
-            unsigned int ADoffsetAbnormal  : 1;
+            unsigned int ADCoffsetAbnormal  : 1;
             unsigned int OutputLosePhase  : 1;
             unsigned int CompStarupFail  : 1;
             unsigned int CompMisalignment : 1; //not use
             unsigned int Reserved3  : 1;
             unsigned int Reserved4  : 1;
             unsigned int IpmOverTemp  : 1;
-            unsigned int IpmSensorFault  : 1;
+            unsigned int IpmNTCFault  : 1;
             unsigned int DCunderVoltage  : 1;
             unsigned int DCoverVoltage : 1;
             unsigned int ChargeCircuitFault : 1;//not use
@@ -86,14 +86,43 @@ typedef struct ALARM_INFO_t
 /*================================================================================================*=
  * GLOBAL MACROS
  *================================================================================================*/
+
+
+//CompStarupFail
+
+// ADCoffsetAbnormal
+#define ADCvalue_H 2048// to be define
+#define ADCvalue_L 1975// to be define
+#define ADCoffsetAbnormal_Last 1 //sec
+
+//OutputLosePhase
+#define PhaseLocateCurrent_L 0//AMPERE
+// #define PhaseLocateCurrent_H 0//AMPERE
+#define OutputLosePhase_Last 1 //ssec
+#define OutputLosePhase_Timer 3 //ssec
+
+//Ipm over temperature
+#define HIGHTEMP_H 80
+#define HIGHTEMP_L 50
+#define IpmOverTemp_Last 3
+#define IpmOverTemp_Resume 3
+
+//IpmNTCFault
+#define IPM_NTCFAULT_H 130
+#define IPM_NTCFAULT_L -40
+#define IpmNTCFault_Last 5
+#define IpmNTCFault_Resume 5
+
+//DCunderVoltage
+#define UnderVoltage 350 //V
+
+#define OverVoltage 450 //V
+
 #define UART_TIMEOUT 10 //sec
 #define UART_RESUME 10 //sec
 
 #define LostCommunication_Resume 10//sec
 
-#define OverVoltage 450 //V
-
-#define UnderVoltage 300 //V
 
 
 /*================================================================================================*=
