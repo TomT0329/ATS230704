@@ -16,6 +16,7 @@
  *================================================================================================*/
 #include "app_Modbus_RTU.h"
 #include "main.h"
+#include "app_System_Protect.h"
 /*================================================================================================*=
  * LOCAL CONSTANTS
  *================================================================================================*/
@@ -836,7 +837,8 @@ void Modbus_CtrlReg_Set(void)
 		//Communicate succeed
 		SysCtrl.count_protect[eLostCommunication].last1 = RESET;
 
-		if(MODBUS_GET_BIT(stModb.wordReg1.wds[DRIVER_CTRL],0) && stModb.wordReg1.wds[DRIVER_FREQ])
+		if(MODBUS_GET_BIT(stModb.wordReg1.wds[DRIVER_CTRL],0)
+		&& stModb.wordReg1.wds[DRIVER_FREQ] && !Alarm.OutputLosePhase)
 		{
 			MC_StartMotor1();
 		}

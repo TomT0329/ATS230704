@@ -45,18 +45,7 @@ ALARM_INFO Alarm;
 /*================================================================================================*=
  * LOCAL FUNCTIONS PROTOTYPE
  *================================================================================================*/
-//protect fun
-void CompressOverCurrent();
-void IpmOverCurrent();
-void ADCoffsetAbnormal();
-void OutputLosePhase();
-void CompStarupFail();
-void CompMisalignment();
-void IpmOverTemp();
-void IpmNTCFault();
-void DCunderVoltage();
-void DCoverVoltage();
-void LostCommunication();
+
 /*================================================================================================*=
  * LOCAL FUNCTIONS
  *================================================================================================*/
@@ -107,7 +96,7 @@ void OutputLosePhase()
     if(MCI_GetSTMState(&Mci[M1]) == START 
     && SysCtrl.count_protect[eOutputLosePhase].timer < OutputLosePhase_Timer)
     {
-        ab_t Iab = MC_GetIabMotor1();
+    	ab_f_t Iab = MC_GetIabMotor1_F();
 
         if(Iab.a < PhaseLocateCurrent_L 
         && Alarm.OutputLosePhase == RESET)
@@ -115,6 +104,11 @@ void OutputLosePhase()
             if(SysCtrl.count_protect[eOutputLosePhase].last1 > OutputLosePhase_Last)
             {
                 Alarm.OutputLosePhase = SET;
+                Mci[M1].PastFaults = MC_START_UP;
+                MC_StopSpeedRampMotor1();
+                MC_StopMotor1();
+                //execute init speed ramp to 3000rpm to protect compressor
+                MCI_ExecSpeedRamp_F(&Mci[M1],Ramp_Speed,Ramp_Time);
             }
             else
             {
@@ -298,7 +292,7 @@ void System_Alarm_Handler()
     CompressOverCurrent();
     IpmOverCurrent();
     ADCoffsetAbnormal();
-    OutputLosePhase();
+    // OutputLosePhase();
     CompStarupFail();
     CompMisalignment();
     IpmOverTemp();
@@ -306,6 +300,11 @@ void System_Alarm_Handler()
     DCunderVoltage(); // place in higher frequency task
     DCoverVoltage();// place in higher frequency task
     LostCommunication();
+
+    if(Alarm.All)
+    {
+        HAL_GPIO_WritePin(DEBUG_LED_RED_GPIO_Port, DEBUG_LED_RED_Pin, GPIO_PIN_SET);
+    }
 }
 
 

@@ -16,7 +16,7 @@
 /*================================================================================================*=
  * INCLUDE FILES
  *================================================================================================*/
-
+#include "drive_parameters.h"
 /*================================================================================================*=
  * GLOBAL TYPEDEFS (STRUCTURES, UNIONS, ENUMS)
  *================================================================================================*/
@@ -96,10 +96,10 @@ typedef struct ALARM_INFO_t
 #define ADCoffsetAbnormal_Last 1 //sec
 
 //OutputLosePhase
-#define PhaseLocateCurrent_L 0//AMPERE
+#define PhaseLocateCurrent_L (PHASE2_FINAL_CURRENT_A - 2)//AMPERE
 // #define PhaseLocateCurrent_H 0//AMPERE
-#define OutputLosePhase_Last 1 //ssec
-#define OutputLosePhase_Timer 3 //ssec
+#define OutputLosePhase_Last 1000 //sec
+#define OutputLosePhase_Timer 3000 //sec
 
 //Ipm over temperature
 #define HIGHTEMP_H 80
@@ -129,7 +129,7 @@ typedef struct ALARM_INFO_t
  * GLOBAL CONSTANTS
  *================================================================================================*/
 extern SYSCTRL SysCtrl;
-
+extern ALARM_INFO Alarm;
 /*================================================================================================*=
  * GLOBAL VARIABLES
  *================================================================================================*/
@@ -138,6 +138,18 @@ extern SYSCTRL SysCtrl;
  * GLOBAL FUNCTIONS
  *================================================================================================*/
 void System_Alarm_Handler(void);
+//protect fun
+void CompressOverCurrent();
+void IpmOverCurrent();
+void ADCoffsetAbnormal();
+void OutputLosePhase();
+void CompStarupFail();
+void CompMisalignment();
+void IpmOverTemp();
+void IpmNTCFault();
+void DCunderVoltage();
+void DCoverVoltage();
+void LostCommunication();
 /*================================================================================================*=
  * END OF FILE
  *================================================================================================*/
