@@ -127,6 +127,7 @@ void StartPrintTask(void *argument)
     sprintf(float_buffer, "Iq_ref : %.2f, Iq : %.2f, Ia_pk : %.1f.\n\nId_ref : %.2f, Id : %.2f.\n\nIa : %.2f, Ib : %.2f.\n\n"
     , Iqd_ref.q, Iqd.q, Current_Amp, Iqd_ref.d, Iqd.d, Iab.a, Iab.b);
     printf(float_buffer);
+    printf("Alarm Fault1 : %d\n\n",Alarm.Fault1.All);
     printf("----- Run time : %u ------\n\n", sec+=1);
 
     modbus_slave_value_update();

@@ -785,22 +785,11 @@ void Modbus_CtrlReg_Set(void)
 			if(MC_HasRampCompletedMotor1() && stModb.wordReg1.wds[DRIVER_FREQ])
 			{
 				int16_t spd_err = (stModb.wordReg1.wds[DRIVER_FREQ] - MC_GetMecSpeedAverageMotor1());
-				
-				if(spd_err < 0)
-				{
-					spd_err = -spd_err;
-				}
 
-				ACC_Time = (uint16_t)(((float)spd_err) / ACC_Value);
+				ACC_Time = (uint16_t)(((float)abs(spd_err)) / ACC_Value);
 				
-				if(ACC_Time < MIN_ACC_TIME)
-				{
-					ACC_Time = MIN_ACC_TIME;
-				}
-				if(ACC_Time > MAX_ACC_TIME)
-				{
-					ACC_Time = MAX_ACC_TIME;
-				}
+				CLAMP(ACC_Time,MIN_ACC_TIME,MAX_ACC_TIME);
+
 				MCI_ExecSpeedRamp(&Mci[M1],(int16_t)(stModb.wordReg1.wds[DRIVER_FREQ]),ACC_Time);
 			}
 			break;
@@ -837,8 +826,10 @@ void Modbus_CtrlReg_Set(void)
 		//Communicate succeed
 		SysCtrl.count_protect[eLostCommunication].last1 = RESET;
 
+		//driver control register
 		if(MODBUS_GET_BIT(stModb.wordReg1.wds[DRIVER_CTRL],0)
-		&& stModb.wordReg1.wds[DRIVER_FREQ] && !Alarm.OutputLosePhase)
+		&& stModb.wordReg1.wds[DRIVER_FREQ] 
+		&& Alarm.Fault1.All == RESET)
 		{
 			MC_StartMotor1();
 		}
@@ -847,45 +838,33 @@ void Modbus_CtrlReg_Set(void)
 			MC_StopSpeedRampMotor1();
 			MC_StopMotor1();
 			//execute init speed ramp to 3000rpm to protect compressor
-			MCI_ExecSpeedRamp_F(&Mci[M1],Ramp_Speed,Ramp_Time);
+			MCI_ExecSpeedRamp_F(&Mci[M1],Init_Ramp_Speed,Init_Ramp_Time);
 		}
 
-		if(MODBUS_GET_BIT(stModb.wordReg1.wds[DRIVER_CTRL],2))
+		// if(MODBUS_GET_BIT(stModb.wordReg1.wds[DRIVER_CTRL],1))
+
+		if(MODBUS_GET_BIT(stModb.wordReg1.wds[DRIVER_CTRL],2)
+		&& Alarm.Fault1.All == RESET)
 		{
 			HAL_GPIO_WritePin(PFC_EN_GPIO_Port,PFC_EN_Pin,GPIO_PIN_RESET);
 		}else HAL_GPIO_WritePin(PFC_EN_GPIO_Port,PFC_EN_Pin,GPIO_PIN_SET);
 
-		if(MC_HasRampCompletedMotor1() && stModb.wordReg1.wds[DRIVER_FREQ])
+		//driver speed control
+		if(MC_HasRampCompletedMotor1() 
+		&& stModb.wordReg1.wds[DRIVER_FREQ]
+		&& Alarm.Fault1.All == RESET)
 		{
 			if(stModb.wordReg1.wds[DRIVER_FREQ] == 60)
 			{
 				return;
 			}
 			int16_t spd_err = (stModb.wordReg1.wds[DRIVER_FREQ] - MC_GetMecSpeedAverageMotor1());
-			
-			if(spd_err < 0)
-			{
-				spd_err = -spd_err;
-			}
 
-			ACC_Time = (uint16_t)(((float)spd_err) / ACC_Value);
+			ACC_Time = (uint16_t)(((float)abs(spd_err)) / ACC_Value);
+
+			CLAMP(ACC_Time,MIN_ACC_TIME,MAX_ACC_TIME);
 			
-			if(ACC_Time < MIN_ACC_TIME)
-			{
-				ACC_Time = MIN_ACC_TIME;
-			}
-			if(ACC_Time > MAX_ACC_TIME)
-			{
-				ACC_Time = MAX_ACC_TIME;
-			}
-			if(stModb.wordReg1.wds[DRIVER_FREQ] > MAX_SPEED_01HZ)
-			{
-				stModb.wordReg1.wds[DRIVER_FREQ] = MAX_SPEED_01HZ;
-			}
-			if(stModb.wordReg1.wds[DRIVER_FREQ] < MIN_SPEED_01HZ)
-			{
-				stModb.wordReg1.wds[DRIVER_FREQ] = MIN_SPEED_01HZ;
-			}
+			CLAMP(stModb.wordReg1.wds[DRIVER_FREQ],MIN_SPEED_01HZ,MAX_SPEED_01HZ);
 			
 			MCI_ExecSpeedRamp(&Mci[M1],(int16_t)(stModb.wordReg1.wds[DRIVER_FREQ]),ACC_Time);
 		}

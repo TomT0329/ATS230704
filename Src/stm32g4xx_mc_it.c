@@ -130,7 +130,7 @@ void TIMx_UP_M1_IRQHandler(void)
 void TIMx_BRK_M1_IRQHandler(void)
 {
   /* USER CODE BEGIN TIMx_BRK_M1_IRQn 0 */
-  HAL_GPIO_WritePin(DEBUG_LED_RED_GPIO_Port, DEBUG_LED_RED_Pin, GPIO_PIN_SET);
+  
   /* USER CODE END TIMx_BRK_M1_IRQn 0 */
   if (0U == LL_TIM_IsActiveFlag_BRK(TIM1))
   {

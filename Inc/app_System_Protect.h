@@ -21,10 +21,10 @@
  * GLOBAL TYPEDEFS (STRUCTURES, UNIONS, ENUMS)
  *================================================================================================*/
 enum{
-        eCompressOverCurrent = 0 ,
-		eReserved1,
+        eComp_Software_OCP = 0 ,
+		ePowerLimitProtect,
         eReserved2,
-        eIpmOverCurrent,
+        eIPM_Hardware_OCP,
 		eADCoffsetAbnormal ,
 		eOutputLosePhase ,
 		eComStarupFail ,
@@ -61,10 +61,35 @@ typedef struct ALARM_INFO_t
         uint16_t All;
         struct 
         {
-            unsigned int CompressOverCurrent : 1;
-            unsigned int Reserved1 : 1;
+            unsigned int HighOutputCurrent : 1;
+            unsigned int HighIPMTemp : 1;
+            unsigned int reserved1 : 1;
+            unsigned int reserved2 : 1;
+            unsigned int reserved3  : 1;
+            unsigned int reserved4  : 1;
+            unsigned int reserved5  : 1;
+            unsigned int reserved6 : 1; //not use
+            unsigned int reserved7  : 1;
+            unsigned int reserved8  : 1;
+            unsigned int HighACcurrent  : 1;
+            unsigned int HighPFCcurrent  : 1;
+            unsigned int LowACvoltage  : 1;
+            unsigned int LowDCvoltage : 1;
+            unsigned int HighACpower : 1;
+            unsigned int LostCommunication : 1;
+        };
+        
+    }SL_SR;
+
+    union 
+    {
+        uint16_t All;
+        struct 
+        {
+            unsigned int Comp_Software_OCP : 1;
+            unsigned int PowerLimitProtect : 1;
             unsigned int Reserved2 : 1;
-            unsigned int IpmOverCurrent : 1;
+            unsigned int IPM_Hardware_OCP : 1;
             unsigned int ADCoffsetAbnormal  : 1;
             unsigned int OutputLosePhase  : 1;
             unsigned int CompStarupFail  : 1;
@@ -79,14 +104,49 @@ typedef struct ALARM_INFO_t
             unsigned int LostCommunication : 1;
         };
         
-    };
-    
+    }Fault1;
+    union 
+    {
+        uint16_t All;
+        struct 
+        {//TBD
+            unsigned int ACoverCurrent : 1;
+            unsigned int reserved : 1;
+            unsigned int PFCHardwareOCP: 1;
+            unsigned int DCHardwareOVP : 1;
+            unsigned int ACHardwarelostPhase  : 1;
+            unsigned int ACSoftwarelostPhase  : 1;
+            unsigned int reserved1  : 1;
+            unsigned int reserved2: 1; //not use
+            unsigned int HPSprotect : 1;
+            unsigned int DLTprotect : 1;
+            unsigned int PFCoverTemp : 1;
+            unsigned int PFCsensorFault : 1;
+            unsigned int AC_UVP : 1;
+            unsigned int AC_OVP : 1;
+            unsigned int EEPROM_fault : 1;//not use
+            unsigned int MCU_fault : 1;
+        };
+        
+    }Fault2;
 }ALARM_INFO;
 
 /*================================================================================================*=
  * GLOBAL MACROS
  *================================================================================================*/
 
+//PowerLimitProtect
+#define Power_Limit_H 4350 // watt
+#define Power_Limit_L 4000 // watt
+#define Power_Limit_Speed (MAX_SPEED_01HZ - 20) // rps
+#define PowerLimitProtect_Last 2 // sec
+#define PowerLimitProtect_Resume 1 // sec
+
+//Comp_Software_OCP
+#define Phase_Curr_SpeedReduce_H 22// 22Ampere
+#define Phase_Curr_SpeedReduce_L 20// 22Ampere
+#define Comp_Software_OCP_Last 1 //sec
+#define Comp_Software_OCP_Resume 2 //sec
 
 //CompStarupFail
 
@@ -121,7 +181,10 @@ typedef struct ALARM_INFO_t
 #define UART_TIMEOUT 10 //sec
 #define UART_RESUME 10 //sec
 
+//LostCommunication
 #define LostCommunication_Resume 10//sec
+#define LostComm_Speed 500 // rps(01Hz)
+#define LostComm_RampTime  60000// msec
 
 
 
@@ -139,8 +202,10 @@ extern ALARM_INFO Alarm;
  *================================================================================================*/
 void System_Alarm_Handler(void);
 //protect fun
-void CompressOverCurrent();
-void IpmOverCurrent();
+void Comp_Software_OCP();
+void Comp_Software_OCP();
+void PowerLimitProtect();
+void IPM_Hardware_OCP();
 void ADCoffsetAbnormal();
 void OutputLosePhase();
 void CompStarupFail();
@@ -150,6 +215,10 @@ void IpmNTCFault();
 void DCunderVoltage();
 void DCoverVoltage();
 void LostCommunication();
+
+//Power Limit control
+void PowerLimitProtect();
+void PowerLimitControl();
 /*================================================================================================*=
  * END OF FILE
  *================================================================================================*/

@@ -121,10 +121,10 @@ const char Default_Info[] =
     "\r\nCommand Example : Enter 01 03 00 00 00 78 45 e8 to acquire data registers.\r\n\n";
 
 
-const uint16_t Ramp_Time = 60000; // msec
+const uint16_t Init_Ramp_Time = 60000; // msec
 uint16_t ACC_Time = 30000; // msec
 const float ACC_Value = 0.008; // rps(01Hz) / msec 
-const float Ramp_Speed = 3000; //RPM
+const float Init_Ramp_Speed = 3000; //RPM
 char float_buffer[FLOAT_BUFFER_SIZE];
 uint8_t aRXBufferUser[RX_BUFFER_SIZE];
 
@@ -220,7 +220,7 @@ int main(void)
   HAL_TIM_Base_Start_IT(&htim6);
 
   /* MC Initial Configuration */
-  MCI_ExecSpeedRamp_F(&Mci[M1],Ramp_Speed,Ramp_Time);
+  MCI_ExecSpeedRamp_F(&Mci[M1],Init_Ramp_Speed,Init_Ramp_Time);
   StartReception();
   // printf(Default_Info);
 

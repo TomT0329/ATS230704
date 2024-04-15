@@ -33,6 +33,7 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <stdlib.h>
 #include "app_Modbus_RTU.h"
 #include "app_temperature.h"
 #include "flash_if.h"
@@ -51,7 +52,7 @@ extern float Error_buffer[];
 extern void *Destination;
 extern const void *Source;
 extern uint16_t ACC_Time;
-extern const float Ramp_Speed;
+extern const float Init_Ramp_Speed;
 extern float PFC_voltage_rms;
 extern float PFC_current_rms;
 extern uint32_t OneShunt_ADC;
@@ -59,7 +60,7 @@ extern uint32_t OneShunt_ADC;
 
 /* Exported constants --------------------------------------------------------*/
 /* USER CODE BEGIN EC */
-extern const uint16_t Ramp_Time;
+extern const uint16_t Init_Ramp_Time;
 extern const float ACC_Value;
 /* USER CODE END EC */
 
@@ -132,6 +133,22 @@ void ADC2_DMA_Init(uint32_t *AdcValue);
 #define ARRAY_LEN(x)            (sizeof(x) / sizeof((x)[0]))
 #define DWL_SLOT_START (uint32_t) 0x08020000
 #define FLOAT_BUFFER_SIZE 100
+
+#define MAX_ACC_TIME	(uint16_t)100000
+#define MIN_ACC_TIME	(uint16_t)1250
+
+#define CLAMP(x, min_val, max_val) do { \
+                                        if ((x) < (min_val)) { \
+                                            (x) = (min_val); \
+                                        } \
+                                        else if ((x) > (max_val)) { \
+                                            (x) = (max_val); \
+                                        } \
+                                    } while(0)
+
+
+#define MAX_SPEED_01HZ	820
+#define MIN_SPEED_01HZ	250
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus
