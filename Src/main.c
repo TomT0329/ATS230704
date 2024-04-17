@@ -179,7 +179,7 @@ void UserDataTreatment(UART_HandleTypeDef *huart, uint8_t* pData, uint16_t Size)
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+  __disable_irq();
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -230,6 +230,7 @@ int main(void)
   /* PFC Initial Configuration */
   HAL_GPIO_WritePin(PFC_EN_GPIO_Port,PFC_EN_Pin,GPIO_PIN_RESET);
 
+  __enable_irq();
   /* USER CODE END 2 */
 
   /* Init scheduler */
