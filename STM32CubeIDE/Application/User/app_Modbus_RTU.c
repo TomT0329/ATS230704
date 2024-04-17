@@ -709,20 +709,44 @@ void modbus_slave_value_update()
 	if(MCI_GetSTMState(&Mci[M1]) == RUN)
 	{
 		MODBUS_SET_BIT(stModb.wordReg1.wds[DRIVER_STATUS],0);
-	}
-	else
-	{
-		MODBUS_CLEAR_BIT(stModb.wordReg1.wds[DRIVER_STATUS],0);
-	}
+	}else MODBUS_CLEAR_BIT(stModb.wordReg1.wds[DRIVER_STATUS],0);
 
-	if(MC_GetOccurredFaultsMotor1())
+	if(HAL_GPIO_ReadPin(PFC_EN_GPIO_Port,PFC_EN_Pin))
+	{
+		MODBUS_SET_BIT(stModb.wordReg1.wds[DRIVER_STATUS],2);
+	}else MODBUS_CLEAR_BIT(stModb.wordReg1.wds[DRIVER_STATUS],2);
+
+	//Re-start flag TBD
+
+	//Comp SL/SR
+	if(Alarm.SL_SR.All)
+	{
+		MODBUS_SET_BIT(stModb.wordReg1.wds[DRIVER_STATUS],4);
+	}else MODBUS_CLEAR_BIT(stModb.wordReg1.wds[DRIVER_STATUS],4);
+
+	//Comp FW default on
+	if(FLUX_WEAKENING_FLAG)
+	{
+		MODBUS_SET_BIT(stModb.wordReg1.wds[DRIVER_STATUS],5);
+	}else MODBUS_SET_BIT(stModb.wordReg1.wds[DRIVER_STATUS],5);
+
+	//bit 6 reserved
+
+	if(MC_GetOccurredFaultsMotor1() || Alarm.Fault1.All)
 	{
 		MODBUS_SET_BIT(stModb.wordReg1.wds[DRIVER_STATUS],7);
-	}
-	else
+	}else MODBUS_CLEAR_BIT(stModb.wordReg1.wds[DRIVER_STATUS],7);
+
+	//bit 8 9 reserved
+
+	if(!Alarm.Fault1.DCunderVoltage)
 	{
-		MODBUS_CLEAR_BIT(stModb.wordReg1.wds[DRIVER_STATUS],7);
-	}
+		MODBUS_SET_BIT(stModb.wordReg1.wds[DRIVER_STATUS],10);
+	}else MODBUS_CLEAR_BIT(stModb.wordReg1.wds[DRIVER_STATUS],10);
+
+	//bit 11-14 reserved
+
+	//IF control flag TBD
 
 	stModb.wordReg1.wds[COMP_FREQ] = (uint16_t)MC_GetMecSpeedAverageMotor1();
 
@@ -738,6 +762,13 @@ void modbus_slave_value_update()
 
 	stModb.wordReg1.wds[AC_CURRENT] = (int16_t)PFC_current_rms;
 
+	stModb.wordReg1.wds[AC_POWER] = (int16_t)PFC_power;
+
+	stModb.wordReg1.wds[SL_SR] = (uint16_t)Alarm.SL_SR.All;
+
+	stModb.wordReg1.wds[FAULT1] = (uint16_t)Alarm.Fault1.All;
+
+	stModb.wordReg1.wds[FAULT2] = (uint16_t)Alarm.Fault2.All;
 }
 
 void Modbus_CtrlReg_Set(void)
