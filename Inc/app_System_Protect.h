@@ -136,15 +136,19 @@ typedef struct ALARM_INFO_t
  *================================================================================================*/
 
 //PowerLimitProtect
-#define Power_Limit_H 4350 // watt
-#define Power_Limit_L 4000 // watt
-#define Power_Limit_Speed (MAX_SPEED_01HZ - 20) // rps
+#define Power_Limit_H 4418 // watt
+#define Power_Limit_L 4200 // watt
+#define Power_Limit_Speed MAX_SPEED_01HZ
 #define PowerLimitProtect_Last 2 // sec
 #define PowerLimitProtect_Resume 1 // sec
+//PowerLimitControl
+#define Power_Control_Speed (MAX_SPEED_01HZ + 15)
+#define SPEED_err       8 // rps(01hz) = 48rpm
+#define Power_ControlACC_Time        800//ms
 
 //Comp_Software_OCP
 #define Phase_Curr_SpeedReduce_H 22// 22Ampere
-#define Phase_Curr_SpeedReduce_L 20// 22Ampere
+#define Phase_Curr_SpeedReduce_L 20// 20Ampere
 #define Comp_Software_OCP_Last 1 //sec
 #define Comp_Software_OCP_Resume 2 //sec
 
@@ -152,7 +156,7 @@ typedef struct ALARM_INFO_t
 
 // ADCoffsetAbnormal
 #define ADCvalue_H 2048// to be define
-#define ADCvalue_L 1975// to be define
+#define ADCvalue_L 1948// to be define
 #define ADCoffsetAbnormal_Last 1 //sec
 
 //OutputLosePhase
