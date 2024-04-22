@@ -153,7 +153,7 @@ void Temp_Average(uint32_t  DigitalValue, float* IpmTemp)
 
 float PFC_GetCurrent(uint32_t  DigitalValue)
 {
-    return (float)((((float)DigitalValue/ADC12BIT) * 3.3) * MCUref2CURR);
+    return (float)(((((float)(DigitalValue + PFC_Curr_Cali)/ADC12BIT) * 3.3) - 0.7) * MCUref2CURR);
 }
 float PFC_GetVoltage(uint32_t  DigitalValue)
 {

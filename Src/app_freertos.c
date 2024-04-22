@@ -128,7 +128,6 @@ void StartPrintTask(void *argument)
     qd_f_t Iqd_ref = MC_GetIqdrefMotor1_F();
     qd_f_t Iqd = MC_GetIqdMotor1_F();
     int16_t Phase_Peak_S16A = MCI_GetPhaseCurrentAmplitude(&Mci[M1]);
-    ab_f_t Iab = MC_GetIabMotor1_F();
     float Current_Amp = (Phase_Peak_S16A * 3.3) / (65536 * RSHUNT * AMPLIFICATION_GAIN);
     Current_Speed = MC_GetAverageMecSpeedMotor1_F();
     Speed_Target = MC_GetMecSpeedReferenceMotor1_F();
@@ -138,9 +137,9 @@ void StartPrintTask(void *argument)
     printf("IPM TEMP : %u.\n\n", (uint8_t)IPM_temp);
     printf("Current Speed : %d, ", (int)Current_Speed);
     printf("Speed Target : %d.\n\n", (int)Speed_Target);
-    printf("PFC voltage : %d. PFC current : %d.\n\n", (int)PFC_voltage_rms, (int)PFC_current_rms);
-    sprintf(float_buffer, "Iq_ref : %.2f, Iq : %.2f, Ia_pk : %.1f.\n\nId_ref : %.2f, Id : %.2f.\n\nIa : %.2f, Ib : %.2f.\n\n"
-    , Iqd_ref.q, Iqd.q, Current_Amp, Iqd_ref.d, Iqd.d, Iab.a, Iab.b);
+    printf("PFC voltage adc : %d. PFC current adc : %d.\n\n", (int)temp_adc[2], (int)temp_adc[1]);
+    sprintf(float_buffer, "Iq_ref : %.2f, Iq : %.2f, Ia_pk : %.1f.\n\nId_ref : %.2f, Id : %.2f.\n\nPFC current rms : %.2f\n\n"
+    , Iqd_ref.q, Iqd.q, Current_Amp, Iqd_ref.d, Iqd.d, PFC_current_rms);
     printf(float_buffer);
     printf("Alarm Fault1 : %d\n\n",Alarm.Fault1.All);
     printf("----- Run time : %u ------\n\n", sec+=1);
