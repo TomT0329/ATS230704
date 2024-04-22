@@ -51,7 +51,7 @@ float PFC_current_rms = 0.0;
 float PFC_power = 0.0;
 uint16_t sec = 0;
 uint16_t Curr_adc[ADC_BUFFER_SIZE] = {0};
-float Error_buffer[ERROR_BUFFER_SIZE] = {0};
+float Error_buffer[ERROR_BUFFER_SIZE] = {0.0};
 float Current_Speed;
 float Speed_Target;
 uint32_t OneShunt_ADC = 0;
@@ -77,6 +77,21 @@ void Logging_ADCvalue(ADC_HandleTypeDef hadc, uint16_t buffer[], uint16_t size)
       i = 0;
     }
   }
+}
+void Logging_SpeedErr();
+void Logging_SpeedErr()
+{
+    MCI_State_t state = MCI_GetSTMState(&Mci[M1]);
+    static uint32_t i = 0;
+
+    if(state == RUN)
+    {
+        Error_buffer[i++] = Speed_Target - Current_Speed;
+        if(i == ERROR_BUFFER_SIZE -1)
+        {
+            i = 0;
+        }
+    }
 }
 /* USER CODE END FunctionPrototypes */
 
@@ -178,7 +193,7 @@ void StartSensorTask(void *argument)
 
     OneShunt_ADC = HAL_ADC_GetValue(&hadc3);
     
-    Logging_SpeedErr(Error_buffer, Speed_Target, Current_Speed);
+    Logging_SpeedErr();
 
     OutputLosePhase();
 

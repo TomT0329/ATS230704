@@ -182,17 +182,4 @@ void PFC_GetRMS(float* PFC_current_rms, float* PFC_voltage_rms, float* PFC_power
     }
 }
 
-void Logging_SpeedErr(float* buffer,float target, float reference)
-{
-    MCI_State_t state = MCI_GetSTMState(&Mci[M1]);
-    static uint32_t i = 0;
 
-    if(state == RUN) 
-    {
-        buffer[i++] = target - reference;
-        if(i > ERROR_BUFFER_SIZE -1)
-        {
-            i=0;
-        }
-    }
-}
