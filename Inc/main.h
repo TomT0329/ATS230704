@@ -47,7 +47,7 @@ extern ADC_HandleTypeDef hadc3;
 extern char float_buffer[];
 extern UART_HandleTypeDef huart1;
 extern float IPM_temp;
-extern uint16_t Curr_adc[];
+// extern uint16_t Curr_adc[];
 extern float Error_buffer[];
 extern void *Destination;
 extern const void *Source;

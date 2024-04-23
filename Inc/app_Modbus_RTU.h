@@ -234,7 +234,7 @@ typedef union
 #define MODBUS_GET_BIT(x, bit) ((x & (1<<bit)) >> bit)
 #define MODBUS_SET_BIT(x, bit) (x = x | (1 << bit))
 #define MODBUS_CLEAR_BIT(x, bit) (x = x & (~(1 << bit)))
-#define RX_DATA_SIZE    200
+#define RX_DATA_SIZE    252
 #define MAX_SPEED_01HZ	820
 #define MIN_SPEED_01HZ	250
 

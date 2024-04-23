@@ -773,6 +773,12 @@ void modbus_slave_value_update()
 
 void Modbus_CtrlReg_Set(void)
 {
+	//Communicate succeed
+	SysCtrl.count_protect[eLostCommunication].last1 = RESET;
+	
+	if(Alarm.Fault1.All)
+		return;
+
 	UART_BUFF_STR * rx = &U2.rx;
 	TRANS_TYPE addr;
 	addr.b.hi = rx->buf[2];
@@ -854,13 +860,9 @@ void Modbus_CtrlReg_Set(void)
 	&& rx->buf[25] == 0x00
 	&& rx->buf[26] == 0x00)
 	{
-		//Communicate succeed
-		SysCtrl.count_protect[eLostCommunication].last1 = RESET;
-
 		//driver control register
 		if(MODBUS_GET_BIT(stModb.wordReg1.wds[DRIVER_CTRL],0)
-		&& stModb.wordReg1.wds[DRIVER_FREQ] 
-		&& Alarm.Fault1.All == RESET)
+		&& stModb.wordReg1.wds[DRIVER_FREQ] )
 		{
 			MC_StartMotor1();
 		}
@@ -885,10 +887,6 @@ void Modbus_CtrlReg_Set(void)
 		&& stModb.wordReg1.wds[DRIVER_FREQ]
 		&& Alarm.Fault1.All == RESET)
 		{
-			if(stModb.wordReg1.wds[DRIVER_FREQ] == 60)
-			{
-				return;
-			}
 			int16_t spd_err = (stModb.wordReg1.wds[DRIVER_FREQ] - MC_GetMecSpeedAverageMotor1());
 
 			ACC_Time = (uint16_t)(((float)abs(spd_err)) / ACC_Value);

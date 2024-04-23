@@ -133,7 +133,8 @@ void StartPrintTask(void *argument)
     Speed_Target = MC_GetMecSpeedReferenceMotor1_F();
     printf("\n\nRamp Speed Target : %d. ", (int)MC_GetLastRampFinalSpeedM1_F());
     printf("Ramp Command Completed: %d.\n\n", MC_HasRampCompletedMotor1());
-    printf("Power : %d, ",(int)MC_GetAveragePowerMotor1_F());
+    printf("Motor Power : %d, ",(int)MC_GetAveragePowerMotor1_F());
+    printf("PFC power : %d, ",(int)PFC_power);
     printf("IPM TEMP : %u.\n\n", (uint8_t)IPM_temp);
     printf("Current Speed : %d, ", (int)Current_Speed);
     printf("Speed Target : %d.\n\n", (int)Speed_Target);
@@ -141,7 +142,7 @@ void StartPrintTask(void *argument)
     sprintf(float_buffer, "Iq_ref : %.2f, Iq : %.2f, Ia_pk : %.1f.\n\nId_ref : %.2f, Id : %.2f.\n\nPFC current rms : %.2f\n\n"
     , Iqd_ref.q, Iqd.q, Current_Amp, Iqd_ref.d, Iqd.d, PFC_current_rms);
     printf(float_buffer);
-    printf("Alarm Fault1 : %d\n\n",Alarm.Fault1.All);
+    printf("Alarm Fault1 : %04x\n\n",Alarm.Fault1.All);
     printf("----- Run time : %u ------\n\n", sec+=1);
 
     modbus_slave_value_update();
@@ -196,9 +197,25 @@ void StartSensorTask(void *argument)
 
     OutputLosePhase();
 
+    DCunderVoltage();
+    DCoverVoltage();
+    ADCoffsetAbnormal();
   }
   /* USER CODE END StartSensorTask */
 }
 
+
+void StartPowerCTRLTask(void *argument)
+{
+  /* USER CODE BEGIN StartPowerCTRLTask */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(500);
+
+    PowerLimitControl();
+  }
+  /* USER CODE END StartPowerCTRLTask */
+}
 /* USER CODE END Application */
 

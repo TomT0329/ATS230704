@@ -76,7 +76,7 @@ const osThreadAttr_t Print_Task_attributes = {
 };
 /* Definitions for Modbus_Task */
 osThreadId_t Modbus_TaskHandle;
-uint32_t Modbus_TaskBuffer[ 256 ];
+uint32_t Modbus_TaskBuffer[ 128 ];
 osStaticThreadDef_t Modbus_TaskControlBlock;
 const osThreadAttr_t Modbus_Task_attributes = {
   .name = "Modbus_Task",
@@ -88,7 +88,7 @@ const osThreadAttr_t Modbus_Task_attributes = {
 };
 /* Definitions for Sensor_TasK */
 osThreadId_t Sensor_TasKHandle;
-uint32_t Sensor_TasKBuffer[ 256 ];
+uint32_t Sensor_TasKBuffer[ 128 ];
 osStaticThreadDef_t Sensor_TasKControlBlock;
 const osThreadAttr_t Sensor_TasK_attributes = {
   .name = "Sensor_TasK",
@@ -97,6 +97,18 @@ const osThreadAttr_t Sensor_TasK_attributes = {
   .cb_mem = &Sensor_TasKControlBlock,
   .cb_size = sizeof(Sensor_TasKControlBlock),
   .priority = (osPriority_t) osPriorityNormal,
+};
+/* Definitions for PowerCTRLTask */
+osThreadId_t PowerCTRLTaskHandle;
+uint32_t PowerCTRLTaskBuffer[ 128 ];
+osStaticThreadDef_t PowerCTRLTaskControlBlock;
+const osThreadAttr_t PowerCTRLTask_attributes = {
+  .name = "PowerCTRLTask",
+  .stack_mem = &PowerCTRLTaskBuffer[0],
+  .stack_size = sizeof(PowerCTRLTaskBuffer),
+  .cb_mem = &PowerCTRLTaskControlBlock,
+  .cb_size = sizeof(PowerCTRLTaskControlBlock),
+  .priority = (osPriority_t) osPriorityHigh,
 };
 /* USER CODE BEGIN PV */
 
@@ -108,17 +120,17 @@ uint8_t Rx_data[RX_DATA_SIZE];
 /**
   * @brief Text strings printed on PC Com port for user information
   */
-const char Default_Info[] =
-		"\r\nFW VER. : 2024_02_05\r\n"
-		"\r\nDefault RPM to 3000 in 60s.\r\n"
-		"\r\nCommand Example : Enter 01 06 00 00 00 01 48 0a to Start the motor.\r\n"
-		"\r\nCommand Example : Enter 01 06 00 00 00 00 89 ca to Stop the motor.\r\n"
-		"\r\nCommand Example : Enter 01 06 00 00 00 80 88 6a to Ack fault.\r\n"
-		"\r\nCommand Example : Enter 01 06 00 03 01 f4 7e 88 to Ramp-up the motor to 500 rps(01Hz).\r\n\n"
-    "\r\nCommand Example : Enter 01 06 00 03 02 9a 7c 42 to Ramp-up the motor to 666 rps(01Hz).\r\n\n"
-    "\r\nCommand Example : Enter 01 06 00 03 02 ee 74 35 to Ramp-up the motor to 750 rps(01Hz).\r\n\n"
-    "\r\nCommand Example : Enter 01 10 00 00 00 0a 14 00 01 ff ff ff ff 01 f4 ff ff ff ff ff ff ff ff 88 88 88 88 b0 5d to Ramp-up the motor to 500 rps(01Hz).\r\n\n"
-    "\r\nCommand Example : Enter 01 03 00 00 00 78 45 e8 to acquire data registers.\r\n\n";
+// const char Default_Info[] =
+// 		"\r\nFW VER. : 2024_02_05\r\n"
+// 		"\r\nDefault RPM to 3000 in 60s.\r\n"
+// 		"\r\nCommand Example : Enter 01 06 00 00 00 01 48 0a to Start the motor.\r\n"
+// 		"\r\nCommand Example : Enter 01 06 00 00 00 00 89 ca to Stop the motor.\r\n"
+// 		"\r\nCommand Example : Enter 01 06 00 00 00 80 88 6a to Ack fault.\r\n"
+// 		"\r\nCommand Example : Enter 01 06 00 03 01 f4 7e 88 to Ramp-up the motor to 500 rps(01Hz).\r\n\n"
+//     "\r\nCommand Example : Enter 01 06 00 03 02 9a 7c 42 to Ramp-up the motor to 666 rps(01Hz).\r\n\n"
+//     "\r\nCommand Example : Enter 01 06 00 03 02 ee 74 35 to Ramp-up the motor to 750 rps(01Hz).\r\n\n"
+//     "\r\nCommand Example : Enter 01 10 00 00 00 0a 14 00 01 ff ff ff ff 01 f4 ff ff ff ff ff ff ff ff 88 88 88 88 b0 5d to Ramp-up the motor to 500 rps(01Hz).\r\n\n"
+//     "\r\nCommand Example : Enter 01 03 00 00 00 78 45 e8 to acquire data registers.\r\n\n";
 
 
 const uint16_t Init_Ramp_Time = 60000; // msec
@@ -156,6 +168,7 @@ static void MX_ADC3_Init(void);
 void StartPrintTask(void *argument);
 void StartModbusTask(void *argument);
 void StartSensorTask(void *argument);
+void StartPowerCTRLTask(void *argument);
 
 static void MX_NVIC_Init(void);
 /* USER CODE BEGIN PFP */
@@ -261,6 +274,9 @@ int main(void)
 
   /* creation of Sensor_TasK */
   Sensor_TasKHandle = osThreadNew(StartSensorTask, NULL, &Sensor_TasK_attributes);
+
+  /* creation of PowerCTRLTask */
+  PowerCTRLTaskHandle = osThreadNew(StartPowerCTRLTask, NULL, &PowerCTRLTask_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -1202,6 +1218,24 @@ __weak void StartSensorTask(void *argument)
     osDelay(1);
   }
   /* USER CODE END StartSensorTask */
+}
+
+/* USER CODE BEGIN Header_StartPowerCTRLTask */
+/**
+* @brief Function implementing the PowerCTRLTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartPowerCTRLTask */
+__weak void StartPowerCTRLTask(void *argument)
+{
+  /* USER CODE BEGIN StartPowerCTRLTask */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END StartPowerCTRLTask */
 }
 
 /**

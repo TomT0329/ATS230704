@@ -52,10 +52,11 @@ ALARM_INFO Alarm;
 
 void Comp_Software_OCP()
 {
-    int16_t Phase_Peak_S16A = MCI_GetPhaseCurrentAmplitude(&Mci[M1]);
-    float Phase_Peak = (Phase_Peak_S16A * 3.3) / (65536 * RSHUNT * AMPLIFICATION_GAIN);
+    // int16_t Phase_Peak_S16A = MCI_GetPhaseCurrentAmplitude(&Mci[M1]);
+    // float Phase_Peak = (Phase_Peak_S16A * 3.3) / (65536 * RSHUNT * AMPLIFICATION_GAIN);
+    qd_f_t Iqd_ref = MC_GetIqdrefMotor1_F();
 
-    if(Phase_Peak > Phase_Curr_SpeedReduce_H 
+    if(Iqd_ref.q > Phase_Curr_SpeedReduce_H 
     && Alarm.Fault1.Comp_Software_OCP == RESET)
     {
         if(SysCtrl.count_protect[eComp_Software_OCP].last1 > Comp_Software_OCP_Last)
@@ -74,7 +75,8 @@ void Comp_Software_OCP()
     }
 
 
-    if(Phase_Peak < Phase_Curr_SpeedReduce_L 
+    if(Iqd_ref.q < Phase_Curr_SpeedReduce_L 
+    && MC_GetMecSpeedAverageMotor1() < Middle_OP_SPEED
     && Alarm.Fault1.Comp_Software_OCP == SET)
     {
         if(SysCtrl.count_protect[eComp_Software_OCP].resume1 > Comp_Software_OCP_Resume)
@@ -101,7 +103,7 @@ void PowerLimitProtect()
         return;
     }
 
-    if(MC_GetAveragePowerMotor1_F() > Power_Limit_H 
+    if(PFC_power > Power_Limit_H 
     && Alarm.Fault1.PowerLimitProtect == RESET)
     {
         if(SysCtrl.count_protect[ePowerLimitProtect].last1 > PowerLimitProtect_Last)
@@ -121,8 +123,9 @@ void PowerLimitProtect()
         SysCtrl.count_protect[ePowerLimitProtect].last1 = RESET;
     }
 
+    //if motor speed > 820 or speed command < 820 then exit
     if((MC_GetMecSpeedAverageMotor1() > Power_Limit_Speed
-    || MC_GetAveragePowerMotor1_F() < Power_Limit_L)
+    || stModb.wordReg1.wds[DRIVER_FREQ] < 820)
     && (Alarm.Fault1.PowerLimitProtect == SET))
     {
         if(SysCtrl.count_protect[ePowerLimitProtect].resume1 > PowerLimitProtect_Resume)
@@ -149,15 +152,15 @@ void PowerLimitControl()
 
     //Hardware protect
     if(Alarm.Fault1.IPM_Hardware_OCP
-    && Alarm.Fault1.ADCoffsetAbnormal
-    && Alarm.Fault1.OutputLosePhase
-    && Alarm.Fault1.CompStarupFail
-    && Alarm.Fault1.CompMisalignment
-    && Alarm.Fault1.IpmOverTemp
-    && Alarm.Fault1.IpmNTCFault
-    && Alarm.Fault1.DCoverVoltage
-    && Alarm.Fault1.DCunderVoltage
-    && Alarm.Fault1.LostCommunication)  
+    || Alarm.Fault1.ADCoffsetAbnormal
+    || Alarm.Fault1.OutputLosePhase
+    || Alarm.Fault1.CompStarupFail
+    || Alarm.Fault1.CompMisalignment
+    || Alarm.Fault1.IpmOverTemp
+    || Alarm.Fault1.IpmNTCFault
+    || Alarm.Fault1.DCoverVoltage
+    || Alarm.Fault1.DCunderVoltage
+    || Alarm.Fault1.LostCommunication)  
     {
         MC_StopSpeedRampMotor1();
         MC_StopMotor1();
@@ -179,7 +182,7 @@ void PowerLimitControl()
     if(Alarm.Fault1.PowerLimitProtect
     && MC_HasRampCompletedMotor1())
     {
-        if(MC_GetAveragePowerMotor1_F() >= Power_Limit_H)
+        if(PFC_power >= Power_Limit_H)
         {
             freq_command-=SPEED_err;
             CLAMP(freq_command,MIN_SPEED_01HZ,Power_Control_Speed);
@@ -446,14 +449,14 @@ void System_Alarm_Handler()
 {
     Comp_Software_OCP();
     IPM_Hardware_OCP();
-    ADCoffsetAbnormal();
+    // ADCoffsetAbnormal();
     OutputLosePhase();
     CompStarupFail();
     CompMisalignment();
     IpmOverTemp();
     IpmNTCFault();
-    DCunderVoltage();
-    DCoverVoltage();
+    // DCunderVoltage();
+    // DCoverVoltage();
     LostCommunication();
 
     PowerLimitProtect();
