@@ -15,6 +15,7 @@
  * INCLUDE FILES
  *================================================================================================*/
 #include "app_Modbus_RTU.h"
+#include "app_SBSFU.h"
 #include "main.h"
 #include "app_System_Protect.h"
 /*================================================================================================*=
@@ -43,6 +44,7 @@
 UART_STR U2;
 UART_STR U1;
 MODBUS_STR stModb;
+uint32_t _PageError = 0;
 /*================================================================================================*=
  * LOCAL FUNCTIONS PROTOTYPE
  *================================================================================================*/
@@ -769,9 +771,13 @@ void Modbus_CtrlReg_Set(void)
 {
 	//Communicate succeed
 	SysCtrl.count_protect[eLostCommunication].last1 = RESET;
-	
-	if(Alarm.Fault1.All)
-		return;
+
+	FLASH_EraseInitTypeDef EraseInitStruct = {
+		.TypeErase = FLASH_TYPEERASE_PAGES,
+		.Banks = FLASH_BANK_1,
+		.Page = SWAP_SLOP_PAGE,
+		.NbPages = ERASE_PAGES
+	};
 
 	UART_BUFF_STR * rx = &U2.rx;
 	TRANS_TYPE addr;
@@ -846,6 +852,23 @@ void Modbus_CtrlReg_Set(void)
 			case DRIVER_SECURITY2:
 
 			break;
+
+			case BOOTLOADER_START:
+
+			//Reset Destination address
+			Destination = (void *)DWL_SLOT_START;
+			_PageError = 0x0;
+
+			HAL_FLASH_Unlock();
+
+			if(HAL_FLASHEx_Erase(&EraseInitStruct, &_PageError) != HAL_OK)
+			{
+				Error_Handler();
+			}
+
+			HAL_FLASH_Lock();
+
+			break;
 		}
 	}
 	else if(rx->buf[1] == 0x10 
@@ -854,6 +877,9 @@ void Modbus_CtrlReg_Set(void)
 	&& rx->buf[25] == 0x00
 	&& rx->buf[26] == 0x00)
 	{
+		if(Alarm.Fault1.All)
+			return;
+
 		//driver control register
 		if(MODBUS_GET_BIT(stModb.wordReg1.wds[DRIVER_CTRL],0)
 		&& stModb.wordReg1.wds[DRIVER_FREQ] )

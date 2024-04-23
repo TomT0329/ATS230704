@@ -260,7 +260,7 @@ typedef union
 #define MODBUS_CLEAR_BIT(x, bit) (x = x & (~(1 << bit)))
 #define RX_DATA_SIZE    252
 
-#define DRIVER_SLAVE_ID		0x01
+#define DRIVER_SLAVE_ID		0x02
 #define USART_TIMEOUT_CNT   8
 #define ERR_MODBUS_Func    1
 #define ERR_MODBUS_ADDR    2

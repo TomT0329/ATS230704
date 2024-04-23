@@ -153,18 +153,18 @@ void USART2_IRQHandler(void)
 
     memset(Rx_data, 0, RX_DATA_SIZE*sizeof(Rx_data[0]));
 
-    if(U2.rx.buf[0] == 1 && U2.rx.buf[1] == 0x10 )
+    if(U2.rx.buf[0] == DRIVER_SLAVE_ID && U2.rx.buf[1] == 0x10 )
     {
       U2.rx.ok = SET;
       U2.rx.size = 29;
     }
-    else if(U2.rx.buf[0] == 1
+    else if(U2.rx.buf[0] == DRIVER_SLAVE_ID
     		&& U2.rx.buf[1] == 0x15)
     {
       U2.rx.ok = SET;
       U2.rx.size = U2.rx.buf[9] * 2/*data bytes*/ + 12/*Modbus frame*/;
     }
-    else if(U2.rx.buf[0] == 1
+    else if(U2.rx.buf[0] == DRIVER_SLAVE_ID
     		&& (U2.rx.buf[1] == 0x06 || U2.rx.buf[1] == 0x03
     		|| U2.rx.buf[1] == 0x04 || U2.rx.buf[1] == 0x01
 			||U2.rx.buf[1] == 0x05))

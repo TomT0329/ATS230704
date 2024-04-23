@@ -20,13 +20,18 @@
 /*================================================================================================*=
  * GLOBAL MACROS
  *================================================================================================*/
+//Flash Erase
+extern uint32_t _PageError;
+#define SWAP_SLOP_PAGE 70
+#define ERASE_PAGES   58
+
 #define SE_FW_HEADER_TOT_LEN 320 // sizeof(SE_FwRawHeaderTypeDef)
 
 //mem address
 #define DWL_SLOT_START (uint32_t) 0x08048000
 #define DWL_SLOT_END (uint32_t) 0x0807DFFF
 #define SWAP_SLOT_START (uint32_t) 0x08046000
-
+extern void *Destination;
 /**
   * Image starting offset to add to the  address of 1st block
   */

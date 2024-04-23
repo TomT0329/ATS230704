@@ -67,7 +67,9 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
 		 U2.rx.size = RESET;
 		 ctrl_rs485_pin(&U2, RESET);
 
-		if(U2.rx.buf[1] == 0x15)
+		if(U2.rx.buf[1] == 0x15 
+		&& U2.rx.buf[0] == 0x02
+		&& stModb.wordReg2.updateInfoReg.process == 0x0001)
 		{
 		  //update data length in the first
 		  Data_Length = U2.rx.buf[9] * 2;
