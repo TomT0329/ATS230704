@@ -182,7 +182,13 @@ void UserDataTreatment(UART_HandleTypeDef *huart, uint8_t* pData, uint16_t Size)
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+static FLASH_EraseInitTypeDef EraseInitStruct = {
+	.TypeErase = FLASH_TYPEERASE_PAGES,
+	.Banks = FLASH_BANK_1,
+	.Page = 72,
+	.NbPages = 56
+};
+uint32_t PageError = 0;
 /* USER CODE END 0 */
 
 /**
@@ -201,7 +207,9 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
+  FLASH_If_Init();
 
+  HAL_RCC_DeInit();
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -229,6 +237,12 @@ int main(void)
   MX_NVIC_Init();
   /* USER CODE BEGIN 2 */
 
+  HAL_FLASH_Unlock();
+  if(HAL_FLASHEx_Erase(&EraseInitStruct, &PageError) != HAL_OK)
+  {
+	  Error_Handler();
+  }
+  HAL_FLASH_Lock();
   /* TIM6 Initial Configuration */
   HAL_TIM_Base_Start_IT(&htim6);
 

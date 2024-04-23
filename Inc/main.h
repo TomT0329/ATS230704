@@ -38,6 +38,8 @@ extern "C" {
 #include "app_temperature.h"
 #include "flash_if.h"
 #include "app_System_Protect.h"
+#include "app_SBSFU.h"
+#include <string.h>
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -49,8 +51,6 @@ extern UART_HandleTypeDef huart1;
 extern float IPM_temp;
 // extern uint16_t Curr_adc[];
 extern float Error_buffer[];
-extern void *Destination;
-extern const void *Source;
 extern uint16_t ACC_Time;
 extern const float Init_Ramp_Speed;
 extern float PFC_voltage_rms;
@@ -127,11 +127,11 @@ void ADC2_DMA_Init(uint32_t *AdcValue);
 
 /* USER CODE BEGIN Private defines */
 #define RX_BUFFER_SIZE   252 // /*data bytes*/ + 12
+#define DATA_BYTES      240
 #define FLASH_DATA_BYTES      ADC_BUFFER_SIZE * 2
 #define ADC_BUFFER_SIZE 2500 // uint16_t
 #define ERROR_BUFFER_SIZE 500 // uint16_t
 #define ARRAY_LEN(x)            (sizeof(x) / sizeof((x)[0]))
-#define DWL_SLOT_START (uint32_t) 0x08020000
 #define FLOAT_BUFFER_SIZE 100
 
 #define MAX_ACC_TIME	(uint16_t)100000

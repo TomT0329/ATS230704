@@ -87,6 +87,16 @@ typedef enum
 	SERIAL_NUM				=0x0068,
 	COMP_NUM				=0x0070,
 	_ID_SET_WORD_MAX   	   = 0x0077,
+
+
+	//IAP BOOT Control address
+	BOOTLOADER_START		= 0x2000,
+	PROCESS_UPDATE			= 0x3000,
+	FILE_SIZE_H				= PROCESS_UPDATE + 1,
+	FILE_SIZE_L				= FILE_SIZE_H + 1,
+	FINISH_UPDARTE			= FILE_SIZE_L + 1,
+	REGIST_HEADER			= FINISH_UPDARTE + 1,
+	BOOTLOADER_END   	   = REGIST_HEADER,
 } _MODBUS_SLAVE_ADDR;
 
 
@@ -188,6 +198,19 @@ typedef union
     } Driver;
 } _MEM_REG_1;
 
+  typedef union
+{
+    int16_t wds[PROCESS_UPDATE - BOOTLOADER_START + 1];
+    struct
+    {
+        int16_t process;     		// 0x3000
+        int16_t file_size_h;    	// 0x3001
+		int16_t file_size_l;    	// 0x3002
+		int16_t finish;				// 0x3003
+		int16_t header;				// 0x3004
+    } updateInfoReg;
+} _MEM_REG_2;
+
 typedef union
 {
     int16_t wds[260];
@@ -212,6 +235,7 @@ typedef union
 typedef struct _MODBUS_STR
 {
 	_MEM_REG_1 		wordReg1;
+	_MEM_REG_2 		wordReg2;
 	MEM_INPUT_REG_1 inputReg1;
 	MEM_INPUT_REG_2 inputReg2;
 } MODBUS_STR;
@@ -235,8 +259,6 @@ typedef union
 #define MODBUS_SET_BIT(x, bit) (x = x | (1 << bit))
 #define MODBUS_CLEAR_BIT(x, bit) (x = x & (~(1 << bit)))
 #define RX_DATA_SIZE    252
-#define MAX_SPEED_01HZ	820
-#define MIN_SPEED_01HZ	250
 
 #define DRIVER_SLAVE_ID		0x01
 #define USART_TIMEOUT_CNT   8

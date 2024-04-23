@@ -43,7 +43,6 @@
 UART_STR U2;
 UART_STR U1;
 MODBUS_STR stModb;
-void *Destination = (void *)DWL_SLOT_START;
 /*================================================================================================*=
  * LOCAL FUNCTIONS PROTOTYPE
  *================================================================================================*/
@@ -207,16 +206,6 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
 
 }
-void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
-{
-	if(huart == &huart2)
-	{
-		U2.tx.ok = RESET;
-		U2.rx.ok = RESET;
-		U2.rx.size = RESET;
-		ctrl_rs485_pin(&U2, RESET);
-	}
-}
 
 void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
 {
@@ -245,6 +234,9 @@ void set_syst_para(int16_t index, int16_t dat)
 	if((index >= _ID_SET_WORD_MIN) && (index <= DRIVER_SECURITY2))
 	{
 		stModb.wordReg1.wds[index - _ID_SET_WORD_MIN] = dat;
+	}else if((index >= PROCESS_UPDATE) && (index <= BOOTLOADER_END))
+	{
+		stModb.wordReg2.wds[index - PROCESS_UPDATE] = dat;
 	}
 }
 
@@ -360,8 +352,9 @@ void remoteFun(UART_STR* Ux, UART_HandleTypeDef *pUartHandle)
 		if(rx->buf[0] != DRIVER_SLAVE_ID)
 			return;
 
-		if( !((rx->buf[1] == 0x06) || (rx->buf[1] == 0x03)
-				||  (rx->buf[1] == 0x04) || (rx->buf[1] == 0x10) || (rx->buf[1] == 0x15)) )
+		if( !((rx->buf[1] == 0x06) || (rx->buf[1] == 0x03) || (rx->buf[1] == 0x01)
+				||  (rx->buf[1] == 0x04) || (rx->buf[1] == 0x10) || (rx->buf[1] == 0x05)
+				|| (rx->buf[1] == 0x15)) )
 			return;
 
 		if (crc_check((uint8_t*)rx->buf, rx->size))
@@ -547,13 +540,14 @@ void modbus06(UART_STR* Ux, UART_HandleTypeDef *pUartHandle)
 		return;
 	}
 
-	if( (addr.w >= _ID_SET_WORD_MIN) && (addr.w <= DRIVER_SECURITY2) )
+	if(addr.w == BOOTLOADER_START)
+	{
+		//do something
+	}
+	else if(((addr.w >= _ID_SET_WORD_MIN) && (addr.w <= DRIVER_SECURITY2)) ||
+		((addr.w >= PROCESS_UPDATE) && (addr.w <= BOOTLOADER_END)))
 	{
 		set_syst_para(addr.w, dat.w);
-	}
-	else if(addr.w == 0x2000 || addr.w == 0x3000 ) //SBSFU boot code
-	{
-
 	}
 	else
 	{
@@ -669,7 +663,7 @@ void modbus15(UART_STR* Ux, UART_HandleTypeDef *pUartHandle)
 		rx->size = RESET;
 		return;
 	}
-	else if(len < 0x09 || len > 0xfb)
+	else if(len < 0x07 || len > 0xfb)
 	{
 		send_err_code(Ux, pUartHandle, ERR_MODBUS_PARA);
 		rx->size = RESET;
