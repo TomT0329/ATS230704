@@ -68,6 +68,9 @@ STM32CubeIDE/Debug
 STM32CubeIDE/.settings
 STM32CubeIDE/.vs
 STM32CubeIDE/.vscode
+*.sfb
+*.bin
+makefile
 
 # Makefile
 build
