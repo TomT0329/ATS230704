@@ -34,12 +34,12 @@ extern "C" {
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <stdlib.h>
+#include <string.h>
 #include "app_Modbus_RTU.h"
 #include "app_temperature.h"
-#include "flash_if.h"
 #include "app_System_Protect.h"
 #include "app_SBSFU.h"
-#include <string.h>
+#include "flash_if.h"
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -76,7 +76,6 @@ void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
 extern int __io_putchar(int ch);
-extern void StartReception(void);
 extern void Logging_ADCvalue(ADC_HandleTypeDef hadc, uint16_t buffer[], uint16_t size);
 void ADC2_DMA_Init(uint32_t *AdcValue);
 /* USER CODE END EFP */
@@ -130,8 +129,6 @@ void ADC2_DMA_Init(uint32_t *AdcValue);
 #define DEBUG_RX_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
-#define RX_BUFFER_SIZE   252 // /*data bytes*/ + 12
-#define DATA_BYTES      240
 #define FLASH_DATA_BYTES      ADC_BUFFER_SIZE * 2
 #define ADC_BUFFER_SIZE 2500 // uint16_t
 #define ERROR_BUFFER_SIZE 500 // uint16_t

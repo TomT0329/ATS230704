@@ -258,7 +258,9 @@ typedef union
 #define MODBUS_GET_BIT(x, bit) ((x & (1<<bit)) >> bit)
 #define MODBUS_SET_BIT(x, bit) (x = x | (1 << bit))
 #define MODBUS_CLEAR_BIT(x, bit) (x = x & (~(1 << bit)))
-#define RX_DATA_SIZE    252
+#define RX_BUFFER_SIZE   252 // /*data bytes*/ + 12
+#define RX_DATA_SIZE    RX_BUFFER_SIZE
+#define DATA_BYTES      240
 
 #define DRIVER_SLAVE_ID		0x02
 #define USART_TIMEOUT_CNT   8
@@ -331,11 +333,11 @@ extern uint8_t Rx_count;
  * GLOBAL FUNCTIONS
  *================================================================================================*/
 void Modbus_Slave_init();
-void detec_uart(void);
 void modbus_slave_value_update();
-void uart_timOut(void);
-void UartResponse(void);
+void detect_uart(void);
 void ctrl_rs485_pin(UART_STR* Ux, int8_t flag);
+
+
 /*================================================================================================*=
  * END OF FILE
  *================================================================================================*/

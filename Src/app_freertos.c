@@ -166,7 +166,7 @@ void StartModbusTask(void *argument)
   {
     osDelay(1);
     /* Enable UART */
-    detec_uart();
+    detect_uart();
     
   }
   /* USER CODE END StartModbusTask */
