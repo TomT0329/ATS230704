@@ -49,7 +49,7 @@
 #define AMPLIFICATION_GAIN            2.941176471
 
 /*** Noise parameters ***/
-#define TNOISE_NS                     4500
+#define TNOISE_NS                     2500
 #define TRISE_NS                      2500
 #define MAX_TNTR_NS TRISE_NS
 

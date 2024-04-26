@@ -120,10 +120,14 @@ void ADC2_DMA_Init(uint32_t *AdcValue);
 #define U1_DIR_GPIO_Port GPIOC
 #define U2_DIR_Pin GPIO_PIN_2
 #define U2_DIR_GPIO_Port GPIOD
-#define UART_TX_Pin GPIO_PIN_6
-#define UART_TX_GPIO_Port GPIOB
-#define UART_RX_Pin GPIO_PIN_7
-#define UART_RX_GPIO_Port GPIOB
+#define USER_TX_Pin GPIO_PIN_3
+#define USER_TX_GPIO_Port GPIOB
+#define USER_RX_Pin GPIO_PIN_4
+#define USER_RX_GPIO_Port GPIOB
+#define DEBUG_TX_Pin GPIO_PIN_6
+#define DEBUG_TX_GPIO_Port GPIOB
+#define DEBUG_RX_Pin GPIO_PIN_7
+#define DEBUG_RX_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 #define RX_BUFFER_SIZE   252 // /*data bytes*/ + 12
