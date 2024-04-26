@@ -118,6 +118,15 @@ float IpmTemp_Table( uint32_t  DigitalValue )
 /*================================================================================================*=
  * GOBAL FUNCTIONS PROTOTYPE
  *================================================================================================*/
+
+void ADC2_DMA_Init(uint32_t *AdcValue)
+{
+	if(HAL_ADC_Start_DMA(&hadc2,(uint32_t *)AdcValue,3) != HAL_OK)
+	{
+	  Error_Handler();
+	}
+}
+
 void Temp_Average(uint32_t  DigitalValue, float* IpmTemp)
 {
     static uint8_t index01 = 0;
@@ -159,7 +168,7 @@ float PFC_GetVoltage(uint32_t  DigitalValue)
 {
     return (float)(((((float)DigitalValue - ADC12BITREF)/ADC12BIT) * 3.3 ) * MCUref2VOLT);
 }
-void PFC_GetRMS(float* PFC_current_rms, float* PFC_voltage_rms, float* PFC_power)
+void PFC_GetRMS()
 {
     static uint32_t j = 0;
     static uint32_t k = 0;
@@ -171,9 +180,9 @@ void PFC_GetRMS(float* PFC_current_rms, float* PFC_voltage_rms, float* PFC_power
 
     if(j == AC_PERIOD -1)
     {
-      *PFC_current_rms = sqrtf(PFC_current_total / AC_PERIOD);
-      *PFC_voltage_rms = sqrtf(PFC_voltage_total / AC_PERIOD);
-      *PFC_power = (*PFC_current_rms) * (*PFC_voltage_rms);
+      PFC_current_rms = sqrtf(PFC_current_total / AC_PERIOD);
+      PFC_voltage_rms = sqrtf(PFC_voltage_total / AC_PERIOD);
+      PFC_power = (PFC_current_rms) * (PFC_voltage_rms);
 
       PFC_current_total = 0;
       PFC_voltage_total = 0;

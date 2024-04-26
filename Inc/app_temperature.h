@@ -76,5 +76,5 @@ extern float PFC_voltage[];
 void Temp_Average(uint32_t  DigitalValue, float* IpmTemp);
 float PFC_GetCurrent(uint32_t  DigitalValue) __attribute__((__aligned__(8)));
 float PFC_GetVoltage(uint32_t  DigitalValue) __attribute__((__aligned__(8)));
-void PFC_GetRMS(float* PFC_current_rms, float* PFC_voltage_rms, float* PFC_power);
+void PFC_GetRMS();
 #endif /* INC_APP_TEMPERATURE_H_ */
