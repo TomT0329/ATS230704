@@ -46,6 +46,21 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
+#ifdef DEBUG
+const uint8_t UserAppId[16] = "D E B U G 0 0 1\0";
+#endif
+#ifdef VER6
+const uint8_t UserAppId[16] = "R E A L S E 0 6\0";
+#endif
+#ifdef VER7
+const uint8_t UserAppId[16] = "R E A L S E 0 7\0";
+#endif
+#ifdef VER8
+const uint8_t UserAppId[16] = "R E A L S E 0 8\0";
+#endif
+#ifdef VER9
+const uint8_t UserAppId[16] = "R E A L S E 0 9\0";
+#endif
 float PFC_voltage_rms = 0.0;
 float PFC_current_rms = 0.0;
 float PFC_power = 0.0;
@@ -143,7 +158,7 @@ void StartPrintTask(void *argument)
     , Iqd_ref.q, Iqd.q, Current_Amp, Iqd_ref.d, Iqd.d, PFC_current_rms);
     printf(float_buffer);
     printf("Alarm Fault1 : %04x\n\n",Alarm.Fault1.All);
-    printf("----- Run time : %u ------\n\n", sec+=1);
+    printf("-- Run time : %u, App ID : %s --\n\n", sec+=1, UserAppId);
 
     modbus_slave_value_update();
     System_Alarm_Handler();
@@ -189,7 +204,7 @@ void StartSensorTask(void *argument)
     
     Temp_Average(temp_adc[0], &IPM_temp);
 
-    PFC_GetRMS(&PFC_current_rms,&PFC_voltage_rms,&PFC_power);
+    PFC_GetRMS();
 
     OneShunt_ADC = HAL_ADC_GetValue(&hadc3);
     
