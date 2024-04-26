@@ -978,31 +978,6 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
-//Re-implenment DMA1_Channel2_IRQHandler
-void DMA1_Channel2_IRQHandler(void){}
-
-//Re-implenment USART1_IRQHandler
-void USART1_IRQHandler(void)
-{
-  HAL_UART_IRQHandler(&huart1);
-}
-
-void ADC2_DMA_Init(uint32_t *AdcValue)
-{
-	if(HAL_ADC_Start_DMA(&hadc2,(uint32_t *)AdcValue,3) != HAL_OK)
-	{
-	  Error_Handler();
-	}
-}
-
-int __io_putchar(int ch)
-{
-  ctrl_rs485_pin(&U1, SET);
-  HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xffff);
-  // ctrl_rs485_pin(&U1, RESET);
-  return ch;
-}
-
 /* USER CODE END 4 */
 
 /* USER CODE BEGIN Header_StartPrintTask */
